@@ -2,18 +2,19 @@ import {
     Box, Drawer, IconButton, List, ListItem,
     ListItemButton, ListItemIcon, ListItemText, Typography,
 } from "@mui/material";
-import {useState} from "react";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
-import TopBar from "./TopBar.tsx";
 import {collapsedDrawerWidth, drawerWidth, topBarHeight} from "./layoutConstants.ts";
 
-export default function SideMenu() {
-    const [open, setOpen] = useState(true);
+interface SideMenuProps {
+    open: boolean;
+    setOpen: (open: boolean) => void;
+}
 
+export default function SideMenu({open, setOpen}: SideMenuProps) {
     const handleDrawerClick = () => {
         setOpen(!open);
     };
@@ -24,10 +25,8 @@ export default function SideMenu() {
         {text: 'Completed', icon: <CheckOutlinedIcon/>},
     ];
 
-
     return (
         <Box sx={{display: 'flex'}}>
-            <TopBar open={open} />
             <Drawer variant="permanent" open={open}
                     sx={{
                         width: open ? drawerWidth : collapsedDrawerWidth,
