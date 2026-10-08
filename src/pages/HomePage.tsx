@@ -1,9 +1,9 @@
-import MiniDrawer from "../components/SideMenu.tsx";
+import SideMenu from "../components/SideMenu.tsx";
 
 export function HomePage() {
     return (
         <>
-            <MiniDrawer />
+            <SideMenu/>
         </>
     )
 }
