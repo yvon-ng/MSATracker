@@ -5,7 +5,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router";
 import {Box, CssBaseline, ThemeProvider} from "@mui/material";
 import theme from "./theme/theme.ts";
 import {HomePage} from "./pages/HomePage.tsx";
-import SideMenu from "./components/SideMenu.tsx";
+import SideMenu from "./components/SideMenu/SideMenu.tsx";
 import TopBar from "./components/TopBar.tsx";
 import {useState} from "react";
 import {collapsedDrawerWidth, drawerWidth, topBarHeight} from "./components/layoutConstants.ts";
@@ -30,16 +30,19 @@ function App() {
 }
 
 function AppContent() {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
 
     return (
         <>
-            <TopBar open={open}/>
+            <TopBar open={open} onMenuClick={() => setOpen(!open)}/>
             <SideMenu open={open} setOpen={setOpen}/>
 
             <Box component="main"
                  sx={{
-                     ml: open ? `${drawerWidth}px` : `${collapsedDrawerWidth}px`,
+                     m: {
+                         xs: 5,
+                         md: open ? `${drawerWidth}px` : `${collapsedDrawerWidth}px`,
+                     },
                      pt: `${topBarHeight}px`,
                      transition: "margin-left 0.2s",
                  }}
