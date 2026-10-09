@@ -18,8 +18,8 @@ const StyledAppBar = styled(MuiAppBar, {
 })<AppBarProps>(({theme}) => ({
     zIndex: theme.zIndex.drawer + 1,
 
-    marginLeft: 0,
-    width: "100%",
+    // marginLeft: 0,
+    // width: "100%",
 
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
@@ -64,6 +64,7 @@ export default function TopBar({open, onMenuClick}: TopBarProps) {
                     bgcolor: "background.default",
                     borderBottom: 2,
                     borderColor: "divider",
+                    alignItems: "center",
                 }}
             >
                 <IconButton
@@ -77,15 +78,17 @@ export default function TopBar({open, onMenuClick}: TopBarProps) {
                 >
                     <MenuIcon/>
                 </IconButton>
-                <Stack direction={"row"} justifyContent={"space-between"}>
-                    <Typography variant="h5" noWrap fontWeight={600}>
-                        msa
-                    </Typography>
-                    <Typography variant="h5" noWrap color={"secondary"} fontWeight={600}>
-                        tracker
-                    </Typography>
+                <Stack direction={"row"} flex={1} justifyContent={"space-between"} alignItems={"center"}>
+                    <Stack direction={"row"}>
+                        <Typography variant="h5" noWrap fontWeight={600}>
+                            msa
+                        </Typography>
+                        <Typography variant="h5" noWrap color={"secondary"} fontWeight={600}>
+                            tracker
+                        </Typography>
+                    </Stack>
+                    <SearchBar/>
                 </Stack>
-                <SearchBar/>
             </Toolbar>
         </StyledAppBar>
     );

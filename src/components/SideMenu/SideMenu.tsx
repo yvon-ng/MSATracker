@@ -27,7 +27,7 @@ export default function SideMenu({open, setOpen}: SideMenuProps) {
         <Box display={"flex"}>
             {/*Mobile Drawer*/}
             <Drawer
-                variant="persistent"
+                variant="temporary"
                 open={open}
                 onClose={() => setOpen(false)}
                 sx={{
@@ -35,6 +35,7 @@ export default function SideMenu({open, setOpen}: SideMenuProps) {
                     "& .MuiDrawer-paper": {
                         width: drawerWidth,
                         boxSizing: "border-box",
+                        backgroundImage: "none",
                     },
                 }}
             >
