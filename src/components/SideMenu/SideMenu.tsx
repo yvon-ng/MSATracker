@@ -18,9 +18,9 @@ export default function SideMenu({open, setOpen}: SideMenuProps) {
     };
 
     const items = [
-        {text: 'Home', icon: <HomeOutlinedIcon/>},
-        {text: 'Watchlist', icon: <BookmarkBorderOutlinedIcon/>},
-        {text: 'Completed', icon: <CheckOutlinedIcon/>},
+        {text: 'Home', icon: <HomeOutlinedIcon/>, url: 'home'},
+        {text: 'Watchlist', icon: <BookmarkBorderOutlinedIcon/>, url: 'watchlist'},
+        {text: 'Completed', icon: <CheckOutlinedIcon/>, url: 'completed'},
     ];
 
     return (

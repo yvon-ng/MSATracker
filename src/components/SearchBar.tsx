@@ -1,7 +1,8 @@
 import {alpha, Box, IconButton, InputBase, styled} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
-import {useState} from "react";
+import {type FormEvent, useState} from "react";
+import {useNavigate} from "react-router";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -11,18 +12,8 @@ const Search = styled('div')(({theme}) => ({
     display: "none",
 
     [theme.breakpoints.up('sm')]: {
-        display: "block",
+        display: "flex",
     },
-}));
-
-const SearchIconWrapper = styled('div')(({theme}) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
 }));
 
 const StyledInputBase = styled(InputBase)(({theme}) => ({
@@ -30,8 +21,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     width: "100%",
 
     "& .MuiInputBase-input": {
-        padding: theme.spacing(1, 1, 1, 2),
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        padding: theme.spacing(1, 1, 1, 0),
         width: "25ch",
         transition: theme.transitions.create("width"),
 
@@ -41,7 +31,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
 }));
 
-const MobileSearchOverlay = styled(Box)(({theme}) => ({
+const MobileSearchOverlay = styled("form")(({theme}) => ({
     position: "absolute",
     inset: 0,
     zIndex: 2,
@@ -74,41 +64,52 @@ const StyledMobileInputBase = styled(InputBase)(({theme}) => ({
 
 export function SearchBar() {
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+    const [query, setQuery] = useState("");
+    const navigate = useNavigate();
+
+    const handleSearch = (e: FormEvent) => {
+        e.preventDefault();
+
+        const trimmedQuery = query.trim();
+        if (!trimmedQuery) return;
+
+        const params = new URLSearchParams();
+        params.set("q", trimmedQuery);
+
+        navigate(`/search?${params.toString()}`);
+        setQuery("");
+        setMobileSearchOpen(false);
+    };
 
     return (
-        <>
+        <Box>
             {/* Mobile */}
             <IconButton
-                sx={{display: {xs: "flex", sm: "none"}}}
-                aria-label="Search"
-                onClick={() => setMobileSearchOpen((prev) => !prev)}
+                sx={{display: {xs: "flex", sm: "none",}}}
+                aria-label="Open search"
+                onClick={() => setMobileSearchOpen(true)}
             >
                 <SearchIcon sx={{color: "text.secondary"}}/>
             </IconButton>
 
             {mobileSearchOpen && (
-                <StyledMobileInputBase
-                    autoFocus placeholder="Find something to watch..."
-                    inputProps={{
-                        "aria-label": "Search titles"
-                    }}
-                    // value={query}
-                    // onChange={(event) => setQuery(event.target.value)}
-                />
-            )}
-
-            {/* Mobile overlay */}
-            {mobileSearchOpen && (
-                <MobileSearchOverlay>
-                    <SearchIcon sx={{color: "text.secondary"}}/>
+                <MobileSearchOverlay onSubmit={handleSearch}>
+                    <IconButton type={"submit"} aria-label="Submit search"
+                        // onClick={handleSearch}
+                    >
+                        <SearchIcon sx={{color: "text.secondary"}}/>
+                    </IconButton>
 
                     <StyledMobileInputBase
                         autoFocus
                         placeholder="Find something to watch..."
-                        inputProps={{"aria-label": "Search titles"}}
+                        inputProps={{"aria-label": "Search titles", enterKeyHint: "search"}}
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
                     />
 
                     <IconButton
+                        type={"button"}
                         aria-label="Close search"
                         onClick={() => setMobileSearchOpen(false)}
                     >
@@ -117,16 +118,25 @@ export function SearchBar() {
                 </MobileSearchOverlay>
             )}
 
-            {/* Mobile: tablet + Desktop */}
-            <Search>
-                <SearchIconWrapper>
-                    <SearchIcon sx={{color: "text.secondary"}}/>
-                </SearchIconWrapper>
-                <StyledInputBase
-                    placeholder="Find something to watch..."
-                    inputProps={{'aria-label': 'search'}}
-                />
-            </Search>
-        </>
+            {/* tablet + Desktop */}
+            <Box component="form" onSubmit={handleSearch}>
+                <Search>
+                    <IconButton
+                        type="submit"
+                        aria-label="Search titles"
+                        sx={{flexShrink: 0}}
+                    >
+                        <SearchIcon sx={{color: "text.secondary"}}/>
+                    </IconButton>
+
+                    <StyledInputBase
+                        placeholder="Find something to watch..."
+                        inputProps={{'aria-label': 'search'}}
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                </Search>
+            </Box>
+        </Box>
     )
 }

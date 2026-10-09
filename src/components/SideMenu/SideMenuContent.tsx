@@ -3,14 +3,21 @@ import {topBarHeight} from "../layoutConstants.ts";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import MenuIcon from "@mui/icons-material/Menu";
 import type {JSX} from "react";
+import {useNavigate} from "react-router";
 
 interface SideMenuContentProps {
     open: boolean;
-    items:{text: string; icon: JSX.Element}[]
+    items:{text: string; icon: JSX.Element; url: string}[]
     handleDrawerClick: () => void;
 }
 
 export function SideMenuContent({open, items, handleDrawerClick}: SideMenuContentProps) {
+    const navigate = useNavigate();
+
+    const handleClick = (url: string) => {
+        navigate(url);
+    }
+
     return (
         <>
             <Box display="flex"
@@ -29,9 +36,10 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
                 LIBRARY
             </Typography>
             <List>
-                {items.map(({text, icon}) => (
+                {items.map(({text, icon, url}) => (
                     <ListItem key={text}>
                         <ListItemButton
+                            onClick={() => handleClick(url)}
                             sx={{
                                 minHeight: 48,
                                 justifyContent: open ? 'initial' : 'center',

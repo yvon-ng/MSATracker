@@ -8,6 +8,7 @@ import {
 import {collapsedDrawerWidth, drawerWidth, topBarHeight} from "./layoutConstants.ts";
 import {SearchBar} from "./SearchBar.tsx";
 import MenuIcon from "@mui/icons-material/Menu";
+import {useNavigate} from "react-router";
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
@@ -56,6 +57,12 @@ interface TopBarProps {
 
 
 export default function TopBar({open, onMenuClick}: TopBarProps) {
+    const navigate = useNavigate();
+
+    const handleLogoClick = () =>{
+        navigate("/home")
+    }
+
     return (
         <StyledAppBar position="fixed" open={open}>
             <Toolbar
@@ -80,7 +87,7 @@ export default function TopBar({open, onMenuClick}: TopBarProps) {
                     <MenuIcon/>
                 </IconButton>
                 <Stack direction={"row"} flex={1} justifyContent={"space-between"} alignItems={"center"}>
-                    <Stack direction={"row"}>
+                    <Stack direction={"row"} onClick={handleLogoClick}>
                         <Typography variant="h5" noWrap fontWeight={600}>
                             msa
                         </Typography>
