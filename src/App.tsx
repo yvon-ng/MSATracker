@@ -39,7 +39,7 @@ function AppContent() {
 
             <Box component="main"
                  sx={{
-                     m: {
+                     ml: {
                          xs: 5,
                          md: open ? `${drawerWidth}px` : `${collapsedDrawerWidth}px`,
                      },

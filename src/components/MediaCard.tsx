@@ -24,7 +24,7 @@ export function MediaCard({tmdbMedia}: MediaCardProps) {
     return (
         <Card
             sx={{
-                width: 300,
+                width: {xs: "100%", sm: "35%", md: 300}, //TODO fix xs
                 bgcolor: "background.default",
                 backgroundImage: "none",
             }}

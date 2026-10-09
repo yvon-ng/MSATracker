@@ -10,9 +10,9 @@ export function HomePage() {
     ) ?? [];
 
     return (
-        <Box mx={{xs: 0,md: 10}}>
+        <Box mt={10} ml={{xs: 0, md: 8}}>
             <WelcomeMessage/>
-            <Stack direction="row" flexWrap={"wrap"} gap={3} my={20}>
+            <Stack direction="row" flexWrap={"wrap"} gap={3} my={{xs: 10, xl    : 20}}>
                 {titles.map(item => (
                     <MediaCard tmdbMedia={item} key={`${item.media_type}-${item.id}`}/>
                 ))}
