@@ -65,6 +65,7 @@ export default function TopBar({open, onMenuClick}: TopBarProps) {
                     borderBottom: 2,
                     borderColor: "divider",
                     alignItems: "center",
+                    // position: "relative",
                 }}
             >
                 <IconButton
