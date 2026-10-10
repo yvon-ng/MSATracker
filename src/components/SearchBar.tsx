@@ -70,7 +70,7 @@ export function SearchBar({ onSearchOpen }: SearchBarProps) {
     const [query, setQuery] = useState("");
     const navigate = useNavigate();
 
-    const handleSearch = (e: FormEvent) => {
+    const handleSearch = (e: FormEvent) => { //TODO
         e.preventDefault();
 
         const trimmedQuery = query.trim();

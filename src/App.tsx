@@ -10,6 +10,7 @@ import TopBar from "./components/TopBar.tsx";
 import {useState} from "react";
 import {collapsedDrawerWidth, drawerWidth, topBarHeight} from "./components/layoutConstants.ts";
 import {SearchPage} from "./pages/SearchPage.tsx";
+import {MovieDetailPage} from "./pages/MovieDetailPage.tsx";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
@@ -50,6 +51,7 @@ function AppContent() {
             >
 
                 <Routes>
+                    <Route path="/movie/:mediaId" element={<MovieDetailPage/>}/>
                     <Route path="/search" element={<SearchPage/>}/>
                     <Route path="/home" element={<HomePage/>}/>
                     <Route path="/" element={<Navigate to="/home"/>}/>

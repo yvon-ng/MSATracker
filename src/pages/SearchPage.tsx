@@ -3,7 +3,6 @@ import {useSearchParams} from "react-router";
 import {SearchResults} from "../components/SearchResults.tsx";
 
 export function SearchPage() {
-
     const [searchParams] = useSearchParams();
     const query = searchParams.get("q") ?? "";
 
