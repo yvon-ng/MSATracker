@@ -30,8 +30,7 @@ export function MediaCard({tmdbMedia}: MediaCardProps) {
         <Card
             sx={{
                 position: "relative", // anchor for the absolutely positioned button
-                width: {xs: "100%", sm: "35%", md: 300}, //TODO button responsiveness on xs
-                // maxWidth: 300,
+                width: {xs: "100%", sm: "35%", md: 300},
                 bgcolor: "background.default",
                 backgroundImage: "none",
             }}
@@ -81,7 +80,7 @@ export function MediaCard({tmdbMedia}: MediaCardProps) {
                 aria-label={`Add ${title ?? "title"}`}
                 sx={{
                     position: "absolute",
-                    bottom: "calc(100% - 27rem)", //TODO button responsiveness on xs
+                    bottom: "calc(100% - 27rem)",
                     right: "1rem",
                     bgcolor: "background.paper",
                     border: "1px solid",

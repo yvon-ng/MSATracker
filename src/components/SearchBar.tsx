@@ -1,7 +1,7 @@
 import {alpha, Box, IconButton, InputBase, styled} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
-import {type FormEvent, useState} from "react";
+import {type SubmitEvent, useState} from "react";
 import {useNavigate} from "react-router";
 
 const Search = styled('div')(({theme}) => ({
@@ -70,7 +70,7 @@ export function SearchBar({ onSearchOpen }: SearchBarProps) {
     const [query, setQuery] = useState("");
     const navigate = useNavigate();
 
-    const handleSearch = (e: FormEvent) => { //TODO
+    const handleSearch = (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const trimmedQuery = query.trim();

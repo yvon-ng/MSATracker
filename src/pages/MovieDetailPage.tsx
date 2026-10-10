@@ -9,7 +9,8 @@ export function MovieDetailPage() {
     const {trailer} = useGetMovieTrailer(Number(mediaId)!);
 
     const poster = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : `https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original`; //TODO better no poster picture
-    // const backdrop = movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : `https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original`; //TODO better no poster picture
+    // const backdrop = movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : `https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original`;
+
     return (
         <Stack direction={"row"} mt={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 0}}>
 
