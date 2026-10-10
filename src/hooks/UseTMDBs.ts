@@ -1,10 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
-import {searchMulti} from "../services/tmdbServices.ts";
+import {useSuspenseQuery} from "@tanstack/react-query";
+import {getTrendingMedia, searchMulti} from "../services/tmdbServices.ts";
 
 export function useMultiSearch(query: string) {
-    return useQuery({
-        queryKey: ["keyword", "search", query],
+    const {data: media} = useSuspenseQuery({
+        queryKey: ["search", query],
         queryFn: () => searchMulti(query),
-        enabled: query.trim().length > 0,
-    });
+    })
+
+    return {
+        data: media,
+    };
+}
+
+export function useGetTrendingMedia() {
+    const {data: media} = useSuspenseQuery({
+        queryKey: ["trending"],
+        queryFn: () => getTrendingMedia()
+    })
+
+    return {
+        media: media
+    };
 }

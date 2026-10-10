@@ -20,6 +20,6 @@ export interface TMDBMedia {
     vote_count?: number;
     name?: string;
     first_air_date?: string;
-    origin_country?: CountryISO3166_1[]; //TODO CountryISO3166_1[]
+    origin_country?: CountryISO3166_1[];
     original_name?: string;
 }

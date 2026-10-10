@@ -18,13 +18,13 @@ export function MediaCard({tmdbMedia}: MediaCardProps) {
     const isMovie = tmdbMedia.media_type === "movie";
     const title = isMovie ? tmdbMedia.title : tmdbMedia.name;
     const releaseDate = isMovie ? tmdbMedia.release_date : tmdbMedia.first_air_date;
-    const poster = tmdbMedia.poster_path ? `${IMAGE_BASE_URL}${tmdbMedia.poster_path}` : `https://www.content.numetro.co.za/ui_images/no_poster.png`; //TODO
+    const poster = tmdbMedia.poster_path ? `${IMAGE_BASE_URL}${tmdbMedia.poster_path}` : `https://www.content.numetro.co.za/ui_images/no_poster.png`; //TODO better no poster picture
     const year = releaseDate?.slice(0, 4);
 
     return (
         <Card
             sx={{
-                width: {xs: "100%", sm: "35%", md: 300}, //TODO fix xs
+                width: {xs: "100%", sm: "35%", md: 300},
                 bgcolor: "background.default",
                 backgroundImage: "none",
             }}
