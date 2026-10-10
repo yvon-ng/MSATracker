@@ -35,7 +35,7 @@ function AppContent() {
 
     return (
         <>
-            <TopBar open={open} onMenuClick={() => setOpen(!open)}/>
+            <TopBar open={open} onMenuClick={() => setOpen(!open)} onSearchOpen={() => setOpen(false)}/>
             <SideMenu open={open} setOpen={setOpen}/>
 
             <Box component="main"

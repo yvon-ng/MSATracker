@@ -11,52 +11,43 @@ import MenuIcon from "@mui/icons-material/Menu";
 import {useNavigate} from "react-router";
 
 interface AppBarProps extends MuiAppBarProps {
-    open?: boolean;
+    open: boolean;
 }
 
 const StyledAppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({theme}) => ({
-    zIndex: theme.zIndex.drawer + 1,
+    shouldForwardProp: (prop) => prop !== "open",
+})<AppBarProps>(({ theme, open = false }) => {
+    const sidebarWidth = open ? drawerWidth : collapsedDrawerWidth;
 
-    // marginLeft: 0,
-    // width: "100%",
+    return {
+        zIndex: theme.zIndex.drawer + 1,
 
-    transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
+        // Mobile
+        marginLeft: 0,
+        width: "100%",
 
-    [theme.breakpoints.up("md")]: {
-        marginLeft: collapsedDrawerWidth,
-        width: `calc(100% - ${collapsedDrawerWidth}px)`,
-    },
+        transition: theme.transitions.create(["width", "margin"], {
+            easing: theme.transitions.easing.sharp,
+            duration: open
+                ? theme.transitions.duration.enteringScreen
+                : theme.transitions.duration.leavingScreen,
+        }),
 
-    variants: [
-        {
-            props: ({open}) => open,
-            style: {
-                [theme.breakpoints.up("md")]: {
-                    marginLeft: drawerWidth,
-                    width: `calc(100% - ${drawerWidth}px)`,
-                },
-
-                transition: theme.transitions.create(["width", "margin"], {
-                    easing: theme.transitions.easing.sharp,
-                    duration: theme.transitions.duration.enteringScreen,
-                }),
-            },
+        // Desktop
+        [theme.breakpoints.up("md")]: {
+            marginLeft: sidebarWidth,
+            width: `calc(100% - ${sidebarWidth}px)`,
         },
-    ],
-}));
+    };
+});
 
 interface TopBarProps {
     open: boolean;
     onMenuClick: () => void;
+    onSearchOpen: () => void;
 }
 
-
-export default function TopBar({open, onMenuClick}: TopBarProps) {
+export default function TopBar({open, onMenuClick, onSearchOpen}: TopBarProps) {
     const navigate = useNavigate();
 
     const handleLogoClick = () =>{
@@ -95,7 +86,7 @@ export default function TopBar({open, onMenuClick}: TopBarProps) {
                             tracker
                         </Typography>
                     </Stack>
-                    <SearchBar/>
+                    <SearchBar onSearchOpen={onSearchOpen}/>
                 </Stack>
             </Toolbar>
         </StyledAppBar>

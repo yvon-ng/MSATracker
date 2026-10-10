@@ -16,11 +16,12 @@ export function WelcomeMessage() {
             </Typography>
             <Stack direction={{xs: "column", md: "row"}} gap={{xs: 0, md: 2}} sx={{letterSpacing: -3}}>
                 {/*TODO actual user*/}
-                <Typography fontSize={{xs: "3rem", md: "4rem"}} fontWeight={500} sx={{textWrap: "nowrap"}}>
+                <Typography fontSize={{xs: "2.5rem", sm: "3rem", md: "4rem"}} fontWeight={500}
+                            sx={{textWrap: "nowrap"}}>
                     Good evening,
                 </Typography>
-                <Typography fontSize={{xs: "3rem", md: "4rem"}} fontWeight={500} color={"secondary"}
-                            mt={{xs: -3, md: 0}}>
+                <Typography fontSize={{xs: "2.5rem", sm: "3rem", md: "4rem"}} fontWeight={500} color={"secondary"}
+                            mt={{xs: -2, sm: -3, md: 0}}>
                     Shaden.
                 </Typography>
             </Stack>

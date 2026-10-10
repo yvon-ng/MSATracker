@@ -30,6 +30,9 @@ export default function SideMenu({open, setOpen}: SideMenuProps) {
                 variant="temporary"
                 open={open}
                 onClose={() => setOpen(false)}
+                ModalProps={{
+                    disableScrollLock: true,
+                }}
                 sx={{
                     display: { xs: "block", md: "none" },
                     "& .MuiDrawer-paper": {

@@ -61,8 +61,11 @@ const StyledMobileInputBase = styled(InputBase)(({theme}) => ({
     },
 }));
 
+interface SearchBarProps {
+    onSearchOpen?: () => void;
+}
 
-export function SearchBar() {
+export function SearchBar({ onSearchOpen }: SearchBarProps) {
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
     const [query, setQuery] = useState("");
     const navigate = useNavigate();
@@ -81,13 +84,19 @@ export function SearchBar() {
         setMobileSearchOpen(false);
     };
 
+    const handleSearchOverlay = () => {
+        // close mobile side menu drawer so we can type on search bar even if SideMenu was open first
+        onSearchOpen?.();
+        setMobileSearchOpen(true);
+    }
+
     return (
         <Box>
             {/* Mobile */}
             <IconButton
                 sx={{display: {xs: "flex", sm: "none",}}}
                 aria-label="Open search"
-                onClick={() => setMobileSearchOpen(true)}
+                onClick={handleSearchOverlay}
             >
                 <SearchIcon sx={{color: "text.secondary"}}/>
             </IconButton>
