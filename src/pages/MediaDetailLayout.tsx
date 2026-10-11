@@ -1,9 +1,9 @@
 import {Box, Stack} from "@mui/material";
-import {MediaPoster} from "../components/MediaPoster.tsx";
-import {MediaInfo} from "../components/MediaInfo.tsx";
-import {MediaTrailer} from "../components/MediaTrailer.tsx";
+import {MediaPoster} from "../components/media/MediaPoster.tsx";
+import {MediaInfo} from "../components/media/MediaInfo.tsx";
+import {MediaTrailer} from "../components/media/MediaTrailer.tsx";
 import type {MovieDetails, TVSeriesDetails} from "@lorenzopant/tmdb";
-import { MediaStats } from "../components/MediaStats.tsx";
+import { MediaStats } from "../components/media/MediaStats.tsx";
 
 interface MediaDetailLayoutProps {
     media: MovieDetails | TVSeriesDetails;

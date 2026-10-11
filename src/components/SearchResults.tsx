@@ -1,5 +1,5 @@
 import {Stack} from "@mui/material";
-import {MediaCard} from "./MediaCard.tsx";
+import {MediaCard} from "./media/MediaCard.tsx";
 import {useMultiSearch} from "../hooks/UseTMDBs.ts";
 
 interface SearchResultsProps {

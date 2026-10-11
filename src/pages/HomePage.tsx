@@ -1,7 +1,7 @@
 import {Box, Stack} from "@mui/material";
 import {WelcomeMessage} from "../components/WelcomeMessage.tsx";
 import {useGetTrendingMedia} from "../hooks/UseTMDBs.ts";
-import {MediaCard} from "../components/MediaCard.tsx";
+import {MediaCard} from "../components/media/MediaCard.tsx";
 
 export function HomePage() {
     const {media} = useGetTrendingMedia();

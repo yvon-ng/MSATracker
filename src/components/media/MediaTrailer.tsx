@@ -1,7 +1,7 @@
 
 import { Box } from "@mui/material";
 import type { MovieDetails, TVSeriesDetails } from "@lorenzopant/tmdb";
-import { useGetMovieTrailer, useGetSeriesTrailer } from "../hooks/UseTMDBs.ts";
+import { useGetMovieTrailer, useGetSeriesTrailer } from "../../hooks/UseTMDBs.ts";
 
 interface MediaTrailerProps {
     media: MovieDetails | TVSeriesDetails;

@@ -1,5 +1,5 @@
 import {Box} from "@mui/material";
-import {IMAGE_BASE_URL} from "../services/tmdbServices.ts";
+import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
 import type {MovieDetails, TVSeriesDetails} from "@lorenzopant/tmdb";
 
 interface MediaPosterProps {

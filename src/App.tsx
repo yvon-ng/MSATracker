@@ -5,7 +5,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router";
 import {Box, CssBaseline, ThemeProvider} from "@mui/material";
 import theme from "./theme/theme.ts";
 import {HomePage} from "./pages/HomePage.tsx";
-import SideMenu from "./components/SideMenu/SideMenu.tsx";
+import SideMenu from "./components/sideMenu/SideMenu.tsx";
 import TopBar from "./components/TopBar.tsx";
 import {useState} from "react";
 import {collapsedDrawerWidth, drawerWidth, topBarHeight} from "./components/layoutConstants.ts";
