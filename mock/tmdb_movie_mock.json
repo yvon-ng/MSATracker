@@ -1,0 +1,19 @@
+{
+  "adult": false,
+  "backdrop_path": null,
+  "genre_ids": [
+    18,
+    878
+  ],
+  "id": 1234567,
+  "original_language": "en",
+  "original_title": "Zero Votes: The Test Movie",
+  "overview": "A sample movie entry used to test how client applications handle null, zero, or unrated states from the TMDB API.",
+  "popularity": 0.6,
+  "poster_path": null,
+  "release_date": "2026-10-11",
+  "title": "Zero Votes: The Test Movie",
+  "video": false,
+  "vote_average": 0.0,
+  "vote_count": 0
+}
