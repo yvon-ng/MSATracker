@@ -1,14 +1,16 @@
 import {Box, Stack, Typography, CircularProgress} from "@mui/material";
 import {useParams} from "react-router";
-import {useGetMovie, useGetMovieTrailer} from "../hooks/UseTMDBs.ts";
-import {IMAGE_BASE_URL} from "../services/tmdbServices.ts";
+import {useGetMovie} from "../hooks/UseTMDBs.ts";
 import LocalAtmOutlinedIcon from '@mui/icons-material/LocalAtmOutlined';
+import {MediaInfo} from "../components/MediaInfo.tsx";
+import {MediaTrailer} from "../components/MediaTrailer.tsx";
+import {MediaPoster} from "../components/MediaPoster.tsx";
+import HowToVoteOutlinedIcon from '@mui/icons-material/HowToVoteOutlined';
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 
 export function MovieDetailPage() {
     const {mediaId} = useParams();
     const {movie} = useGetMovie(Number(mediaId)!);
-    const {trailer} = useGetMovieTrailer(Number(mediaId)!);
-    const poster = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : `https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original`; //TODO better no poster picture
     // TODO NEEDED?
     const normalizedScore = Math.min(10, Math.max(0, movie.vote_average));
 
@@ -19,121 +21,86 @@ export function MovieDetailPage() {
             <Stack direction={"row"}>
                 <Stack direction={"row"} gap={4} width={"60%"}>
                     {/*MOVIE POSTER*/}
-                    <Box component={"img"} src={poster} alt={movie.title + "poster"}
-                         sx={{width: 400, borderRadius: 3}}/>
+                    <MediaPoster media={movie}/>
 
                     {/*MOVIE TITLE, TAGLINE, RELEASE YEAR, DURATION, OVERVIEW */}
-                    <Stack>
-                        <Typography variant={"h2"} fontWeight={"400"} ml={-0.5}>{movie.title}</Typography>
+                    <MediaInfo movie={movie}/>
 
-                        <Stack alignSelf={"flex-start"}> {/*TODO CHECK IF STILL NEEDED*/}
-                            <Stack direction={"row"} justifyContent={"space-between"}>
-                                <Typography variant={"subtitle2"} fontWeight={"400"}
-                                            color={"textSecondary"}>{movie.tagline}</Typography>
-
-                                <Stack direction={"row"} gap={1}>
-                                    <Typography variant={"subtitle1"} fontWeight={"400"}
-                                                color={"textSecondary"}>{movie.release_date.slice(0, 4)}</Typography>
-                                    <Typography variant={"subtitle1"} fontWeight={"800"}
-                                                color={"textSecondary"}>{"\u2022"}</Typography>
-                                    <Typography variant={"subtitle1"} fontWeight={"400"}
-                                                color={"textSecondary"}>{movie.runtime + "m"}</Typography>
-                                </Stack>
-                            </Stack>
-                            <Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}
-                                        mt={8}>{movie.overview}</Typography>
-                        </Stack>
-
-                        {/*TODO*/}
-                        {/*<Typography variant={"subtitle1"} fontWeight={"400"}*/}
-                        {/*            color={"textSecondary"} mt={8}>{movie.popularity} </Typography>*/}
-                        {/*<Typography variant={"subtitle1"} fontWeight={"400"}*/}
-                        {/*            color={"textSecondary"}>{movie.original_language}</Typography>*/}
-                        {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.genres}</Typography>*!/*/}
-                        {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.belongs_to_collection}</Typography>*!/*/}
-                        {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.production_companies}</Typography>*!/*/}
-                        {/*<Typography variant={"subtitle1"} fontWeight={"400"}*/}
-                        {/*            color={"textSecondary"}>{movie.vote_count}</Typography>*/}
-                        {/*<Typography variant={"subtitle1"} fontWeight={"400"}*/}
-                        {/*            color={"textSecondary"}>{movie.revenue}</Typography>*/}
-                    </Stack>
-
+                    {/*TODO*/}
+                    {/*<Typography variant={"subtitle1"} fontWeight={"400"}*/}
+                    {/*            color={"textSecondary"}>{movie.original_language}</Typography>*/}
+                    {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.genres}</Typography>*!/*/}
+                    {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.belongs_to_collection}</Typography>*!/*/}
+                    {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.production_companies}</Typography>*!/*/}
                     {/*<Box component={"img"} src={backdrop} alt={movie.title + "backdrop"} sx={{width: 400, borderRadius: 3}}/>*/}
                 </Stack>
 
-                {/*MOVIE TRAILER*/}
-                {trailer?.key && (
-                    <Box sx={{
-                        mb: 23,
-                        mx: 10,
-                        width: "40%",
-                    }}>
+                <Stack
+                    width="40%"
+                    sx={{mx: 10}}
+                    spacing={1}
+                    alignItems="stretch"
+                >
+                    {/*MOVIE TRAILER*/}
+                    <MediaTrailer media={movie}/>
+
+                    {/* MOVIE STATS */}
+                    <Stack direction="row" justifyContent="space-between" alignItems="center" px={3} py={2}
+                           borderRadius={5} sx={{bgcolor: "background.paper"}}>
+                        {/* Budget */}
+                        <Stack alignItems="center">
+                            <LocalAtmOutlinedIcon sx={{color: "text.secondary"}}/>
+                            <Typography variant="h6">
+                                {(movie.budget / 1_000_000).toFixed(1)} M
+                            </Typography>
+                        </Stack>
+
+                        {/* Revenue */}
+                        <Stack alignItems="center">
+                            <PaidOutlinedIcon sx={{color: "text.secondary"}}/>
+                            <Typography variant="h6">
+                                {(movie.revenue / 1_000_000).toFixed(1)} M
+                            </Typography>
+                        </Stack>
+
+                        {/* Vote count */}
+                        <Stack alignItems="center">
+                            <HowToVoteOutlinedIcon sx={{color: "text.secondary"}}/>
+                            <Typography variant="h6">
+                                {movie.vote_count}
+                            </Typography>
+                        </Stack>
+
                         <Box
                             sx={{
-                                aspectRatio: "16 / 9",
-                                overflow: "hidden",
-                                borderRadius: 3,
+                                position: "relative",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                justifyContent: "center",
                             }}
                         >
-                            <Box
-                                component="iframe"
-                                src={`https://www.youtube.com/embed/${trailer.key}`}
-                                title={`${movie.title} trailer`}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowFullScreen
+                            <CircularProgress
+                                variant="determinate"
+                                value={normalizedScore ? normalizedScore * 10 : 100}
+                                size={72}
+                                thickness={4}
                                 sx={{
-                                    width: "100%",
-                                    height: "100%",
-                                    border: 0,
+                                    color: normalizedScore >= 7 ? "success.main" : normalizedScore >= 5 ? "warning.main" : "error.main",
                                 }}
                             />
-                        </Box>
-                    </Box>
-                )}
-            </Stack>
 
-            {/*MOVIE BUDGET, VOTE AVG*/}
-
-            <Box display={"flex"} justifyContent={"end"} mt={-20} mr={10}>
-                <Stack direction={"row"} gap={5}>
-                    <Stack alignItems={"center"} justifyContent={"center"}>
-                        <Typography variant={"subtitle1"}
-                                    fontWeight={600}>{(movie.budget / 1000000).toFixed(1)} M</Typography>
-                        <LocalAtmOutlinedIcon color={"disabled"}/>
-                    </Stack>
-                    <Box
-                        sx={{
-                            position: "relative",
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <CircularProgress
-                            variant="determinate"
-                            value={normalizedScore ? normalizedScore * 10 : 100}
-                            size={72}
-                            thickness={4}
-                            sx={{
-                                color: normalizedScore >= 7 ? "success.main" : normalizedScore >= 5 ? "warning.main" : "error.main",
-                            }}
-                        />
-
-                        <Box
-                            sx={{
+                            <Box sx={{
                                 position: "absolute",
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "center",
-                            }}
-                        >
-                            <Typography variant="h6" fontWeight={600}>
-                                {normalizedScore.toFixed(1)}
-                            </Typography>
+                            }}>
+                                <Typography variant="h6" fontWeight={600}>{normalizedScore.toFixed(1)}</Typography>
+                            </Box>
                         </Box>
-                    </Box>
+                    </Stack>
                 </Stack>
-            </Box>
+            </Stack>
         </Box>
     )
 }
