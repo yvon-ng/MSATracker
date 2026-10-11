@@ -35,7 +35,8 @@ export function MediaCard({tmdbMedia}: MediaCardProps) {
                 backgroundImage: "none",
             }}
         >
-            <CardActionArea onClick={() => navigate(`/${tmdbMedia.media_type}/${tmdbMedia.id}`)}>
+            <CardActionArea
+                onClick={() => navigate(`/${isMovie ? "movie" : "series"}/${tmdbMedia.id}`, {state: {isMovie}})}>
                 <CardMedia
                     component="img"
                     image={poster}

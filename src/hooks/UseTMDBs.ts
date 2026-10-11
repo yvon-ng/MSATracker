@@ -1,5 +1,12 @@
 import {useSuspenseQuery} from "@tanstack/react-query";
-import {getMovie, getMovieTrailer, getTrendingMedia, searchMulti} from "../services/tmdbServices.ts";
+import {
+    getMovie,
+    getMovieTrailer,
+    getSeries,
+    getSeriesTrailer,
+    getTrendingMedia,
+    searchMulti
+} from "../services/tmdbServices.ts";
 
 export function useMultiSearch(query: string) {
     const {data: media} = useSuspenseQuery({
@@ -34,6 +41,17 @@ export function useGetMovie(movieId: number) {
     };
 }
 
+export function useGetSeries(seriesId: number) {
+    const {data: series} = useSuspenseQuery({
+        queryKey: ["series", seriesId],
+        queryFn: () => getSeries(seriesId)
+    })
+
+    return {
+        series: series
+    };
+}
+
 export function useGetMovieTrailer(movieId: number) {
     const {data: trailer} = useSuspenseQuery({
         queryKey: ["movie", "trailer", movieId],
@@ -45,3 +63,13 @@ export function useGetMovieTrailer(movieId: number) {
     };
 }
 
+export function useGetSeriesTrailer(seriesId: number) {
+    const {data: trailer} = useSuspenseQuery({
+        queryKey: ["series", "trailer", seriesId],
+        queryFn: () => getSeriesTrailer(seriesId)
+    })
+
+    return {
+        trailer: trailer
+    };
+}

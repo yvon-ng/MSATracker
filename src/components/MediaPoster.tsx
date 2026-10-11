@@ -1,16 +1,16 @@
 import {Box} from "@mui/material";
 import {IMAGE_BASE_URL} from "../services/tmdbServices.ts";
-import type {MovieDetails} from "@lorenzopant/tmdb";
+import type {MovieDetails, TVSeriesDetails} from "@lorenzopant/tmdb";
 
 interface MediaPosterProps {
-    media: MovieDetails
+    media: MovieDetails | TVSeriesDetails
+    isMovie: boolean
 }
 
-export function MediaPoster({media}: MediaPosterProps){
-    const poster = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : `https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original`; //TODO better no poster picture
+const NO_POSTER_URL = "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
 
-    return (
-        <Box component={"img"} src={poster} alt={media.title + "poster"}
-             sx={{width: 400, borderRadius: 3}}/>
-    )
+export function MediaPoster({media, isMovie}: MediaPosterProps) {
+    const poster = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : NO_POSTER_URL;
+    const title = isMovie ? (media as MovieDetails).title : (media as TVSeriesDetails).name;
+    return <Box component={"img"} src={poster} alt={title + "poster"} sx={{width: 400, borderRadius: 3}}/>
 }
