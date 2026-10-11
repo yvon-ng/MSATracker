@@ -9,11 +9,8 @@ interface MediaInfoProps {
 
 export function MediaInfo({media, isMovie}: MediaInfoProps) {
     const title = isMovie ? (media as MovieDetails).title : (media as TVSeriesDetails).name;
-    // const releaseDate = isMovie ? (media as MovieDetails).release_date.slice(0, 4) : (media as TVSeriesDetails).first_air_date;
     const runtime = isMovie ? (media as MovieDetails).runtime : (media as TVSeriesDetails).episode_run_time?.[0];
     const tagline = isMovie ? (media as MovieDetails).tagline : (media as TVSeriesDetails).tagline;
-    // TODO
-    // const releaseYear = releaseDate ? releaseDate.slice(0, 4) : "Unknown year";
 
     function getSeriesYears(series: TVSeriesDetails) {
         const start = series.first_air_date?.slice(0, 4);
@@ -28,8 +25,6 @@ export function MediaInfo({media, isMovie}: MediaInfoProps) {
 
     return (
         <Stack>
-            {/*MOVIE TITLE, TAGLINE, RELEASE YEAR, DURATION, OVERVIEW */}
-
             <Typography variant={"h2"} fontWeight={"400"} ml={-0.5}>{title}</Typography>
 
             <Stack alignSelf={"flex-start"}> {/*TODO CHECK IF STILL NEEDED*/}
