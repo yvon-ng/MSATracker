@@ -23,7 +23,7 @@ export function MediaStats({media, isMovie}: MediaStatsProps) {
     }
 
     return (
-        <Stack direction="row" justifyContent="space-between" alignItems="center" px={3} py={2}
+        <Stack direction={"row"} justifyContent="space-between" alignItems="center" px={3} py={2}
                borderRadius={5} sx={{bgcolor: "background.paper"}}>
 
             {movie && (
@@ -57,9 +57,9 @@ export function MediaStats({media, isMovie}: MediaStatsProps) {
                 label="Total number of votes"
                 icon={<HowToVoteOutlinedIcon sx={iconSx}/>}
                 value={
-                    <Stack direction="row" gap={0.3} alignItems="center">
+                    <Stack direction={{xs: "column", sm: "row"}} gap={0.3} alignItems="center">
                         {media.vote_count}
-                        <PersonOutlinedIcon fontSize="small"/>
+                        <PersonOutlinedIcon sx={{fontSize: {xs: "1.1rem", sm: "1.4rem", lg: "1.5rem"}}}/>
                     </Stack>
                 }
             />

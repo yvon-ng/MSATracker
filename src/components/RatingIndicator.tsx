@@ -20,10 +20,27 @@ export function RatingIndicator({score}: RatingIndicatorProps) {
             >
                 <CircularProgress
                     variant="determinate"
-                    value={normalizedScore * 10}
-                    size={72}
+                    value={normalizedScore ? normalizedScore * 10 : 100}
                     thickness={4}
-                    sx={{color}}
+                    sx={(theme) => ({
+                        color,
+                        [theme.breakpoints.up("lg")]: {
+                            width: "72px !important",
+                            height: "72px !important",
+                        },
+                        [theme.breakpoints.up("md")]: {
+                            width: "62px !important",
+                            height: "62px !important",
+                        },
+                        [theme.breakpoints.up("sm")]: {
+                            width: "62px !important",
+                            height: "62px !important",
+                        },
+                        [theme.breakpoints.up("xs")]: {
+                            width: "52px !important",
+                            height: "52px !important",
+                        },
+                    })}
                 />
                 <Box
                     sx={{
@@ -33,7 +50,7 @@ export function RatingIndicator({score}: RatingIndicatorProps) {
                         justifyContent: "center",
                     }}
                 >
-                    <Typography variant="h6" fontWeight={600}>
+                    <Typography fontSize={{xs: "0.9rem", sm: "1.25rem", md: "1.25rem"}} fontWeight={600}>
                         {normalizedScore.toFixed(1)}
                     </Typography>
                 </Box>
