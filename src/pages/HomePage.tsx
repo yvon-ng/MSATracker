@@ -2,12 +2,16 @@ import {Box, Stack} from "@mui/material";
 import {WelcomeMessage} from "../components/WelcomeMessage.tsx";
 import {useGetTrendingMedia} from "../hooks/UseTMDBs.ts";
 import {MediaCard} from "../components/media/MediaCard.tsx";
+import {useContext} from "react";
+import {AuthContext} from "../context/AuthContext.ts";
 
 export function HomePage() {
     const {media} = useGetTrendingMedia();
     const titles = media?.results.filter(
         item => item.media_type === "movie" || item.media_type === "tv"
     ) ?? [];
+    const {user} = useContext(AuthContext);
+    console.log(user);
 
     return (
         <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 0}}>

@@ -78,6 +78,7 @@ export default function TopBar({open, onMenuClick, onSearchOpen}: TopBarProps) {
                     <MenuIcon/>
                 </IconButton>
                 <Stack direction={"row"} flex={1} justifyContent={"space-between"} alignItems={"center"}>
+                    {/*TODO copy style from login*/}
                     <Stack direction={"row"} onClick={handleLogoClick}>
                         <Typography variant="h5" noWrap fontWeight={600}>
                             msa
