@@ -1,4 +1,4 @@
-import {type ReactNode, useEffect, useState} from "react";
+import {type ReactNode, useContext, useEffect, useState} from "react";
 import { AuthContext } from "./AuthContext.ts";
 import {supabase} from "../lib/supabaseClient.ts";
 import type {User} from "@supabase/supabase-js";
@@ -49,6 +49,6 @@ export const AuthContextProvider = ({children}: UserContextProviderProps) => {
     )
 }
 
-// export const UserAuth = () => { TODO
-//     return useContext(AuthContext);
-// }
+export const UserAuth = () => {
+    return useContext(AuthContext);
+}

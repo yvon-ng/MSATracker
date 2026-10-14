@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { Navigate, Outlet, useLocation } from "react-router";
-import {AuthContext} from "../../context/AuthContext.ts";
+import {Navigate, Outlet, useLocation} from "react-router";
+import {UserAuth} from "../../context/AuthContextProvider.tsx";
 
 export default function ProtectedRoute() {
-    const { user, loading } = useContext(AuthContext);
+    const {user, loading} = UserAuth();
     const location = useLocation();
 
     if (loading) {
@@ -15,10 +14,10 @@ export default function ProtectedRoute() {
             <Navigate
                 to="/login"
                 replace
-                state={{ from: location }}
+                state={{from: location}}
             />
         );
     }
 
-    return <Outlet />;
+    return <Outlet/>;
 }
