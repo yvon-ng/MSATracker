@@ -10,7 +10,6 @@ interface MediaInfoProps {
 export function MediaInfo({media, isMovie}: MediaInfoProps) {
     const title = isMovie ? (media as MovieDetails).title : (media as TVSeriesDetails).name;
     const runtime = isMovie ? (media as MovieDetails).runtime : (media as TVSeriesDetails).episode_run_time?.[0];
-    const tagline = isMovie ? (media as MovieDetails).tagline : (media as TVSeriesDetails).tagline;
 
     function getSeriesYears(series: TVSeriesDetails) {
         const start = series.first_air_date?.slice(0, 4);
@@ -29,8 +28,8 @@ export function MediaInfo({media, isMovie}: MediaInfoProps) {
                         ml={-0.5}>{title}</Typography>
 
             <Stack direction={{xs: "column", sm: "row"}} justifyContent={"space-between"}>
-                <Typography variant={"subtitle2"} fontWeight={"400"}
-                            color={"textSecondary"}>{tagline}</Typography>
+                <Typography variant={"subtitle2"} fontWeight={"400"} width={{xs: "100%", sm: "60%", lg: "50%"}}
+                            color={"textSecondary"}>{media.tagline}</Typography>
 
                 <Stack direction={"row"} gap={1} justifyContent={"end"}>
                     <Typography variant={"subtitle1"} fontWeight={"400"}
