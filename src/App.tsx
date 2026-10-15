@@ -14,6 +14,9 @@ import {AuthContextProvider} from "./context/AuthContextProvider.tsx";
 import PublicLayout from "./layouts/PublicLayout.tsx";
 import ProtectedRoute from "./components/auth/ProtectedRoute.tsx";
 import AppLayout from "./layouts/AppLayout.tsx";
+import {ProfilePage} from "./pages/ProfilePage.tsx";
+import {CompletedPage} from "./pages/CompletedPage.tsx";
+import {WatchlistPage} from "./pages/WatchlistPage.tsx";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
@@ -50,6 +53,9 @@ function AppContent() {
                 {/* Authenticated pages */}
                 <Route element={<ProtectedRoute/>}>
                     <Route element={<AppLayout/>}>
+                        <Route path="/completed" element={<CompletedPage/>}/>
+                        <Route path="/watchlist" element={<WatchlistPage/>}/>
+                        <Route path="/profile" element={<ProfilePage/>}/>
                         <Route path="/home" element={<HomePage/>}/>
                         <Route path="/series/:mediaId" element={<SeriesDetailPage/>}/>
                         <Route path="/movie/:mediaId" element={<MovieDetailPage/>}/>

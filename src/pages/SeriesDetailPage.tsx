@@ -1,4 +1,4 @@
-import {MediaDetailLayout} from "./MediaDetailLayout.tsx";
+import {MediaDetailLayout} from "../components/media/MediaDetailLayout.tsx";
 import {useParams} from "react-router";
 import {useGetSeries} from "../hooks/UseTMDBs.ts";
 

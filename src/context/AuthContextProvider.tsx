@@ -56,7 +56,7 @@ export const AuthContextProvider = ({children}: UserContextProviderProps) => {
 
             const { data, error } = await supabase
                 .from("users")
-                .select("user_id, username, first_name, last_name, email")
+                .select("user_id, username, first_name, last_name, email, profile_picture")
                 .eq("user_id", supabaseUser.id)
                 .maybeSingle();
 
@@ -79,6 +79,7 @@ export const AuthContextProvider = ({children}: UserContextProviderProps) => {
                 firstName: data.first_name,
                 lastName: data.last_name,
                 email: data.email,
+                profilePicture: data.profile_picture
             });
         }
 

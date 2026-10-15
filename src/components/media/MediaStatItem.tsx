@@ -2,16 +2,16 @@ import {Box, Stack, Tooltip, Typography} from "@mui/material";
 import type {ReactNode} from "react";
 
 interface StatItemProps {
-    label: string;
+    toolTip: string;
     icon: ReactNode;
     value: ReactNode;
 }
 
-export function MediaStatItem({label, icon, value}: StatItemProps) {
+export function MediaStatItem({toolTip, icon, value}: StatItemProps) {
     const words = typeof value === "string" ? value.split(" ") : null;
 
     return (
-        <Tooltip title={label} describeChild>
+        <Tooltip title={toolTip} describeChild>
             <Stack alignItems="center" justifyContent="center">
                 {icon}
                 <Box fontSize={{xs: "0.9rem", sm: "1.25rem", md: "1.25rem"}} textAlign="center">

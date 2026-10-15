@@ -30,13 +30,13 @@ export function MediaStats({media, isMovie}: MediaStatsProps) {
                 <>
                     {/* Movie Budget */}
                     <MediaStatItem
-                        label="Estimated production budget (in USD)"
+                        toolTip="Estimated production budget (in USD)"
                         icon={<LocalAtmOutlinedIcon sx={iconSx}/>}
                         value={formatMillions(movie.budget)}
                     />
                     {/* Movie Revenue */}
                     <MediaStatItem
-                        label="Worldwide box office revenue (in USD)"
+                        toolTip="Worldwide box office revenue (in USD)"
                         icon={<PaidOutlinedIcon sx={iconSx}/>}
                         value={formatMillions(movie.revenue)}
                     />
@@ -46,7 +46,7 @@ export function MediaStats({media, isMovie}: MediaStatsProps) {
             {/* Series status */}
             {series && (
                 <MediaStatItem
-                    label="Current series status"
+                    toolTip="Current series status"
                     icon={<EventRepeatOutlinedIcon sx={iconSx}/>}
                     value={series.status || "Unknown"}
                 />
@@ -54,7 +54,7 @@ export function MediaStats({media, isMovie}: MediaStatsProps) {
 
             {/* Vote count */}
             <MediaStatItem
-                label="Total number of votes"
+                toolTip="Total number of votes"
                 icon={<HowToVoteOutlinedIcon sx={iconSx}/>}
                 value={
                     <Stack direction={{xs: "column", sm: "row"}} gap={0.3} alignItems="center">

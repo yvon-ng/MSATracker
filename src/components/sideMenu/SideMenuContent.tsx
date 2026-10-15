@@ -1,5 +1,4 @@
 import {
-    Avatar,
     Box,
     Divider,
     IconButton,
@@ -16,6 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import type {JSX} from "react";
 import {useLocation, useNavigate} from "react-router";
 import {UserAuth} from "../../context/AuthContextProvider.tsx";
+import {ProfileAvatar} from "../ProfileAvatar.tsx";
 
 interface SideMenuContentProps {
     open: boolean;
@@ -27,6 +27,7 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
     const navigate = useNavigate();
     const location = useLocation();
     const {user} = UserAuth();
+
     const handleClick = (url: string) => {
         navigate(url);
     }
@@ -34,6 +35,8 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
     const activeIndex = items.findIndex(
         ({url}) => location.pathname === `/${url}`
     );
+    const isProfileActive = location.pathname === "/profile";
+
 
     return (
         <Box
@@ -134,9 +137,25 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
             </Box>
 
             {/* Bottom section */}
-            <Box sx={{flexShrink: 0}}>
+            <Box sx={{flexShrink: 0}} position={"relative"}>
                 <Divider sx={{display: "block", mx: 2}}/>
-
+                {/*TODO maybe better way so it has transition*/}
+                {isProfileActive && (
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            right: 10,
+                            mr: open ? 0 : -0.5,
+                            top: open ? 20 : 25,
+                            width: 3,
+                            height: open ? 30 : 20,
+                            borderRadius: 2,
+                            bgcolor: "secondary.main",
+                            zIndex: 1,
+                            pointerEvents: "none",
+                        }}
+                    />
+                )}
                 <ListItemButton
                     onClick={() => navigate("/profile")}
                     aria-label="Profile"
@@ -149,21 +168,13 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
                             backgroundColor: "transparent",
                         },
                         "&:hover .menu-text .MuiListItemText-primary": {
-                            transform: "translateX(6rem)",
+                            transform: "translateX(7.5rem)",
                         },
                     }}
                 >
-                    {/*todo user details*/}
-                    <Avatar
-                        src="https://upload.wikimedia.org/wikipedia/en/2/21/Web_of_Spider-Man_Vol_1_129-1.png"
-                        alt="Profile"
-                        sx={{
-                            width: 45,
-                            height: 45,
-                            flexShrink: 0,
-                            mr: open ? 3 : "auto",
-                        }}
-                    />
+                    <Box sx={{mr: open ? 2 : "auto", flexShrink: 0}}>
+                        <ProfileAvatar size={35}/>
+                    </Box>
 
                     <ListItemText
                         className="menu-text"
@@ -172,6 +183,7 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
                             display: open ? "block" : "none",
                             "& .MuiListItemText-primary": {
                                 transition: "transform 0.2s ease",
+                                color: isProfileActive ? "secondary.main" : "primary.main"
                             },
                         }}
                     />

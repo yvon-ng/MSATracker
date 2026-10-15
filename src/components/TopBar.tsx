@@ -3,7 +3,7 @@ import {
     type AppBarProps as MuiAppBarProps,
     Toolbar,
     Typography,
-    styled, Stack, IconButton,
+    styled, Stack, IconButton, Box,
 } from "@mui/material";
 import {collapsedDrawerWidth, drawerWidth, topBarHeight} from "./layoutConstants.ts";
 import {SearchBar} from "./SearchBar.tsx";
@@ -16,7 +16,7 @@ interface AppBarProps extends MuiAppBarProps {
 
 const StyledAppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open = false }) => {
+})<AppBarProps>(({theme, open = false}) => {
     const sidebarWidth = open ? drawerWidth : collapsedDrawerWidth;
 
     return {
@@ -50,7 +50,7 @@ interface TopBarProps {
 export default function TopBar({open, onMenuClick, onSearchOpen}: TopBarProps) {
     const navigate = useNavigate();
 
-    const handleLogoClick = () =>{
+    const handleLogoClick = () => {
         navigate("/home")
     }
 
@@ -78,15 +78,12 @@ export default function TopBar({open, onMenuClick, onSearchOpen}: TopBarProps) {
                     <MenuIcon/>
                 </IconButton>
                 <Stack direction={"row"} flex={1} justifyContent={"space-between"} alignItems={"center"}>
-                    {/*TODO copy style from login*/}
-                    <Stack direction={"row"} onClick={handleLogoClick}>
-                        <Typography variant="h5" noWrap fontWeight={600}>
-                            msa
-                        </Typography>
-                        <Typography variant="h5" noWrap color={"secondary"} fontWeight={600}>
+                    <Typography variant="h5" noWrap fontWeight={600} onClick={handleLogoClick} sx={{cursor: "pointer"}}>
+                        msa
+                        <Box component={"span"} color={"secondary.main"}>
                             tracker
-                        </Typography>
-                    </Stack>
+                        </Box>
+                    </Typography>
                     <SearchBar onSearchOpen={onSearchOpen}/>
                 </Stack>
             </Toolbar>
