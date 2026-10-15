@@ -1,4 +1,5 @@
 import {Stack, Typography} from "@mui/material";
+import {UserAuth} from "../context/AuthContextProvider.tsx";
 
 export function WelcomeMessage() {
     const date = new Date();
@@ -7,6 +8,7 @@ export function WelcomeMessage() {
         month: "long",
         day: "numeric",
     });
+    const {user} = UserAuth()
 
     return (
         <Stack>
@@ -15,14 +17,13 @@ export function WelcomeMessage() {
                 {formattedDate}
             </Typography>
             <Stack direction={{xs: "column", md: "row"}} gap={{xs: 0, md: 2}} sx={{letterSpacing: -3}}>
-                {/*TODO actual user*/}
                 <Typography fontSize={{xs: "2.5rem", sm: "3rem", md: "4rem"}} fontWeight={500}
                             sx={{textWrap: "nowrap"}}>
                     Good evening,
                 </Typography>
                 <Typography fontSize={{xs: "2.5rem", sm: "3rem", md: "4rem"}} fontWeight={500} color={"secondary"}
                             mt={{xs: -2, sm: -3, md: 0}}>
-                    Shaden.
+                    {user?.username}.
                 </Typography>
             </Stack>
             <Typography variant="subtitle2" fontWeight={500} color={"text.secondary"}>

@@ -1,15 +1,17 @@
 import {type ReactNode, useContext, useEffect, useState} from "react";
 import { AuthContext } from "./AuthContext.ts";
 import {supabase} from "../lib/supabaseClient.ts";
-import type {User} from "@supabase/supabase-js";
+import type {User as SupabaseUser} from "@supabase/supabase-js";
+import type { User } from "../model/user.ts";
 
 interface UserContextProviderProps {
     children: ReactNode
 }
 
 export const AuthContextProvider = ({children}: UserContextProviderProps) => {
-    const [user, setUser] = useState<User | undefined>(undefined);
+    const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | undefined>(undefined);
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState<User | undefined>(undefined);
 
     useEffect(() => {
         let isMounted = true;
@@ -19,7 +21,7 @@ export const AuthContextProvider = ({children}: UserContextProviderProps) => {
             data: { subscription },
         } = supabase.auth.onAuthStateChange((_event, session) => {
             if (isMounted) {
-                setUser(session?.user);
+                setSupabaseUser(session?.user);
                 setLoading(false);
             }
         });
@@ -28,9 +30,9 @@ export const AuthContextProvider = ({children}: UserContextProviderProps) => {
         supabase.auth.getSession().then(({ data, error }) => {
             if (isMounted) {
                 if (error) {
-                    setUser(undefined);
+                    setSupabaseUser(undefined);
                 } else {
-                    setUser(data.session?.user);
+                    setSupabaseUser(data.session?.user);
                 }
                 setLoading(false);
             }
@@ -42,8 +44,53 @@ export const AuthContextProvider = ({children}: UserContextProviderProps) => {
         };
     }, []);
 
+    // Fetch the public profile when the authenticated user changes.
+    useEffect(() => {
+        let cancelled = false;
+
+        async function fetchProfile() {
+            if (!supabaseUser) {
+                setUser(undefined);
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from("users")
+                .select("user_id, username, first_name, last_name, email")
+                .eq("user_id", supabaseUser.id)
+                .maybeSingle();
+
+            if (cancelled) return;
+
+            if (error) {
+                console.error("Failed to fetch profile:", error.message);
+                setUser(undefined);
+                return;
+            }
+            
+            if (!data) {
+                setUser(undefined);
+                return;
+            }
+
+            setUser({
+                userId: data.user_id,
+                username: data.username,
+                firstName: data.first_name,
+                lastName: data.last_name,
+                email: data.email,
+            });
+        }
+
+        void fetchProfile();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [supabaseUser]);
+
     return (
-        <AuthContext.Provider value={{user, loading}}>
+        <AuthContext.Provider value={{supabaseUser, loading, user}}>
             {children}
         </AuthContext.Provider>
     )

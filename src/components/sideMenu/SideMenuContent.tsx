@@ -1,9 +1,21 @@
-import {Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography} from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Divider,
+    IconButton,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Typography
+} from "@mui/material";
 import {topBarHeight} from "../layoutConstants.ts";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import MenuIcon from "@mui/icons-material/Menu";
 import type {JSX} from "react";
 import {useLocation, useNavigate} from "react-router";
+import {UserAuth} from "../../context/AuthContextProvider.tsx";
 
 interface SideMenuContentProps {
     open: boolean;
@@ -14,7 +26,7 @@ interface SideMenuContentProps {
 export function SideMenuContent({open, items, handleDrawerClick}: SideMenuContentProps) {
     const navigate = useNavigate();
     const location = useLocation();
-
+    const {user} = UserAuth();
     const handleClick = (url: string) => {
         navigate(url);
     }
@@ -24,7 +36,12 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
     );
 
     return (
-        <>
+        <Box
+            height={"100%"}
+            display={"flex"}
+            flexDirection={"column"}
+            sx={{overflowX: "hidden"}}
+        >
             <Box
                 display="flex"
                 justifyContent={open ? "end" : "center"}
@@ -41,7 +58,14 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
                         display={open ? 'block' : 'none'}>
                 LIBRARY
             </Typography>
-            <Box sx={{position: "relative"}}>
+            <Box
+                sx={{
+                    position: "relative",
+                    flex: 1,
+                    minHeight: 0,
+                    overflowY: "auto",
+                }}
+            >
                 {activeIndex !== -1 && (
                     <Box
                         sx={{
@@ -108,7 +132,51 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
                     ))}
                 </List>
             </Box>
-            {/*<Divider/>*/}
-        </>
+
+            {/* Bottom section */}
+            <Box sx={{flexShrink: 0}}>
+                <Divider sx={{display: "block", mx: 2}}/>
+
+                <ListItemButton
+                    onClick={() => navigate("/profile")}
+                    aria-label="Profile"
+                    sx={{
+                        minHeight: 48,
+                        justifyContent: open ? "initial" : "center",
+                        px: 2,
+                        mt: 1,
+                        "&:hover": {
+                            backgroundColor: "transparent",
+                        },
+                        "&:hover .menu-text .MuiListItemText-primary": {
+                            transform: "translateX(6rem)",
+                        },
+                    }}
+                >
+                    {/*todo user details*/}
+                    <Avatar
+                        src="https://upload.wikimedia.org/wikipedia/en/2/21/Web_of_Spider-Man_Vol_1_129-1.png"
+                        alt="Profile"
+                        sx={{
+                            width: 45,
+                            height: 45,
+                            flexShrink: 0,
+                            mr: open ? 3 : "auto",
+                        }}
+                    />
+
+                    <ListItemText
+                        className="menu-text"
+                        primary={user?.username}
+                        sx={{
+                            display: open ? "block" : "none",
+                            "& .MuiListItemText-primary": {
+                                transition: "transform 0.2s ease",
+                            },
+                        }}
+                    />
+                </ListItemButton>
+            </Box>
+        </Box>
     )
 }
