@@ -7,7 +7,8 @@ import {
     Typography,
 } from "@mui/material";
 import type {SubmitEvent} from "react";
-import {Link} from "react-router";
+import { Link as RouterLink } from "react-router";
+import { Link as MuiLink } from "@mui/material";
 
 interface AuthFormProps {
     title: string;
@@ -67,7 +68,8 @@ export function AuthForm({
                     {subtitle}
                 </Typography>
 
-                <Stack direction={{xs: "column", sm: "row"}} spacing={{xs: 0, sm: 1.5}} alignItems="baseline" flexWrap="wrap">
+                <Stack direction={{xs: "column", sm: "row"}} spacing={{xs: 0, sm: 1.5}} alignItems="baseline"
+                       flexWrap="wrap">
                     <Typography variant="h3" fontWeight={500}>
                         {title}
                     </Typography>
@@ -168,7 +170,19 @@ export function AuthForm({
 
             <Typography variant="body2" textAlign="center" color={"textSecondary"} sx={{letterSpacing: '0.1em'}}>
                 {footerText}{" "}
-                <Link to={footerLinkTo}>{footerLinkText}</Link>
+                <MuiLink
+                    component={RouterLink}
+                    to={footerLinkTo}
+                    underline="none"
+                    sx={{
+                        color: "secondary.main",
+                        "&:hover": {
+                            textDecoration: "underline",
+                        },
+                    }}
+                >
+                    {footerLinkText}
+                </MuiLink>
             </Typography>
         </Stack>
     );

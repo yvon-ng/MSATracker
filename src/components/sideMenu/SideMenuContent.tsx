@@ -57,7 +57,7 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
                     {open ? <ChevronLeftIcon/> : <MenuIcon/>}
                 </IconButton>
             </Box>
-            <Typography variant="caption" color="textSecondary" ml={3} sx={{letterSpacing: '0.15em'}}
+            <Typography variant="caption" color="textSecondary" ml={3} letterSpacing={"0.15em"}
                         display={open ? 'block' : 'none'}>
                 LIBRARY
             </Typography>
