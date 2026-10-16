@@ -96,10 +96,11 @@ export function ProfilePage() {
                             </Stack>
                         </CardContent>
                     </PreferencesCard>
-                    <PreferencesCard title={"Personal preferences"} subtitle={"Manage how the app behaves"}>
+                    <PreferencesCard title={"Personal preferences"} subtitle={"Manage how the app behaves."}>
                         <CardContent>
                             <Stack spacing={5} p={3}>
                                 <Box>
+                                    {/*TODO needs to be added to database*/}
                                     <FormControlLabel
                                         label="Show media backdrop"
                                         labelPlacement="start"
@@ -141,7 +142,7 @@ export function ProfilePage() {
                                             justifyContent: "space-between",
                                         }}
                                     />
-                                    <Typography variant={"caption"} color={"textSecondary"}>When on shows the media backdrop as a background in the detail page.</Typography>
+                                    <Typography variant={"caption"} color={"textSecondary"}>When turned on shows the media backdrop as a background in the detail page.</Typography>
                                 </Box>
                             </Stack>
                         </CardContent>

@@ -13,11 +13,19 @@ export function PreferencesCard({title, subtitle, children}: PreferencesCardProp
             <CardHeader
                 title={title}
                 subheader={subtitle}
+                sx={{
+                    p: 5,
+                    "& .MuiCardHeader-title": {
+                        lineHeight: 1.4,
+                    },
+                    "& .MuiCardHeader-subheader": {
+                        lineHeight: 1.2,
+                    },
+                }}
                 slotProps={{
-                    title: {variant: "h6", mb: 0.5},
+                    title: {variant: "h6"},
                     subheader: {variant: "body2"},
                 }}
-                sx={{p: 5}}
             />
             <Divider/>
             {children}
