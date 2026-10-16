@@ -16,10 +16,11 @@ import {useState} from "react";
 export function ProfilePage() {
     const {user} = UserAuth()
     const [showMediaBackdrop, setShowMediaBackdrop] = useState(false);
+    const [useUsername, setUseUsername] = useState(true);
 
     return (
         <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 8}}>
-            <Stack direction="row" spacing={2} my={10}>
+            <Stack direction="row" spacing={10} my={10}>
                 <Box>
                     <PageHeader overline={"Account"} title={"Your"} titleSuffix={"Profile."}
                                 subtitle={"Manage how you appear across your library."}/>
@@ -98,7 +99,7 @@ export function ProfilePage() {
                     </PreferencesCard>
                     <PreferencesCard title={"Personal preferences"} subtitle={"Manage how the app behaves."}>
                         <CardContent>
-                            <Stack spacing={5} p={3}>
+                            <Stack spacing={3} p={3}>
                                 <Box>
                                     {/*TODO needs to be added to database*/}
                                     <FormControlLabel
@@ -142,7 +143,53 @@ export function ProfilePage() {
                                             justifyContent: "space-between",
                                         }}
                                     />
-                                    <Typography variant={"caption"} color={"textSecondary"}>When turned on shows the media backdrop as a background in the detail page.</Typography>
+                                    <Typography variant={"caption"} color={"textSecondary"}>When turned on shows the
+                                        media backdrop as a background in the detail page.</Typography>
+                                </Box>
+                                <Box>
+                                    <FormControlLabel
+                                        label="Use username as display name"
+                                        labelPlacement="start"
+                                        control={
+                                            <Switch
+                                                checked={useUsername}
+                                                onChange={(event) => setUseUsername(event.target.checked)}
+                                                sx={{
+                                                    width: 50,
+                                                    height: 26,
+                                                    padding: 0,
+                                                    "& .MuiSwitch-switchBase": {
+                                                        padding: "3px",
+                                                        "&.Mui-checked": {
+                                                            transform: "translateX(25px)",
+                                                            color: "#fff",
+                                                            "& + .MuiSwitch-track": {
+                                                                backgroundColor: "secondary.main",
+                                                                opacity: 1,
+                                                            },
+                                                        },
+                                                    },
+                                                    "& .MuiSwitch-thumb": {
+                                                        width: 20,
+                                                        height: 20,
+                                                        boxShadow: "none",
+                                                    },
+                                                    "& .MuiSwitch-track": {
+                                                        borderRadius: 13,
+                                                        backgroundColor: "#80848E",
+                                                        opacity: 1,
+                                                    },
+                                                }}
+                                            />
+                                        }
+                                        sx={{
+                                            m: 0,
+                                            width: "100%",
+                                            justifyContent: "space-between",
+                                        }}
+                                    />
+                                    <Typography variant={"caption"} color={"textSecondary"}>Turn off to use first name
+                                        as your display name across the whole app.</Typography>
                                 </Box>
                             </Stack>
                         </CardContent>
