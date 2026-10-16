@@ -160,21 +160,14 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
                     onClick={() => navigate("/profile")}
                     aria-label="Profile"
                     sx={{
-                        minHeight: 48,
-                        justifyContent: open ? "initial" : "center",
                         px: 2,
                         mt: 1,
                         "&:hover": {
                             backgroundColor: "transparent",
                         },
-                        "&:hover .menu-text .MuiListItemText-primary": {
-                            transform: "translateX(7.5rem)",
-                        },
                     }}
                 >
-                    <Box sx={{mr: open ? 2 : "auto", flexShrink: 0}}>
-                        <ProfileAvatar size={35}/>
-                    </Box>
+                    <Box sx={{mr: open ? 3 : "auto", flexShrink: 0}}><ProfileAvatar size={35}/></Box>
 
                     <ListItemText
                         className="menu-text"
@@ -182,8 +175,12 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
                         sx={{
                             display: open ? "block" : "none",
                             "& .MuiListItemText-primary": {
-                                transition: "transform 0.2s ease",
+                                fontWeight: 500,
+                                transition: "color 0.2s ease",
                                 color: isProfileActive ? "secondary.main" : "primary.main"
+                            },
+                            "&:hover .MuiListItemText-primary": {
+                                color: "secondary.main",
                             },
                         }}
                     />

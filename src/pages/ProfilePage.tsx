@@ -1,65 +1,153 @@
 import {PageHeader} from "../components/PageHeader.tsx";
-import {alpha, Box, Card, CardContent, Chip, Divider, Stack, Typography} from "@mui/material";
+import {
+    Box,
+    CardContent, FormControlLabel,
+    InputAdornment,
+    Stack, Switch,
+    TextField,
+    Typography
+} from "@mui/material";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
-import theme from "../theme/theme.ts";
-import {StatDisplay} from "../components/StatDisplay.tsx";
-import {ProfileAvatar} from "../components/ProfileAvatar.tsx";
+import {ProfileCard} from "../components/ProfileCard.tsx";
+import {PreferencesCard} from "../components/PreferencesCard.tsx";
+import {useState} from "react";
+
 
 export function ProfilePage() {
-    const {user, supabaseUser} = UserAuth()
-    const joinedYear = supabaseUser ? new Date(supabaseUser.created_at).getFullYear() : undefined;
+    const {user} = UserAuth()
+    const [showMediaBackdrop, setShowMediaBackdrop] = useState(false);
 
     return (
-        <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 0}}>
-            <PageHeader overline={"Account"} title={"Your"} titleSuffix={"Profile."}
-                        subtitle={"Manage how you appear across your library."}/>
-
-            <Card variant="outlined" sx={{width: 350, borderRadius: 4, my: 10}}>
-                <CardContent sx={{textAlign: "center"}}>
-                    <Stack spacing={3} justifyContent={"center"} alignItems={"center"} py={3}>
-
-                        <ProfileAvatar size={100} />
-
-                        <Box>
-                            <Typography variant="h4">
-                                {user?.firstName} {user?.lastName}
-                            </Typography>
-
-                            <Typography variant="body2" color="text.secondary">
-                                @{user?.username}
-                            </Typography>
-                        </Box>
-                        <Chip
-                            variant="outlined"
-                            label={`MEMBER SINCE ${joinedYear}`}
-                            size="medium"
-                            sx={{
-                                "& .MuiChip-label": {
-                                    fontSize: "0.6rem",
-                                    fontWeight: 500,
-                                    px: 2
-                                },
-                                color: alpha(theme.palette.secondary.main, 0.8),
-                                backgroundColor: alpha(theme.palette.secondary.main, 0.1),
-                                borderColor: alpha(theme.palette.secondary.main, 0.8),
-                            }}
-                        />
-                    </Stack>
-                </CardContent>
-
-                <Divider sx={{mx: 3}}/>
-
-                {/* Tracked / Completed / Watchlist statistics */}
-                <CardContent>
-                    <Stack direction="row" justifyContent="space-around" alignItems="center">
-                        <StatDisplay value={124} label="Total"/>
-                        <Divider orientation="vertical" flexItem/>
-                        <StatDisplay value={12} label="Completed"/>
-                        <Divider orientation="vertical" flexItem/>
-                        <StatDisplay value={72} label="Watchlist"/>
-                    </Stack>
-                </CardContent>
-            </Card>
+        <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 8}}>
+            <Stack direction="row" spacing={2} my={10}>
+                <Box>
+                    <PageHeader overline={"Account"} title={"Your"} titleSuffix={"Profile."}
+                                subtitle={"Manage how you appear across your library."}/>
+                    <ProfileCard user={user}/>
+                </Box>
+                <Stack flex={1} height={"100%"} spacing={2}>
+                    <PreferencesCard title={"Personal information"} subtitle={"Your account details and identity."}>
+                        <CardContent>
+                            <Stack spacing={5} p={3}>
+                                <Stack direction="row" spacing={4}>
+                                    <Stack spacing={1} flex={1}>
+                                        <Typography variant={"caption"} color={"textSecondary"}>First name</Typography>
+                                        <TextField variant="outlined" disabled value={user?.firstName} fullWidth
+                                                   sx={{
+                                                       "& .MuiInputBase-input": {
+                                                           fontSize: "0.8rem",
+                                                       },
+                                                   }}
+                                        />
+                                    </Stack>
+                                    <Stack spacing={1} flex={1}>
+                                        <Typography variant={"caption"} color={"textSecondary"}>Last name</Typography>
+                                        <TextField variant="outlined" disabled value={user?.lastName} fullWidth
+                                                   sx={{
+                                                       "& .MuiInputBase-input": {
+                                                           fontSize: "0.8rem",
+                                                       },
+                                                   }}
+                                        />
+                                    </Stack>
+                                </Stack>
+                                <Stack direction="row" spacing={4}>
+                                    <Stack spacing={1} flex={1}>
+                                        <Typography variant={"caption"} color={"textSecondary"}>Username</Typography>
+                                        <TextField variant="outlined" disabled value={user?.username} fullWidth
+                                                   slotProps={{
+                                                       input: {
+                                                           startAdornment: <InputAdornment position="start"
+                                                                                           sx={{
+                                                                                               alignSelf: "stretch",
+                                                                                               maxHeight: "none",
+                                                                                               px: 1.5,
+                                                                                               bgcolor: "action.hover",
+                                                                                               borderRight: 1,
+                                                                                               borderColor: "divider",
+                                                                                           }}
+                                                           >
+                                                               @
+                                                           </InputAdornment>,
+                                                       },
+                                                   }}
+                                                   sx={{
+                                                       "& .MuiInputBase-input": {
+                                                           fontSize: "0.8rem",
+                                                       },
+                                                       "& .MuiOutlinedInput-root": {
+                                                           pl: 0,
+                                                       },
+                                                   }}
+                                        />
+                                    </Stack>
+                                    <Stack spacing={1} flex={1}>
+                                        <Typography variant={"caption"} color={"textSecondary"}>Email
+                                            address</Typography>
+                                        <TextField variant="outlined" disabled value={user?.email} fullWidth
+                                                   sx={{
+                                                       "& .MuiInputBase-input": {
+                                                           fontSize: "0.8rem",
+                                                       },
+                                                   }}
+                                        />
+                                    </Stack>
+                                </Stack>
+                            </Stack>
+                        </CardContent>
+                    </PreferencesCard>
+                    <PreferencesCard title={"Personal preferences"} subtitle={"Manage how the app behaves"}>
+                        <CardContent>
+                            <Stack spacing={5} p={3}>
+                                <Box>
+                                    <FormControlLabel
+                                        label="Show media backdrop"
+                                        labelPlacement="start"
+                                        control={
+                                            <Switch
+                                                checked={showMediaBackdrop}
+                                                onChange={(event) => setShowMediaBackdrop(event.target.checked)}
+                                                sx={{
+                                                    width: 50,
+                                                    height: 26,
+                                                    padding: 0,
+                                                    "& .MuiSwitch-switchBase": {
+                                                        padding: "3px",
+                                                        "&.Mui-checked": {
+                                                            transform: "translateX(25px)",
+                                                            color: "#fff",
+                                                            "& + .MuiSwitch-track": {
+                                                                backgroundColor: "secondary.main",
+                                                                opacity: 1,
+                                                            },
+                                                        },
+                                                    },
+                                                    "& .MuiSwitch-thumb": {
+                                                        width: 20,
+                                                        height: 20,
+                                                        boxShadow: "none",
+                                                    },
+                                                    "& .MuiSwitch-track": {
+                                                        borderRadius: 13,
+                                                        backgroundColor: "#80848E",
+                                                        opacity: 1,
+                                                    },
+                                                }}
+                                            />
+                                        }
+                                        sx={{
+                                            m: 0,
+                                            width: "100%",
+                                            justifyContent: "space-between",
+                                        }}
+                                    />
+                                    <Typography variant={"caption"} color={"textSecondary"}>When on shows the media backdrop as a background in the detail page.</Typography>
+                                </Box>
+                            </Stack>
+                        </CardContent>
+                    </PreferencesCard>
+                </Stack>
+            </Stack>
         </Box>
     )
 }
