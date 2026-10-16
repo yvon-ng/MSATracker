@@ -16,7 +16,7 @@ export function SearchResults({query}: SearchResultsProps) {
     return (
         <Stack direction="row" flexWrap="wrap" gap={3}>
             {titles.map(item => (
-                <MediaCard tmdbMedia={item} key={`${item.media_type}-${item.id}`}/>
+                <MediaCard media={item} key={`${item.media_type}-${item.id}`}/>
             ))}
         </Stack>
     );

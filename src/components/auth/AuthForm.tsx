@@ -7,8 +7,8 @@ import {
     Typography,
 } from "@mui/material";
 import type {SubmitEvent} from "react";
-import { Link as RouterLink } from "react-router";
-import { Link as MuiLink } from "@mui/material";
+import {Link as RouterLink} from "react-router";
+import {Link as MuiLink} from "@mui/material";
 
 interface AuthFormProps {
     title: string;
@@ -68,19 +68,12 @@ export function AuthForm({
                     {subtitle}
                 </Typography>
 
-                <Stack direction={{xs: "column", sm: "row"}} spacing={{xs: 0, sm: 1.5}} alignItems="baseline"
-                       flexWrap="wrap">
-                    <Typography variant="h3" fontWeight={500}>
-                        {title}
-                    </Typography>
-
-                    <Typography variant="h3" fontWeight={500}>
-                        msa
-                        <Box component="span" color="secondary.main">
-                            tracker
-                        </Box>
-                    </Typography>
-                </Stack>
+                <Typography fontSize={{xs: "3rem", lg: "2.7rem", xl: "3rem"}} fontWeight={500}>
+                    {title} msa
+                    <Box component="span" color="secondary.main">
+                        tracker
+                    </Box>
+                </Typography>
             </Box>
 
             {error && <Alert severity="error">{error}</Alert>}
@@ -173,6 +166,8 @@ export function AuthForm({
                 <MuiLink
                     component={RouterLink}
                     to={footerLinkTo}
+                    onClick={() => console.log("Footer link clicked:", footerLinkTo)}
+
                     underline="none"
                     sx={{
                         color: "secondary.main",

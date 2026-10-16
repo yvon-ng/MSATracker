@@ -24,7 +24,7 @@ export function HomePage() {
                         subtitle={"Pick up where you left off or discover something new."}/>
             <Stack direction="row" flexWrap={"wrap"} gap={3} my={{xs: 10}}>
                 {titles.map(item => (
-                    <MediaCard tmdbMedia={item} key={`${item.media_type}-${item.id}`}/>
+                    <MediaCard media={item} key={`${item.media_type}-${item.id}`}/>
                 ))}
             </Stack>
         </Box>

@@ -28,14 +28,16 @@ export function SignUpPage() {
             lastName: lastName.trim(),
             userName: userName.trim(),
         });
-        navigate("/login"); //TODO maybe add a popup
+        navigate("/login", {
+            state: { signupSuccess: true }, //is used for the snackbar
+        });
     }
 
     return (
         <AuthLayout>
             <AuthForm
                 title="Create your"
-                subtitle="Join msa tracker and start building your library."
+                subtitle="Join msatracker and start building your library."
                 submitLabel="Sign up"
                 loadingLabel="Creating account..."
                 email={email}

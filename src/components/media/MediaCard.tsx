@@ -11,15 +11,15 @@ import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
 import {useNavigate} from "react-router";
 
 interface MediaCardProps {
-    tmdbMedia: TMDBMedia
+    media: TMDBMedia
 }
 
-export function MediaCard({tmdbMedia}: MediaCardProps) {
+export function MediaCard({media}: MediaCardProps) {
     const navigate = useNavigate();
-    const isMovie = tmdbMedia.media_type === "movie";
-    const title = isMovie ? tmdbMedia.title : tmdbMedia.name;
-    const releaseDate = isMovie ? tmdbMedia.release_date : tmdbMedia.first_air_date;
-    const poster = tmdbMedia.poster_path ? `${IMAGE_BASE_URL}${tmdbMedia.poster_path}` : `https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original`; //TODO better no poster picture
+    const isMovie = media.media_type === "movie";
+    const title = isMovie ? media.title : media.name;
+    const releaseDate = isMovie ? media.release_date : media.first_air_date;
+    const poster = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : `https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original`; //TODO better no poster picture
     const year = releaseDate?.slice(0, 4);
 
     const handleAdd = () => {
@@ -36,7 +36,7 @@ export function MediaCard({tmdbMedia}: MediaCardProps) {
             }}
         >
             <CardActionArea
-                onClick={() => navigate(`/${isMovie ? "movie" : "series"}/${tmdbMedia.id}`)}>
+                onClick={() => navigate(`/${isMovie ? "movie" : "series"}/${media.id}`)}>
                 <CardMedia
                     component="img"
                     image={poster}
@@ -52,7 +52,7 @@ export function MediaCard({tmdbMedia}: MediaCardProps) {
                 />
 
                 <Chip
-                    label={tmdbMedia.media_type}
+                    label={isMovie ? "movie" : "series"}
                     size="small"
                     sx={{
                         position: "absolute",

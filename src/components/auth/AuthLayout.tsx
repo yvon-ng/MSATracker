@@ -69,9 +69,9 @@ export function AuthLayout({children}: AuthLayoutProps) {
 
             </Box>
             <Box
-                p={{xs: 3, sm: 5}}
-                ml={{xs: 0, md: "65%"}}
-                width={{xs: "100%", md: "30%"}}
+                p={{xs: 3}}
+                ml={{xs: 0, md: "60%"}}
+                width={{xs: "100%", md: "40%"}}
                 minHeight={"100dvh"}
                 display={"flex"}
                 alignItems={"center"}

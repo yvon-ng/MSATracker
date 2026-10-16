@@ -32,7 +32,7 @@ export function ProfilePage() {
                         title={"Personal information"}
                         subtitle={"Your account details and identity."}
                         headerActionButton={
-                            // todo edit
+                            // todo user should be able to edit info
                             <IconButton
                                 aria-label={"Edit Personal Information"}
                                 size="small"
@@ -201,8 +201,8 @@ export function ProfilePage() {
                                             justifyContent: "space-between",
                                         }}
                                     />
-                                    <Typography variant={"caption"} color={"textSecondary"}>Turn off to use first name
-                                        as your display name across the whole app.</Typography>
+                                    <Typography variant={"caption"} color={"textSecondary"}>Turn off to use your first name
+                                        as your display name across the app. (Make sure to have filled in your details above.)</Typography>
                                 </Box>
                             </Stack>
                         </CardContent>
