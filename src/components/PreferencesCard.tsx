@@ -4,15 +4,19 @@ import type {ReactNode} from "react";
 interface PreferencesCardProps {
     title: string;
     subtitle: string;
+    headerActionButton?: ReactNode;
     children?: ReactNode;
 }
 
-export function PreferencesCard({title, subtitle, children}: PreferencesCardProps) {
+export function PreferencesCard({title, subtitle, headerActionButton, children}: PreferencesCardProps) {
     return (
         <Card variant="outlined" sx={{flex: 1, height: "100%", borderRadius: 4}}>
             <CardHeader
                 title={title}
                 subheader={subtitle}
+                action={
+                    headerActionButton
+                }
                 sx={{
                     p: 5,
                     "& .MuiCardHeader-title": {

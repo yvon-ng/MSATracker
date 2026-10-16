@@ -1,7 +1,7 @@
 import {PageHeader} from "../components/PageHeader.tsx";
 import {
     Box,
-    CardContent, FormControlLabel,
+    CardContent, FormControlLabel, IconButton,
     InputAdornment,
     Stack, Switch,
     TextField,
@@ -11,6 +11,7 @@ import {UserAuth} from "../context/AuthContextProvider.tsx";
 import {ProfileCard} from "../components/ProfileCard.tsx";
 import {PreferencesCard} from "../components/PreferencesCard.tsx";
 import {useState} from "react";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 
 export function ProfilePage() {
@@ -27,7 +28,19 @@ export function ProfilePage() {
                     <ProfileCard user={user}/>
                 </Box>
                 <Stack flex={1} height={"100%"} spacing={2}>
-                    <PreferencesCard title={"Personal information"} subtitle={"Your account details and identity."}>
+                    <PreferencesCard
+                        title={"Personal information"}
+                        subtitle={"Your account details and identity."}
+                        headerActionButton={
+                            // todo edit
+                            <IconButton
+                                aria-label={"Edit Personal Information"}
+                                size="small"
+                                sx={{color: "text.secondary"}}
+                            >
+                                <EditOutlinedIcon fontSize="small"/>
+                            </IconButton>
+                        }>
                         <CardContent>
                             <Stack spacing={5} p={3}>
                                 <Stack direction="row" spacing={4}>
