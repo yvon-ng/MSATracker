@@ -34,7 +34,7 @@ export default function SideMenu({open, setOpen}: SideMenuProps) {
                     disableScrollLock: true,
                 }}
                 sx={{
-                    display: { xs: "block", md: "none" },
+                    display: {xs: "block", md: "none"},
                     "& .MuiDrawer-paper": {
                         width: drawerWidth,
                         boxSizing: "border-box",
@@ -42,13 +42,14 @@ export default function SideMenu({open, setOpen}: SideMenuProps) {
                     },
                 }}
             >
-                <SideMenuContent open={open} items={items} handleDrawerClick={handleDrawerClick} />
+                <SideMenuContent open={open} items={items} handleDrawerClick={handleDrawerClick}
+                                 onNavigate={() => setOpen(false)}/>
             </Drawer>
 
             {/*Desktop Drawer*/}
             <Drawer variant="permanent" open={open}
                     sx={{
-                        display: { xs: "none", md: "block" },
+                        display: {xs: "none", md: "block"},
                         width: open ? drawerWidth : collapsedDrawerWidth,
                         flexShrink: 0,
                         '& .MuiDrawer-paper': {
@@ -59,7 +60,7 @@ export default function SideMenu({open, setOpen}: SideMenuProps) {
                         },
                     }}
             >
-                <SideMenuContent open={open} items={items} handleDrawerClick={handleDrawerClick} />
+                <SideMenuContent open={open} items={items} handleDrawerClick={handleDrawerClick}/>
             </Drawer>
         </Box>
     );

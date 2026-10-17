@@ -22,9 +22,10 @@ interface SideMenuContentProps {
     open: boolean;
     items: { text: string; icon: JSX.Element; url: string }[]
     handleDrawerClick: () => void;
+    onNavigate?: () => void;
 }
 
-export function SideMenuContent({open, items, handleDrawerClick}: SideMenuContentProps) {
+export function SideMenuContent({open, items, handleDrawerClick, onNavigate}: SideMenuContentProps) {
     const navigate = useNavigate();
     const location = useLocation();
     const {user} = UserAuth();
@@ -32,6 +33,7 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
 
     const handleClick = (url: string) => {
         navigate(url);
+        onNavigate?.();
     }
 
     const activeIndex = items.findIndex(
@@ -159,7 +161,7 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
                     />
                 )}
                 <ListItemButton
-                    onClick={() => navigate("/profile")}
+                    onClick={() => handleClick("profile")}
                     aria-label="Profile"
                     sx={{
                         px: 2,
