@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getProfilePictureUrl } from "./storageServices.ts";
+import { getProfilePictureUrl } from "../services/storageServices.ts";
 
 export function useProfilePicture(path: string) {
     const { data: profilePictureUrl } = useSuspenseQuery({

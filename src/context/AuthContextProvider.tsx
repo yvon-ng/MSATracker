@@ -2,7 +2,7 @@ import {type ReactNode, useContext, useEffect, useState} from "react";
 import { AuthContext } from "./AuthContext.ts";
 import {supabase} from "../lib/supabaseClient.ts";
 import type {User as SupabaseUser} from "@supabase/supabase-js";
-import type { User } from "../model/user.ts";
+import type { User } from "../model/User.ts";
 
 interface UserContextProviderProps {
     children: ReactNode

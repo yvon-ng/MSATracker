@@ -16,6 +16,7 @@ import type {JSX} from "react";
 import {useLocation, useNavigate} from "react-router";
 import {UserAuth} from "../../context/AuthContextProvider.tsx";
 import {ProfileAvatar} from "../ProfileAvatar.tsx";
+import {usePersonalPreferences} from "../../hooks/UsePersonalPreferences.ts";
 
 interface SideMenuContentProps {
     open: boolean;
@@ -27,6 +28,7 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
     const navigate = useNavigate();
     const location = useLocation();
     const {user} = UserAuth();
+    const {personalPreferences} = usePersonalPreferences(user?.userId);
 
     const handleClick = (url: string) => {
         navigate(url);
@@ -171,7 +173,7 @@ export function SideMenuContent({open, items, handleDrawerClick}: SideMenuConten
 
                     <ListItemText
                         className="menu-text"
-                        primary={user?.username}
+                        primary={personalPreferences?.usernameAsDisplayName ? user?.username : user?.firstName}
                         sx={{
                             display: open ? "block" : "none",
                             "& .MuiListItemText-primary": {

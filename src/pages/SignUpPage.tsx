@@ -1,6 +1,6 @@
 import {useState, type SubmitEvent} from "react";
 import {useNavigate} from "react-router";
-import {useSignUp} from "../hooks/useAuth.ts";
+import {useSignUp} from "../hooks/UseAuth.ts";
 import {AuthLayout} from "../components/auth/AuthLayout.tsx";
 import {AuthForm} from "../components/auth/AuthForm.tsx";
 

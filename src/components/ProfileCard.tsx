@@ -2,7 +2,7 @@ import {alpha, Box, Card, CardContent, Chip, Divider, Stack, Typography} from "@
 import {ProfileAvatar} from "./ProfileAvatar.tsx";
 import theme from "../theme/theme.ts";
 import {StatDisplay} from "./StatDisplay.tsx";
-import type {User} from "../model/user.ts";
+import type {User} from "../model/User.ts";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
 
 interface ProfileCardProps {

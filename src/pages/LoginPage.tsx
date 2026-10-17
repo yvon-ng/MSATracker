@@ -1,6 +1,6 @@
 import {useState, type SubmitEvent} from "react";
 import {useLocation, useNavigate} from "react-router";
-import {useLogIn} from "../hooks/useAuth.ts";
+import {useLogIn} from "../hooks/UseAuth.ts";
 import {AuthLayout} from "../components/auth/AuthLayout.tsx";
 import {AuthForm} from "../components/auth/AuthForm.tsx";
 import {Alert, Snackbar, Typography} from "@mui/material";

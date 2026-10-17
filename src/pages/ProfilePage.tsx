@@ -10,14 +10,18 @@ import {
 import {UserAuth} from "../context/AuthContextProvider.tsx";
 import {ProfileCard} from "../components/ProfileCard.tsx";
 import {PreferencesCard} from "../components/PreferencesCard.tsx";
-import {useState} from "react";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-
+import {usePersonalPreferences, useUpdatePersonalPreferences} from "../hooks/UsePersonalPreferences.ts";
+import type {UpdatePersonalPreferenceseDto} from "../model/PersonalPreferences.ts";
 
 export function ProfilePage() {
     const {user} = UserAuth()
-    const [showMediaBackdrop, setShowMediaBackdrop] = useState(false);
-    const [useUsername, setUseUsername] = useState(true);
+    const {personalPreferences} = usePersonalPreferences(user?.userId);
+    const {updatePersonalPreferences} = useUpdatePersonalPreferences(user?.userId);
+
+    const handlePreferenceChange = (preference: keyof UpdatePersonalPreferenceseDto, value: boolean) => {
+        updatePersonalPreferences({[preference]: value,});
+    };
 
     return (
         <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 8}}>
@@ -120,8 +124,14 @@ export function ProfilePage() {
                                         labelPlacement="start"
                                         control={
                                             <Switch
-                                                checked={showMediaBackdrop}
-                                                onChange={(event) => setShowMediaBackdrop(event.target.checked)}
+                                                checked={personalPreferences?.showMediaBackdrop}
+                                                disabled={!personalPreferences}
+                                                onChange={(event) =>
+                                                    handlePreferenceChange(
+                                                        "showMediaBackdrop",
+                                                        event.target.checked,
+                                                    )
+                                                }
                                                 sx={{
                                                     width: 50,
                                                     height: 26,
@@ -165,8 +175,14 @@ export function ProfilePage() {
                                         labelPlacement="start"
                                         control={
                                             <Switch
-                                                checked={useUsername}
-                                                onChange={(event) => setUseUsername(event.target.checked)}
+                                                checked={personalPreferences?.usernameAsDisplayName}
+                                                disabled={!personalPreferences}
+                                                onChange={(event) =>
+                                                    handlePreferenceChange(
+                                                        "usernameAsDisplayName",
+                                                        event.target.checked,
+                                                    )
+                                                }
                                                 sx={{
                                                     width: 50,
                                                     height: 26,
@@ -201,8 +217,9 @@ export function ProfilePage() {
                                             justifyContent: "space-between",
                                         }}
                                     />
-                                    <Typography variant={"caption"} color={"textSecondary"}>Turn off to use your first name
-                                        as your display name across the app. (Make sure to have filled in your details above.)</Typography>
+                                    <Typography variant={"caption"} color={"textSecondary"}>Turn off to use your first
+                                        name as your display name across the app. (Make sure to have filled in your
+                                        details above.)</Typography>
                                 </Box>
                             </Stack>
                         </CardContent>

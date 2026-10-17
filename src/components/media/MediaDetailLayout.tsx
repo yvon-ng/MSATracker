@@ -5,7 +5,8 @@ import {MediaTrailer} from "./MediaTrailer.tsx";
 import {type MovieDetails, type TVSeriesDetails} from "@lorenzopant/tmdb";
 import {MediaStats} from "./MediaStats.tsx";
 import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
-import {useState} from "react";
+import {usePersonalPreferences} from "../../hooks/UsePersonalPreferences.ts";
+import {UserAuth} from "../../context/AuthContextProvider.tsx";
 
 type MediaDetailLayoutProps =
     | { media: MovieDetails; isMovie: true }
@@ -13,7 +14,8 @@ type MediaDetailLayoutProps =
 
 export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
     //TODO should come from db
-    const [showMediaBackdrop, setShowMediaBackdrop] = useState(true);
+    const {user} = UserAuth();
+    const {personalPreferences} = usePersonalPreferences(user?.userId);
     const backdrop = media.backdrop_path ? `${IMAGE_BASE_URL}${media.backdrop_path}` : undefined;
 
     return (
@@ -22,7 +24,7 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
                 position: "relative",
                 isolation: "isolate",
                 overflow: "hidden",
-                ...(showMediaBackdrop && backdrop && {
+                ...(personalPreferences?.showMediaBackdrop && backdrop && {
                     "&::before": {
                         content: '""',
                         position: "absolute",

@@ -6,11 +6,9 @@ export async function logInWithEmail(email: string, password: string) {
         password: password,
     });
 
-    if (error) {
-        throw error;
-    }
+    if (error) throw error;
 
-    return {data, error};
+    return {data};
 }
 
 export async function signUpNewUser(email: string, password: string, firstName: string, lastName: string, userName: string) {
@@ -28,9 +26,7 @@ export async function signUpNewUser(email: string, password: string, firstName: 
         },
     })
 
-    if (error) {
-        throw error;
-    }
+    if (error) throw error;
 
-    return {data, error};
+    return {data};
 }

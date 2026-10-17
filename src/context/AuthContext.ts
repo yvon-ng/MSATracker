@@ -1,6 +1,6 @@
 import {createContext} from 'react'
 import type {User as SupabaseUser} from "@supabase/supabase-js";
-import type {User} from "../model/user.ts";
+import type {User} from "../model/User.ts";
 
 export interface AuthContextType {
     supabaseUser: SupabaseUser | undefined
