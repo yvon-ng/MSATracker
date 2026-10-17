@@ -141,7 +141,7 @@ export function SideMenuContent({open, items, handleDrawerClick, onNavigate}: Si
             </Box>
 
             {/* Bottom section */}
-            <Box sx={{flexShrink: 0}} position={"relative"}>
+            <Box sx={{flexShrink: 0}} position={"relative"} my={1}>
                 <Divider sx={{display: "block", mx: 2}}/>
                 {/*TODO maybe better way so it has transition*/}
                 {isProfileActive && (

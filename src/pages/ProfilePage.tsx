@@ -1,23 +1,17 @@
 import {PageHeader} from "../components/PageHeader.tsx";
 import {
-    Alert,
     Box,
-    CardContent, IconButton,
-    InputAdornment,
+    CardContent,
     Stack,
-    TextField, Tooltip,
-    Typography
 } from "@mui/material";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
 import {ProfileCard} from "../components/ProfileCard.tsx";
 import {PreferencesCard} from "../components/PreferencesCard.tsx";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {useUpdateUser} from "../hooks/useUser.ts";
-import {useState} from "react";
+import {type SubmitEvent, useState} from "react";
 import type {UpdateUserDto} from "../model/User.ts";
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import {SwitchSetting} from "../components/SwitchSetting.tsx";
+import {PersonalInformationForm} from "../components/PersonalInformationForm.tsx";
 
 export function ProfilePage() {
     const {user} = UserAuth()
@@ -45,7 +39,8 @@ export function ProfilePage() {
         }));
     };
 
-    const handleSave = () => {
+    const handleSave = (e: SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
         updateUser(formValues, {
             onSuccess: () => {
                 setIsEditing(false);
@@ -73,150 +68,24 @@ export function ProfilePage() {
                     <PreferencesCard
                         title={"Personal information"}
                         subtitle={"Your account details and identity."}
-                        headerActionButton={
-                            <Tooltip placement={"left"} arrow
-                                     title={isEditing ? "Cancel editing" : "Edit personal information"}>
-                                <IconButton
-                                    aria-label={isEditing ? "Cancel editing personal information" : "Edit personal information"}
-                                    size="medium"
-                                    onClick={isEditing ? handleCancel : handleStartEditing}
-                                    sx={{color: "text.secondary"}}
-                                    disabled={isPending}
-                                >
-                                    {isEditing ? (<CloseOutlinedIcon fontSize="medium"/>) : (
-                                        <EditOutlinedIcon fontSize="medium"/>)}
-                                </IconButton>
-                            </Tooltip>
-                        }>
-                        <CardContent>
-                            <Stack spacing={5} p={3}>
-                                <Stack direction={{xs: "column", sm: "row", md: "column", lg: "row"}} spacing={4}>
-                                    <Stack spacing={1} flex={1}>
-                                        <Typography variant={"caption"} color={"textSecondary"}>First name</Typography>
-                                        <TextField
-                                            fullWidth
-                                            variant="outlined"
-                                            disabled={!isEditing || isPending}
-                                            value={isEditing
-                                                ? formValues.firstName
-                                                : user?.firstName ?? ""
-                                            }
-                                            onChange={(event) =>
-                                                handleFieldChange("firstName", event.target.value)
-                                            }
-                                            sx={{
-                                                "& .MuiOutlinedInput-root": {
-                                                    borderRadius: 2,
-                                                },
-                                                "& .MuiInputBase-input": {
-                                                    fontSize: "0.8rem",
-                                                },
-                                            }}
-                                        />
-                                    </Stack>
-                                    <Stack spacing={1} flex={1}>
-                                        <Typography variant={"caption"} color={"textSecondary"}>Last name</Typography>
-                                        <TextField
-                                            fullWidth
-                                            variant="outlined"
-                                            disabled={!isEditing || isPending}
-                                            value={isEditing
-                                                ? formValues.lastName
-                                                : user?.lastName ?? ""
-                                            }
-                                            onChange={(event) =>
-                                                handleFieldChange("lastName", event.target.value)
-                                            }
-                                            sx={{
-                                                "& .MuiOutlinedInput-root": {
-                                                    borderRadius: 2,
-                                                },
-                                                "& .MuiInputBase-input": {
-                                                    fontSize: "0.8rem",
-                                                },
-                                            }}
-                                        />
-                                    </Stack>
-                                </Stack>
-                                <Stack direction={{xs: "column", sm: "row", md: "column", lg: "row"}} spacing={4}>
-                                    <Stack spacing={1} flex={1}>
-                                        <Typography variant={"caption"} color={"textSecondary"}>Username</Typography>
-                                        <TextField variant="outlined" disabled value={user?.username ?? ""} fullWidth
-                                                   slotProps={{
-                                                       input: {
-                                                           startAdornment: <InputAdornment position="start"
-                                                                                           sx={{
-                                                                                               alignSelf: "stretch",
-                                                                                               maxHeight: "none",
-                                                                                               px: 1.5,
-                                                                                               bgcolor: "action.hover",
-                                                                                               borderRight: 1,
-                                                                                               borderColor: "divider",
-                                                                                           }}
-                                                           >
-                                                               @
-                                                           </InputAdornment>,
-                                                       },
-                                                   }}
-                                                   sx={{
-                                                       "& .MuiInputBase-input": {
-                                                           fontSize: "0.8rem",
-                                                       },
-                                                       "& .MuiOutlinedInput-root": {
-                                                           pl: 0,
-                                                           borderRadius: 2,
-                                                       },
-                                                   }}
-                                        />
-                                    </Stack>
-                                    <Stack spacing={1} flex={1}>
-                                        <Typography variant={"caption"} color={"textSecondary"}>Email
-                                            address</Typography>
-                                        <TextField variant="outlined" disabled value={user?.email ?? ""}
-                                                   fullWidth
-                                                   sx={{
-                                                       "& .MuiOutlinedInput-root": {
-                                                           borderRadius: 2,
-                                                       },
-                                                       "& .MuiInputBase-input": {
-                                                           fontSize: "0.8rem",
-                                                       },
-                                                   }}
-                                        />
-                                    </Stack>
-                                </Stack>
-                            </Stack>
-                            {/*TODO check how this is displayed*/}
-                            {error && (
-                                <Alert severity="error" sx={{mx: 3, mb: 2}}>
-                                    {error.message}
-                                </Alert>
-                            )}
-
-                            {isEditing && (
-                                <Box display="flex" justifyContent="flex-end" px={3}>
-                                    <Tooltip placement={"left"} arrow
-                                             title={"Save changes"}>
-                                        <IconButton
-                                            aria-label="Save changes"
-                                            onClick={handleSave}
-                                            disabled={isPending}
-                                            sx={{
-                                                color: "secondary.main",
-                                                borderColor: "secondary.main",
-                                                border: "1px solid",
-                                                borderRadius: "100%"
-                                            }}
-                                            size="medium"
-                                        >
-                                            <CheckOutlinedIcon fontSize="medium"/>
-                                        </IconButton>
-                                    </Tooltip>
-                                </Box>
-                            )}
-                        </CardContent>
+                        showEditButton={true}
+                        isEditing={isEditing}
+                        isPending={isPending}
+                        onEdit={handleStartEditing}
+                        onCancel={handleCancel}
+                    >
+                        <PersonalInformationForm
+                            user={user}
+                            formValues={formValues}
+                            isEditing={isEditing}
+                            isPending={isPending}
+                            error={error}
+                            onFieldChange={handleFieldChange}
+                            onSubmit={handleSave}
+                        />
                     </PreferencesCard>
-                    <PreferencesCard title={"Personal preferences"} subtitle={"Manage how the app behaves."}>
+                    <PreferencesCard title={"Personal preferences"} subtitle={"Manage how the app behaves."}
+                                     showEditButton={false}>
                         <CardContent>
                             <Stack spacing={4} p={3}>
                                 <SwitchSetting
