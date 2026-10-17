@@ -14,7 +14,7 @@ export function ProfileCard({user}: ProfileCardProps) {
     const joinedYear = supabaseUser ? new Date(supabaseUser.created_at).getFullYear() : undefined;
 
     return(
-        <Card variant="outlined" sx={{borderRadius: 4, my: 10}}>
+        <Card variant="outlined" sx={{borderRadius: 4, mt:{xs: 10}, mb:{xs: 0}}}>
             <CardContent sx={{textAlign: "center"}}>
                 <Stack spacing={3} justifyContent={"center"} alignItems={"center"} py={3}>
 

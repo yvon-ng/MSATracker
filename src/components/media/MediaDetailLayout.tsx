@@ -20,6 +20,7 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
     return (
         <Box
             sx={{
+                ml: {xs: -5, md: 0},
                 position: "relative",
                 isolation: "isolate",
                 overflow: "hidden",
@@ -34,17 +35,17 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
                         filter: "blur(100px)",
                         zIndex: -1,
                     },
-                "&::after": {
-                    content: '""',
-                    position: "absolute",
-                    inset: 0,
-                    backgroundColor: "rgba(18, 18, 18, 0.65)",
-                    zIndex: -1,
-                },
+                    "&::after": {
+                        content: '""',
+                        position: "absolute",
+                        inset: 0,
+                        backgroundColor: "rgba(18, 18, 18, 0.65)",
+                        zIndex: -1,
+                    },
                 })
             }}
         >
-            <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, md: 8, lg: 0}}>
+            <Box my={10} ml={{xs: 5, md: 8}} mr={{xs: 5, md: 8, lg: 0}}>
                 <Stack direction={{xs: "column", lg: "row"}}>
                     <Stack direction={{xs: "column", md: "row"}} gap={4} width={{lg: "60%"}}>
                         <MediaPoster media={media} isMovie={isMovie}/>

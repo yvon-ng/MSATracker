@@ -21,7 +21,7 @@ export default function AppLayout() {
             <Box
                 component="main"
                 sx={{
-                    ml: {
+                    pl: {
                         xs: 5,
                         md: open
                             ? `${drawerWidth}px`

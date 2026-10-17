@@ -71,7 +71,7 @@ export function ProfilePage() {
 
     return (
         <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 8}}>
-            <Stack direction="row" spacing={10} my={10}>
+            <Stack direction={{xs: "column", md: "row"}} spacing={{xs: 5, xl: 10}} my={10}>
                 <Box>
                     <PageHeader overline={"Account"} title={"Your"} titleSuffix={"Profile."}
                                 subtitle={"Manage how you appear across your library."}/>
@@ -98,7 +98,7 @@ export function ProfilePage() {
                         }>
                         <CardContent>
                             <Stack spacing={5} p={3}>
-                                <Stack direction="row" spacing={4}>
+                                <Stack direction={{xs: "column", sm: "row", md: "column", lg: "row"}} spacing={4}>
                                     <Stack spacing={1} flex={1}>
                                         <Typography variant={"caption"} color={"textSecondary"}>First name</Typography>
                                         <TextField
@@ -140,7 +140,7 @@ export function ProfilePage() {
                                         />
                                     </Stack>
                                 </Stack>
-                                <Stack direction="row" spacing={4}>
+                                <Stack direction={{xs: "column", sm: "row", md: "column", lg: "row"}} spacing={4}>
                                     <Stack spacing={1} flex={1}>
                                         <Typography variant={"caption"} color={"textSecondary"}>Username</Typography>
                                         <TextField variant="outlined" disabled value={user?.username} fullWidth
@@ -161,7 +161,6 @@ export function ProfilePage() {
                                                        },
                                                    }}
                                                    sx={{
-
                                                        "& .MuiInputBase-input": {
                                                            fontSize: "0.8rem",
                                                        },
@@ -220,7 +219,7 @@ export function ProfilePage() {
                     </PreferencesCard>
                     <PreferencesCard title={"Personal preferences"} subtitle={"Manage how the app behaves."}>
                         <CardContent>
-                            <Stack spacing={3} p={3}>
+                            <Stack spacing={6} p={3}>
                                 <Box>
                                     <FormControlLabel
                                         label="Show media backdrop"
@@ -274,7 +273,7 @@ export function ProfilePage() {
                                 </Box>
                                 <Box>
                                     <FormControlLabel
-                                        label="Use username as display name"
+                                        label="Username as display name"
                                         labelPlacement="start"
                                         control={
                                             <Switch
