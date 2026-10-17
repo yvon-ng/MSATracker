@@ -17,7 +17,7 @@ export function usePersonalPreferences(userId: string | undefined) {
 export function useUpdatePersonalPreferences(userId: string | undefined) {
     const queryClient = useQueryClient();
 
-    const {mutate, isPending, isError} = useMutation({
+    const {mutate, isPending, error} = useMutation({
         mutationFn: (preferences: UpdatePersonalPreferencesDto) => {
             if (!userId) throw new Error("You must be logged in to update your personal preferences.");
             return updatePersonalPreferences(userId, preferences);
@@ -33,7 +33,7 @@ export function useUpdatePersonalPreferences(userId: string | undefined) {
 
     return {
         isPending,
-        isError,
+        error,
         updatePersonalPreferences: mutate,
     };
 }

@@ -6,10 +6,12 @@ export interface AuthContextType {
     supabaseUser: SupabaseUser | undefined
     loading: boolean;
     user: User | undefined
+    setUser: (user: User) => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
     supabaseUser: undefined,
     loading: true,
     user: undefined,
+    setUser: () => {},
 })

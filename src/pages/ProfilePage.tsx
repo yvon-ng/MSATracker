@@ -1,10 +1,11 @@
 import {PageHeader} from "../components/PageHeader.tsx";
 import {
+    Alert,
     Box,
     CardContent, FormControlLabel, IconButton,
     InputAdornment,
     Stack, Switch,
-    TextField,
+    TextField, Tooltip,
     Typography
 } from "@mui/material";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
@@ -13,14 +14,59 @@ import {PreferencesCard} from "../components/PreferencesCard.tsx";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {usePersonalPreferences, useUpdatePersonalPreferences} from "../hooks/UsePersonalPreferences.ts";
 import type {UpdatePersonalPreferencesDto} from "../model/PersonalPreferences.ts";
+import {useUpdateUser} from "../hooks/useUser.ts";
+import {useState} from "react";
+import type {UpdateUserDto} from "../model/User.ts";
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
 export function ProfilePage() {
     const {user} = UserAuth()
     const {personalPreferences} = usePersonalPreferences(user?.userId);
     const {updatePersonalPreferences} = useUpdatePersonalPreferences(user?.userId);
+    const {updateUser, isPending, error} = useUpdateUser(user?.userId);
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [formValues, setFormValues] = useState<UpdateUserDto>({
+        firstName: user?.firstName ?? "",
+        lastName: user?.lastName ?? "",
+    });
+
+    const handleStartEditing = () => {
+        setFormValues({
+            firstName: user?.firstName ?? "",
+            lastName: user?.lastName ?? "",
+        });
+
+        setIsEditing(true);
+    };
 
     const handlePreferenceChange = (preference: keyof UpdatePersonalPreferencesDto, value: boolean) => {
         updatePersonalPreferences({[preference]: value,});
+    };
+
+
+    const handleFieldChange = (field: keyof UpdateUserDto, value: string) => {
+        setFormValues((previous) => ({
+            ...previous,
+            [field]: value,
+        }));
+    };
+
+    const handleSave = () => {
+        updateUser(formValues, {
+            onSuccess: () => {
+                setIsEditing(false);
+            },
+        });
+    };
+
+    const handleCancel = () => {
+        setFormValues({
+            firstName: user?.firstName ?? "",
+            lastName: user?.lastName ?? "",
+        });
+        setIsEditing(false);
     };
 
     return (
@@ -36,36 +82,61 @@ export function ProfilePage() {
                         title={"Personal information"}
                         subtitle={"Your account details and identity."}
                         headerActionButton={
-                            // todo user should be able to edit info
-                            <IconButton
-                                aria-label={"Edit Personal Information"}
-                                size="small"
-                                sx={{color: "text.secondary"}}
-                            >
-                                <EditOutlinedIcon fontSize="small"/>
-                            </IconButton>
+                            <Tooltip placement={"left"} arrow
+                                     title={isEditing ? "Cancel editing" : "Edit personal information"}>
+                                <IconButton
+                                    aria-label={isEditing ? "Cancel editing personal information" : "Edit personal information"}
+                                    size="medium"
+                                    onClick={isEditing ? handleCancel : handleStartEditing}
+                                    sx={{color: "text.secondary"}}
+                                    disabled={isPending}
+                                >
+                                    {isEditing ? (<CloseOutlinedIcon fontSize="medium"/>) : (
+                                        <EditOutlinedIcon fontSize="medium"/>)}
+                                </IconButton>
+                            </Tooltip>
                         }>
                         <CardContent>
                             <Stack spacing={5} p={3}>
                                 <Stack direction="row" spacing={4}>
                                     <Stack spacing={1} flex={1}>
                                         <Typography variant={"caption"} color={"textSecondary"}>First name</Typography>
-                                        <TextField variant="outlined" disabled value={user?.firstName} fullWidth
-                                                   sx={{
-                                                       "& .MuiInputBase-input": {
-                                                           fontSize: "0.8rem",
-                                                       },
-                                                   }}
+                                        <TextField
+                                            fullWidth
+                                            variant="outlined"
+                                            disabled={!isEditing || isPending}
+                                            value={formValues.firstName}
+                                            onChange={(event) =>
+                                                handleFieldChange("firstName", event.target.value)
+                                            }
+                                            sx={{
+                                                "& .MuiOutlinedInput-root": {
+                                                    borderRadius: 2,
+                                                },
+                                                "& .MuiInputBase-input": {
+                                                    fontSize: "0.8rem",
+                                                },
+                                            }}
                                         />
                                     </Stack>
                                     <Stack spacing={1} flex={1}>
                                         <Typography variant={"caption"} color={"textSecondary"}>Last name</Typography>
-                                        <TextField variant="outlined" disabled value={user?.lastName} fullWidth
-                                                   sx={{
-                                                       "& .MuiInputBase-input": {
-                                                           fontSize: "0.8rem",
-                                                       },
-                                                   }}
+                                        <TextField
+                                            fullWidth
+                                            variant="outlined"
+                                            disabled={!isEditing || isPending}
+                                            value={formValues.lastName}
+                                            onChange={(event) =>
+                                                handleFieldChange("lastName", event.target.value)
+                                            }
+                                            sx={{
+                                                "& .MuiOutlinedInput-root": {
+                                                    borderRadius: 2,
+                                                },
+                                                "& .MuiInputBase-input": {
+                                                    fontSize: "0.8rem",
+                                                },
+                                            }}
                                         />
                                     </Stack>
                                 </Stack>
@@ -90,11 +161,13 @@ export function ProfilePage() {
                                                        },
                                                    }}
                                                    sx={{
+
                                                        "& .MuiInputBase-input": {
                                                            fontSize: "0.8rem",
                                                        },
                                                        "& .MuiOutlinedInput-root": {
                                                            pl: 0,
+                                                           borderRadius: 2,
                                                        },
                                                    }}
                                         />
@@ -104,6 +177,9 @@ export function ProfilePage() {
                                             address</Typography>
                                         <TextField variant="outlined" disabled value={user?.email} fullWidth
                                                    sx={{
+                                                       "& .MuiOutlinedInput-root": {
+                                                           borderRadius: 2,
+                                                       },
                                                        "& .MuiInputBase-input": {
                                                            fontSize: "0.8rem",
                                                        },
@@ -112,6 +188,34 @@ export function ProfilePage() {
                                     </Stack>
                                 </Stack>
                             </Stack>
+                            {/*TODO check how this is displayed*/}
+                            {error && (
+                                <Alert severity="error" sx={{mx: 3, mb: 2}}>
+                                    {error.message}
+                                </Alert>
+                            )}
+
+                            {isEditing && (
+                                <Box display="flex" justifyContent="flex-end" px={3}>
+                                    <Tooltip placement={"left"} arrow
+                                             title={"Save changes"}>
+                                        <IconButton
+                                            aria-label="Save changes"
+                                            onClick={handleSave}
+                                            disabled={isPending}
+                                            sx={{
+                                                color: "secondary.main",
+                                                borderColor: "secondary.main",
+                                                border: "1px solid",
+                                                borderRadius: "100%"
+                                            }}
+                                            size="medium"
+                                        >
+                                            <CheckOutlinedIcon fontSize="medium"/>
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                            )}
                         </CardContent>
                     </PreferencesCard>
                     <PreferencesCard title={"Personal preferences"} subtitle={"Manage how the app behaves."}>

@@ -34,6 +34,7 @@ export function SignUpPage() {
     }
 
     return (
+        //TODO ON SIGN UP HANDLE ERROR MESSAGE FOR UNIQUE USERNAME
         <AuthLayout>
             <AuthForm
                 title="Create your"

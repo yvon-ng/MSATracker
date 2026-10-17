@@ -91,7 +91,7 @@ export const AuthContextProvider = ({children}: UserContextProviderProps) => {
     }, [supabaseUser]);
 
     return (
-        <AuthContext.Provider value={{supabaseUser, loading, user}}>
+        <AuthContext.Provider value={{supabaseUser, loading, user, setUser}}>
             {children}
         </AuthContext.Provider>
     )

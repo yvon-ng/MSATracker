@@ -18,6 +18,7 @@ export function ProfileCard({user}: ProfileCardProps) {
             <CardContent sx={{textAlign: "center"}}>
                 <Stack spacing={3} justifyContent={"center"} alignItems={"center"} py={3}>
 
+                    {/*TODO enable user to upload own picture*/}
                     <ProfileAvatar size={100} />
 
                     <Box>
