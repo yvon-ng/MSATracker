@@ -105,7 +105,10 @@ export function ProfilePage() {
                                             fullWidth
                                             variant="outlined"
                                             disabled={!isEditing || isPending}
-                                            value={formValues.firstName}
+                                            value={isEditing
+                                                ? formValues.firstName
+                                                : user?.firstName ?? ""
+                                            }
                                             onChange={(event) =>
                                                 handleFieldChange("firstName", event.target.value)
                                             }
@@ -125,7 +128,10 @@ export function ProfilePage() {
                                             fullWidth
                                             variant="outlined"
                                             disabled={!isEditing || isPending}
-                                            value={formValues.lastName}
+                                            value={isEditing
+                                                ? formValues.lastName
+                                                : user?.lastName ?? ""
+                                            }
                                             onChange={(event) =>
                                                 handleFieldChange("lastName", event.target.value)
                                             }
@@ -143,7 +149,7 @@ export function ProfilePage() {
                                 <Stack direction={{xs: "column", sm: "row", md: "column", lg: "row"}} spacing={4}>
                                     <Stack spacing={1} flex={1}>
                                         <Typography variant={"caption"} color={"textSecondary"}>Username</Typography>
-                                        <TextField variant="outlined" disabled value={user?.username} fullWidth
+                                        <TextField variant="outlined" disabled value={user?.username ?? ""} fullWidth
                                                    slotProps={{
                                                        input: {
                                                            startAdornment: <InputAdornment position="start"
@@ -174,7 +180,8 @@ export function ProfilePage() {
                                     <Stack spacing={1} flex={1}>
                                         <Typography variant={"caption"} color={"textSecondary"}>Email
                                             address</Typography>
-                                        <TextField variant="outlined" disabled value={user?.email} fullWidth
+                                        <TextField variant="outlined" disabled value={user?.email ?? ""}
+                                                   fullWidth
                                                    sx={{
                                                        "& .MuiOutlinedInput-root": {
                                                            borderRadius: 2,
@@ -226,7 +233,7 @@ export function ProfilePage() {
                                         labelPlacement="start"
                                         control={
                                             <Switch
-                                                checked={personalPreferences?.showMediaBackdrop}
+                                                checked={personalPreferences?.showMediaBackdrop ?? false}
                                                 disabled={!personalPreferences}
                                                 onChange={(event) =>
                                                     handlePreferenceChange(
@@ -273,11 +280,11 @@ export function ProfilePage() {
                                 </Box>
                                 <Box>
                                     <FormControlLabel
-                                        label="Username as display name"
+                                        label="Username for display"
                                         labelPlacement="start"
                                         control={
                                             <Switch
-                                                checked={personalPreferences?.usernameAsDisplayName}
+                                                checked={personalPreferences?.usernameAsDisplayName ?? false}
                                                 disabled={!personalPreferences}
                                                 onChange={(event) =>
                                                     handlePreferenceChange(

@@ -58,7 +58,7 @@ export function SideMenuContent({open, items, handleDrawerClick, onNavigate}: Si
                 mb={3}
             >
                 <IconButton onClick={handleDrawerClick}>
-                    {open ? <ChevronLeftIcon/> : <MenuIcon/>}
+                    {open ? <ChevronLeftIcon sx={{color: "text.disabled"}}/> : <MenuIcon sx={{color: "text.disabled"}}/>}
                 </IconButton>
             </Box>
             <Typography variant="caption" color="textSecondary" ml={3} letterSpacing={"0.15em"}

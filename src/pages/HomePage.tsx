@@ -4,6 +4,7 @@ import {useGetTrendingMedia} from "../hooks/UseTMDBs.ts";
 import {MediaCard} from "../components/media/MediaCard.tsx";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
 import {usePersonalPreferences} from "../hooks/UsePersonalPreferences.ts";
+import { getFormattedDate, getGreeting } from "../utils/dateUtils.ts";
 
 export function HomePage() {
     const {media} = useGetTrendingMedia();
@@ -11,18 +12,18 @@ export function HomePage() {
         item => item.media_type === "movie" || item.media_type === "tv"
     ) ?? [];
 
-    const date = new Date();
-    const formattedDate = date.toLocaleDateString("en-US", {
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-    });
+    const formattedDate = getFormattedDate();
+    const greeting = getGreeting();
     const {user} = UserAuth()
     const {personalPreferences} = usePersonalPreferences(user?.userId);
 
+    const displayName = personalPreferences?.usernameAsDisplayName ? user?.username : user?.firstName;
+    const titleSuffix = displayName ? `${displayName}.` : ""; //dont show the dot when no first name
+
     return (
         <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 0}}>
-            <PageHeader overline={formattedDate} title={"Good evening,"} titleSuffix={`${personalPreferences?.usernameAsDisplayName ? user?.username : user?.firstName}.`}
+            <PageHeader overline={formattedDate} title={greeting}
+                        titleSuffix={titleSuffix}
                         subtitle={"Pick up where you left off or discover something new."}/>
             <Stack direction="row" flexWrap={"wrap"} gap={3} my={{xs: 10}}>
                 {titles.map(item => (
