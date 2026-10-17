@@ -2,9 +2,9 @@ import {PageHeader} from "../components/PageHeader.tsx";
 import {
     Alert,
     Box,
-    CardContent, FormControlLabel, IconButton,
+    CardContent, IconButton,
     InputAdornment,
-    Stack, Switch,
+    Stack,
     TextField, Tooltip,
     Typography
 } from "@mui/material";
@@ -12,18 +12,15 @@ import {UserAuth} from "../context/AuthContextProvider.tsx";
 import {ProfileCard} from "../components/ProfileCard.tsx";
 import {PreferencesCard} from "../components/PreferencesCard.tsx";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import {usePersonalPreferences, useUpdatePersonalPreferences} from "../hooks/UsePersonalPreferences.ts";
-import type {UpdatePersonalPreferencesDto} from "../model/PersonalPreferences.ts";
 import {useUpdateUser} from "../hooks/useUser.ts";
 import {useState} from "react";
 import type {UpdateUserDto} from "../model/User.ts";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import {SwitchSetting} from "../components/SwitchSetting.tsx";
 
 export function ProfilePage() {
     const {user} = UserAuth()
-    const {personalPreferences} = usePersonalPreferences(user?.userId);
-    const {updatePersonalPreferences} = useUpdatePersonalPreferences(user?.userId);
     const {updateUser, isPending, error} = useUpdateUser(user?.userId);
     const [isEditing, setIsEditing] = useState(false);
 
@@ -40,11 +37,6 @@ export function ProfilePage() {
 
         setIsEditing(true);
     };
-
-    const handlePreferenceChange = (preference: keyof UpdatePersonalPreferencesDto, value: boolean) => {
-        updatePersonalPreferences({[preference]: value,});
-    };
-
 
     const handleFieldChange = (field: keyof UpdateUserDto, value: string) => {
         setFormValues((previous) => ({
@@ -226,110 +218,20 @@ export function ProfilePage() {
                     </PreferencesCard>
                     <PreferencesCard title={"Personal preferences"} subtitle={"Manage how the app behaves."}>
                         <CardContent>
-                            <Stack spacing={6} p={3}>
-                                <Box>
-                                    <FormControlLabel
-                                        label="Show media backdrop"
-                                        labelPlacement="start"
-                                        control={
-                                            <Switch
-                                                checked={personalPreferences?.showMediaBackdrop ?? false}
-                                                disabled={!personalPreferences}
-                                                onChange={(event) =>
-                                                    handlePreferenceChange(
-                                                        "showMediaBackdrop",
-                                                        event.target.checked,
-                                                    )
-                                                }
-                                                sx={{
-                                                    width: 50,
-                                                    height: 26,
-                                                    padding: 0,
-                                                    "& .MuiSwitch-switchBase": {
-                                                        padding: "3px",
-                                                        "&.Mui-checked": {
-                                                            transform: "translateX(25px)",
-                                                            color: "#fff",
-                                                            "& + .MuiSwitch-track": {
-                                                                backgroundColor: "secondary.main",
-                                                                opacity: 1,
-                                                            },
-                                                        },
-                                                    },
-                                                    "& .MuiSwitch-thumb": {
-                                                        width: 20,
-                                                        height: 20,
-                                                        boxShadow: "none",
-                                                    },
-                                                    "& .MuiSwitch-track": {
-                                                        borderRadius: 13,
-                                                        backgroundColor: "#80848E",
-                                                        opacity: 1,
-                                                    },
-                                                }}
-                                            />
-                                        }
-                                        sx={{
-                                            m: 0,
-                                            width: "100%",
-                                            justifyContent: "space-between",
-                                        }}
-                                    />
-                                    <Typography variant={"caption"} color={"textSecondary"}>When turned on shows the
-                                        media backdrop as a background in the detail page.</Typography>
-                                </Box>
-                                <Box>
-                                    <FormControlLabel
-                                        label="Username for display"
-                                        labelPlacement="start"
-                                        control={
-                                            <Switch
-                                                checked={personalPreferences?.usernameAsDisplayName ?? false}
-                                                disabled={!personalPreferences}
-                                                onChange={(event) =>
-                                                    handlePreferenceChange(
-                                                        "usernameAsDisplayName",
-                                                        event.target.checked,
-                                                    )
-                                                }
-                                                sx={{
-                                                    width: 50,
-                                                    height: 26,
-                                                    padding: 0,
-                                                    "& .MuiSwitch-switchBase": {
-                                                        padding: "3px",
-                                                        "&.Mui-checked": {
-                                                            transform: "translateX(25px)",
-                                                            color: "#fff",
-                                                            "& + .MuiSwitch-track": {
-                                                                backgroundColor: "secondary.main",
-                                                                opacity: 1,
-                                                            },
-                                                        },
-                                                    },
-                                                    "& .MuiSwitch-thumb": {
-                                                        width: 20,
-                                                        height: 20,
-                                                        boxShadow: "none",
-                                                    },
-                                                    "& .MuiSwitch-track": {
-                                                        borderRadius: 13,
-                                                        backgroundColor: "#80848E",
-                                                        opacity: 1,
-                                                    },
-                                                }}
-                                            />
-                                        }
-                                        sx={{
-                                            m: 0,
-                                            width: "100%",
-                                            justifyContent: "space-between",
-                                        }}
-                                    />
-                                    <Typography variant={"caption"} color={"textSecondary"}>Turn off to use your first
-                                        name as your display name across the app. (Make sure to have filled in your
-                                        details above.)</Typography>
-                                </Box>
+                            <Stack spacing={4} p={3}>
+                                <SwitchSetting
+                                    userId={user?.userId}
+                                    title="Show media backdrop"
+                                    description="Show the media backdrop as a background on the detail page."
+                                    preferenceKey="showMediaBackdrop"
+                                />
+
+                                <SwitchSetting
+                                    userId={user?.userId}
+                                    title="Username as display name"
+                                    description="Use your username instead of your first name across the app."
+                                    preferenceKey="usernameAsDisplayName"
+                                />
                             </Stack>
                         </CardContent>
                     </PreferencesCard>
