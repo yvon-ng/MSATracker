@@ -12,14 +12,14 @@ import {ProfileCard} from "../components/ProfileCard.tsx";
 import {PreferencesCard} from "../components/PreferencesCard.tsx";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {usePersonalPreferences, useUpdatePersonalPreferences} from "../hooks/UsePersonalPreferences.ts";
-import type {UpdatePersonalPreferenceseDto} from "../model/PersonalPreferences.ts";
+import type {UpdatePersonalPreferencesDto} from "../model/PersonalPreferences.ts";
 
 export function ProfilePage() {
     const {user} = UserAuth()
     const {personalPreferences} = usePersonalPreferences(user?.userId);
     const {updatePersonalPreferences} = useUpdatePersonalPreferences(user?.userId);
 
-    const handlePreferenceChange = (preference: keyof UpdatePersonalPreferenceseDto, value: boolean) => {
+    const handlePreferenceChange = (preference: keyof UpdatePersonalPreferencesDto, value: boolean) => {
         updatePersonalPreferences({[preference]: value,});
     };
 
@@ -118,7 +118,6 @@ export function ProfilePage() {
                         <CardContent>
                             <Stack spacing={3} p={3}>
                                 <Box>
-                                    {/*TODO needs to be added to database*/}
                                     <FormControlLabel
                                         label="Show media backdrop"
                                         labelPlacement="start"

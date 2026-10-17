@@ -1,5 +1,5 @@
 import {supabase} from "../lib/supabaseClient.ts";
-import type {PersonalPreferences, UpdatePersonalPreferenceseDto} from "../model/PersonalPreferences.ts";
+import type {PersonalPreferences, UpdatePersonalPreferencesDto} from "../model/PersonalPreferences.ts";
 
 export async function getPersonalPreferences(userId: string): Promise<PersonalPreferences> {
     const {data, error} = await supabase
@@ -11,13 +11,12 @@ export async function getPersonalPreferences(userId: string): Promise<PersonalPr
     if (error) throw error;
 
     return {
-        personalPreferencesId: data.personal_preferences_id,
         showMediaBackdrop: data.show_media_backdrop,
         usernameAsDisplayName: data.username_as_display_name
     };
 }
 
-export async function updatePersonalPreferences(userId: string, preferences: UpdatePersonalPreferenceseDto): Promise<PersonalPreferences> {
+export async function updatePersonalPreferences(userId: string, preferences: UpdatePersonalPreferencesDto): Promise<PersonalPreferences> {
     const updates = {
         ...(preferences.showMediaBackdrop !== undefined && {
             show_media_backdrop: preferences.showMediaBackdrop,
@@ -37,7 +36,6 @@ export async function updatePersonalPreferences(userId: string, preferences: Upd
     if (error) throw error;
 
     return {
-        personalPreferencesId: data.personal_preferences_id,
         showMediaBackdrop: data.show_media_backdrop,
         usernameAsDisplayName: data.username_as_display_name,
     };

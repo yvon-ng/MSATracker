@@ -1,6 +1,6 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {getPersonalPreferences, updatePersonalPreferences} from "../services/personalPreferencesServices.ts";
-import type {UpdatePersonalPreferenceseDto} from "../model/PersonalPreferences.ts";
+import type {UpdatePersonalPreferencesDto} from "../model/PersonalPreferences.ts";
 
 export function usePersonalPreferences(userId: string | undefined) {
     const {data: personalPreferences} = useQuery({
@@ -18,7 +18,7 @@ export function useUpdatePersonalPreferences(userId: string | undefined) {
     const queryClient = useQueryClient();
 
     const {mutate, isPending, isError} = useMutation({
-        mutationFn: (preferences: UpdatePersonalPreferenceseDto) => {
+        mutationFn: (preferences: UpdatePersonalPreferencesDto) => {
             if (!userId) throw new Error("You must be logged in to update your personal preferences.");
             return updatePersonalPreferences(userId, preferences);
         },
