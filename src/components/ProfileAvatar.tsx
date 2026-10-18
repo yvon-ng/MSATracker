@@ -1,19 +1,21 @@
-import {Avatar} from "@mui/material";
+import {Avatar, type SxProps, type Theme} from "@mui/material";
 import {useProfilePicture} from "../hooks/UseProfilePicture.ts";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
 import PersonIcon from "@mui/icons-material/Person";
 
 interface ProfileAvatarProps {
     size: number;
+    sx?: SxProps<Theme>;
 }
 
 interface AvatarWithPicture {
     path: string;
     username: string
     size: number
+    sx?: SxProps<Theme>;
 }
 
-function AvatarWithPicture({path, username, size,}: AvatarWithPicture) {
+function AvatarWithPicture({path, username, size, sx}: AvatarWithPicture) {
     const {profilePictureUrl} = useProfilePicture(path);
 
     return (
@@ -23,16 +25,13 @@ function AvatarWithPicture({path, username, size,}: AvatarWithPicture) {
             sx={{
                 width: size,
                 height: size,
-                bgcolor: "background.default",
-                color: "secondary.main",
-                borderColor: "secondary",
-                border: "1px solid"
+                ...sx,
             }}
         />
     );
 }
 
-export function ProfileAvatar({size}: ProfileAvatarProps) {
+export function ProfileAvatar({size, sx}: ProfileAvatarProps) {
     const {user} = UserAuth();
 
     if (user?.profilePicture) {
@@ -41,6 +40,7 @@ export function ProfileAvatar({size}: ProfileAvatarProps) {
                 path={user.profilePicture}
                 username={user.username}
                 size={size}
+                sx={sx}
             />
         );
     }
@@ -53,11 +53,11 @@ export function ProfileAvatar({size}: ProfileAvatarProps) {
                 height: size,
                 bgcolor: "background.default",
                 color: "secondary.main",
-                borderColor: "secondary",
-                border: "1px solid",
+                border: "2px solid",
+                borderColor: "secondary.main",
             }}
         >
-            <PersonIcon sx={{ fontSize: size * 0.65 }} />
+            <PersonIcon sx={{fontSize: size * 0.65}} color={"secondary"}/>
         </Avatar>
     );
 }

@@ -58,7 +58,8 @@ export function SideMenuContent({open, items, handleDrawerClick, onNavigate}: Si
                 mb={3}
             >
                 <IconButton onClick={handleDrawerClick}>
-                    {open ? <ChevronLeftIcon sx={{color: "text.disabled"}}/> : <MenuIcon sx={{color: "text.disabled"}}/>}
+                    {open ? <ChevronLeftIcon sx={{color: "text.disabled"}}/> :
+                        <MenuIcon sx={{color: "text.disabled"}}/>}
                 </IconButton>
             </Box>
             <Typography variant="caption" color="textSecondary" ml={3} letterSpacing={"0.15em"}
@@ -171,7 +172,9 @@ export function SideMenuContent({open, items, handleDrawerClick, onNavigate}: Si
                         },
                     }}
                 >
-                    <Box sx={{mr: open ? 3 : "auto", flexShrink: 0}}><ProfileAvatar size={35}/></Box>
+                    <Box sx={{mr: open ? 3 : "auto", flexShrink: 0}}>
+                        <ProfileAvatar size={35}/>
+                    </Box>
 
                     <ListItemText
                         className="menu-text"

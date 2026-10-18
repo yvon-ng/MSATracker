@@ -84,7 +84,7 @@ export function ProfilePage() {
                             onSubmit={handleSave}
                         />
                     </PreferencesCard>
-                    <PreferencesCard title={"Personal preferences"} subtitle={"Manage how the app behaves."}
+                    <PreferencesCard title={"Personal preferences"} subtitle={"Control how the app behaves."}
                                      showEditButton={false}>
                         <CardContent>
                             <Stack spacing={4} p={3}>

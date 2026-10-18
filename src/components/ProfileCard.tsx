@@ -1,9 +1,10 @@
-import {alpha, Box, Card, CardContent, Chip, Divider, Stack, Typography} from "@mui/material";
+import {alpha, Badge, Box, Card, CardContent, Chip, Divider, Stack, Typography} from "@mui/material";
 import {ProfileAvatar} from "./ProfileAvatar.tsx";
 import theme from "../theme/theme.ts";
 import {StatDisplay} from "./StatDisplay.tsx";
 import type {User} from "../model/User.ts";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 
 interface ProfileCardProps {
     user: User | undefined;
@@ -13,13 +14,38 @@ export function ProfileCard({user}: ProfileCardProps) {
     const {supabaseUser} = UserAuth()
     const joinedYear = supabaseUser ? new Date(supabaseUser.created_at).getFullYear() : undefined;
 
-    return(
-        <Card variant="outlined" sx={{borderRadius: 4, mt:{xs: 10}, mb:{xs: 0}}}>
+    return (
+        <Card variant="outlined" sx={{borderRadius: 4, mt: {xs: 10}, mb: {xs: 0}}}>
             <CardContent sx={{textAlign: "center"}}>
                 <Stack spacing={3} justifyContent={"center"} alignItems={"center"} py={3}>
 
                     {/*TODO enable user to upload own picture*/}
-                    <ProfileAvatar size={100} />
+                    <Badge
+                        overlap="circular"
+                        anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                        badgeContent={<AddOutlinedIcon/>}
+                        sx={{
+                            "& .MuiBadge-badge": {
+                                width: 30,
+                                height: 30,
+                                borderRadius: "100%",
+                                bgcolor: "secondary.main",
+                                color: "background.paper",
+                                border: "3px solid",
+                            },
+                        }}
+                    >
+                        <ProfileAvatar
+                            size={100}
+                            sx={{
+                                bgcolor: "background.default",
+                                border: "4px solid",
+                                borderColor: alpha("rgb(250, 250, 250)", 0.4),
+                                outline: "4px solid",
+                                outlineColor: alpha("rgb(250, 250, 250)", 0.1),
+                            }}
+                        />
+                    </Badge>
 
                     <Box>
                         <Typography variant="h4">
