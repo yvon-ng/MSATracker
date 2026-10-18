@@ -57,8 +57,8 @@ export function ProfilePage() {
     };
 
     return (
-        <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 8}}>
-            <Stack direction={{xs: "column", md: "row"}} spacing={{xs: 5, xl: 10}} my={10}>
+        <Box my={{xs: 10, xl: 5}} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 8}}>
+            <Stack direction={{xs: "column", md: "row"}} spacing={{xs: 5, xl: 10}}>
                 <Box>
                     <PageHeader overline={"Account"} title={"Your"} titleSuffix={"Profile."}
                                 subtitle={"Manage how you appear across your library."}/>

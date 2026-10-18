@@ -30,3 +30,8 @@ export async function signUpNewUser(email: string, password: string, firstName: 
 
     return {data};
 }
+
+export async function logOut() {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+}
