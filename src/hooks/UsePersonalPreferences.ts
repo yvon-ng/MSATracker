@@ -10,7 +10,7 @@ export function usePersonalPreferences(userId: string | undefined) {
     });
 
     return {
-        personalPreferences: personalPreferences
+        personalPreferences
     };
 }
 

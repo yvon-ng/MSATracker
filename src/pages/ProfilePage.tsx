@@ -62,7 +62,7 @@ export function ProfilePage() {
                 <Box>
                     <PageHeader overline={"Account"} title={"Your"} titleSuffix={"Profile."}
                                 subtitle={"Manage how you appear across your library."}/>
-                    <ProfileCard user={user}/>
+                    <ProfileCard />
                 </Box>
                 <Stack flex={1} height={"100%"} spacing={2}>
                     <PreferencesCard
@@ -75,7 +75,6 @@ export function ProfilePage() {
                         onCancel={handleCancel}
                     >
                         <PersonalInformationForm
-                            user={user}
                             formValues={formValues}
                             isEditing={isEditing}
                             isPending={isPending}

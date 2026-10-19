@@ -8,6 +8,6 @@ export function useGetMediaByTitle(title: string) {
     })
 
     return {
-        media: media
+        media
     };
 }

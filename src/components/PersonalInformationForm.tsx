@@ -1,11 +1,11 @@
 import {Alert, Box, CardContent, IconButton, InputAdornment, Stack, Tooltip} from "@mui/material";
 import {LabeledTextField} from "./LabeledTextField.tsx";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
-import type {UpdateUserDto, User} from "../model/User.ts";
+import type {UpdateUserDto} from "../model/User.ts";
 import {type SubmitEvent} from "react"
+import {UserAuth} from "../context/AuthContextProvider.tsx";
 
 interface PersonalInformationFormProps {
-    user: User | undefined;
     formValues: UpdateUserDto;
     isEditing: boolean;
     isPending: boolean;
@@ -15,7 +15,6 @@ interface PersonalInformationFormProps {
 }
 
 export function PersonalInformationForm({
-                                            user,
                                             formValues,
                                             isEditing,
                                             isPending,
@@ -23,6 +22,8 @@ export function PersonalInformationForm({
                                             onFieldChange,
                                             onSubmit
                                         }: PersonalInformationFormProps) {
+    const {user} = UserAuth();
+
     return (
         <Box component="form" onSubmit={onSubmit}>
             <CardContent>

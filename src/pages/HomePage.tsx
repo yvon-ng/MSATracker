@@ -4,7 +4,7 @@ import {useGetTrendingMedia} from "../hooks/UseTMDBs.ts";
 import {MediaCard} from "../components/media/MediaCard.tsx";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
 import {usePersonalPreferences} from "../hooks/UsePersonalPreferences.ts";
-import { getFormattedDate, getGreeting } from "../utils/dateUtils.ts";
+import {getFormattedDate, getGreeting} from "../utils/dateUtils.ts";
 
 export function HomePage() {
     const {media} = useGetTrendingMedia();

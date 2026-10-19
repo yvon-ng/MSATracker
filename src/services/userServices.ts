@@ -29,3 +29,23 @@ export async function updateUser(userId: string, updates: UpdateUserDto): Promis
         profilePicture: data.profile_picture,
     };
 }
+
+export async function updateProfilePicture(userId: string, fileName: string) {
+    const { data, error } = await supabase
+        .from("users")
+        .update({ profile_picture: fileName })
+        .eq("user_id", userId)
+        .select()
+        .single();
+
+    if (error) throw error;
+
+    return {
+        userId: data.user_id,
+        username: data.username,
+        email: data.email,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        profilePicture: data.profile_picture,
+    };
+}

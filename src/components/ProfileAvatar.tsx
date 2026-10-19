@@ -8,14 +8,14 @@ interface ProfileAvatarProps {
     sx?: SxProps<Theme>;
 }
 
-interface AvatarWithPicture {
+interface AvatarWithPictureProps {
     path: string;
     username: string
     size: number
     sx?: SxProps<Theme>;
 }
 
-function AvatarWithPicture({path, username, size, sx}: AvatarWithPicture) {
+function AvatarWithPicture({path, username, size, sx}: AvatarWithPictureProps) {
     const {profilePictureUrl} = useProfilePicture(path);
 
     return (
@@ -33,11 +33,12 @@ function AvatarWithPicture({path, username, size, sx}: AvatarWithPicture) {
 
 export function ProfileAvatar({size, sx}: ProfileAvatarProps) {
     const {user} = UserAuth();
+    // const path = `${user?.userId}/${user?.profilePicture}`
 
     if (user?.profilePicture) {
         return (
             <AvatarWithPicture
-                path={user.profilePicture}
+                path={`${user.userId}/${user.profilePicture}`}
                 username={user.username}
                 size={size}
                 sx={sx}

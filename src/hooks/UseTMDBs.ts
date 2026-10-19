@@ -26,7 +26,7 @@ export function useGetTrendingMedia() {
     })
 
     return {
-        media: media
+        media
     };
 }
 
@@ -37,7 +37,7 @@ export function useGetMovie(movieId: number) {
     })
 
     return {
-        movie: movie
+        movie
     };
 }
 
@@ -48,7 +48,7 @@ export function useGetSeries(seriesId: number) {
     })
 
     return {
-        series: series
+        series
     };
 }
 
@@ -59,7 +59,7 @@ export function useGetMovieTrailer(movieId: number) {
     })
 
     return {
-        trailer: trailer
+        trailer
     };
 }
 
@@ -70,6 +70,6 @@ export function useGetSeriesTrailer(seriesId: number) {
     })
 
     return {
-        trailer: trailer
+        trailer
     };
 }

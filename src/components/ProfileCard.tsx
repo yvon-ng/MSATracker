@@ -7,148 +7,103 @@ import {
     CardHeader,
     Chip,
     Divider,
-    IconButton, ListItemIcon, ListItemText, Menu, MenuItem,
     Stack,
-    Typography
+    Typography, useTheme
 } from "@mui/material";
 import {ProfileAvatar} from "./ProfileAvatar.tsx";
-import theme from "../theme/theme.ts";
 import {StatDisplay} from "./StatDisplay.tsx";
-import type {User} from "../model/User.ts";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import {useState} from "react";
-import {useLogOut} from "../hooks/UseAuth.ts";
+import {ProfileOptionsMenu} from "./ProfileOptionsMenu.tsx";
+import {useChangeProfilePicture} from "../hooks/UseProfilePicture.ts";
+import {type ChangeEvent, useRef} from "react";
+import {MIME_EXTENSIONS} from "../utils/pictureUitls.ts";
 
-interface ProfileCardProps {
-    user: User | undefined;
-}
 
-export function ProfileCard({user}: ProfileCardProps) {
-    const {supabaseUser} = UserAuth()
+export function ProfileCard() {
+    const {user, supabaseUser} = UserAuth()
     const joinedYear = supabaseUser ? new Date(supabaseUser.created_at).getFullYear() : undefined;
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const isMenuOpen = Boolean(anchorEl);
-    const { logout, isLoggingOut } = useLogOut();
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const {changePicture, isPending, error} = useChangeProfilePicture();
+    const theme = useTheme();
 
-    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleLogout = async () => {
-        handleMenuClose();
-        await logout();
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file && supabaseUser) {
+            changePicture({userId: supabaseUser.id, file});
+        }
+        event.target.value = "";
     };
 
     return (
         <Card variant="outlined" sx={{borderRadius: 4, mt: {xs: 10}, mb: {xs: 0}}}>
-            <CardHeader
-                action={
-                    <>
-                        <IconButton
-                            aria-label="Profile options"
-                            aria-haspopup="true"
-                            aria-expanded={isMenuOpen ? "true" : undefined}
-                            onClick={handleMenuOpen}
-                        >
-                            <MoreVertIcon sx={{color: "text.secondary"}}/>
-                        </IconButton>
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={isMenuOpen}
-                            onClose={handleMenuClose}
-                            slotProps={{
-                                paper: {
-                                    elevation: 3,
-                                    sx: {
-                                        border: 1,
-                                        borderColor: "divider",
-                                        borderRadius: 2,
-                                    },
-                                },
-                                list: {
-                                    sx: {
-                                        p: 0, //might need to remove when more settings come
-                                    },
-                                },
+            <CardHeader action={<ProfileOptionsMenu/>}/>
+            <CardContent sx={{textAlign: "center"}}>
+                <Stack spacing={3} justifyContent={"center"} alignItems={"center"} py={3}>
+                    <Box>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept={Object.keys(MIME_EXTENSIONS).join(",")}
+                            hidden
+                            onChange={handleFileChange}
+                        />
+
+                        <Box
+                            component="button"
+                            type="button"
+                            aria-label="Upload profile picture"
+                            disabled={isPending}
+                            onClick={() => fileInputRef.current?.click()}
+                            sx={{
+                                display: "block",
+                                p: 0,
+                                border: 0,
+                                borderRadius: "50%",
+                                bgcolor: "transparent",
+                                cursor: isPending ? "wait" : "pointer",
                             }}
                         >
-                            <MenuItem
-                                onClick={handleLogout}
-                                disabled={isLoggingOut}
+                            <Badge
+                                overlap="circular"
+                                anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                                badgeContent={<AddOutlinedIcon/>}
                                 sx={{
-                                    px: 2, //might need to remove when more settings come
-                                    py: 1.5, //might need to remove when more settings come
-                                    color: "secondary.main",
-                                    "& .MuiSvgIcon-root": {
-                                        color: "secondary.main",
-                                        transition: "transform 500ms ease",
-                                    },
-                                    "& .MuiListItemText-root": {
-                                        transition: "transform 500ms ease",
-                                    },
-                                    "&:hover": {
+                                    "& .MuiBadge-badge": {
+                                        width: 30,
+                                        height: 30,
+                                        borderRadius: "100%",
                                         bgcolor: "secondary.main",
-                                        color: "black",
-                                        "& .MuiListItemIcon-root": {
-                                            color: "black",
-                                        },
-                                        "& .MuiSvgIcon-root": {
-                                            color: "black",
-                                            transform: "translateX(-3rem)",
-                                        },
-                                        "& .MuiListItemText-root": {
-                                            transform: "translateX(-1rem)",
-                                        },
+                                        color: "background.paper",
+                                        border: "3px solid",
                                     },
                                 }}
                             >
-                                <ListItemIcon>
-                                    <LogoutOutlinedIcon fontSize="small"/>
-                                </ListItemIcon>
-                                <ListItemText>
-                                    Log out
-                                </ListItemText>
-                            </MenuItem>
-                        </Menu>
-                    </>
-                }
-            />
-            <CardContent sx={{textAlign: "center"}}>
-                <Stack spacing={3} justifyContent={"center"} alignItems={"center"} py={3}>
-                    {/*TODO enable user to upload own picture*/}
-                    <Badge
-                        overlap="circular"
-                        anchorOrigin={{vertical: "bottom", horizontal: "right"}}
-                        badgeContent={<AddOutlinedIcon/>}
-                        sx={{
-                            "& .MuiBadge-badge": {
-                                width: 30,
-                                height: 30,
-                                borderRadius: "100%",
-                                bgcolor: "secondary.main",
-                                color: "background.paper",
-                                border: "3px solid",
-                            },
-                        }}
-                    >
-                        <ProfileAvatar
-                            size={100}
-                            sx={{
-                                bgcolor: "background.default",
-                                border: "4px solid",
-                                borderColor: alpha("rgb(250, 250, 250)", 0.4),
-                                outline: "4px solid",
-                                outlineColor: alpha("rgb(250, 250, 250)", 0.1),
-                            }}
-                        />
-                    </Badge>
+                                <ProfileAvatar
+                                    size={100}
+                                    sx={{
+                                        bgcolor: "background.default",
+                                        border: "4px solid",
+                                        borderColor: alpha("rgb(250, 250, 250)", 0.4),
+                                        outline: "4px solid",
+                                        outlineColor: alpha("rgb(250, 250, 250)", 0.1),
+                                    }}
+                                />
+                            </Badge>
+                        </Box>
+                    </Box>
+
+                    {isPending && (
+                        <Typography variant="caption" color="text.secondary">
+                            Updating profile picture...
+                        </Typography>
+                    )}
+
+                    {error && (
+                        <Typography variant="caption" color="error">
+                            {error.message}
+                        </Typography>
+                    )}
 
                     <Box>
                         <Typography variant="h4">
