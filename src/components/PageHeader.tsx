@@ -1,10 +1,10 @@
 import {Stack, Typography} from "@mui/material";
 
 interface MessageOfTheDayProps {
-    overline: string
-    title: string
-    titleSuffix: string
-    subtitle: string
+    overline?: string
+    title?: string
+    titleSuffix?: string
+    subtitle?: string
 }
 
 export function PageHeader({overline, title, titleSuffix, subtitle}: MessageOfTheDayProps) {

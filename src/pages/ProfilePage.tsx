@@ -7,7 +7,7 @@ import {
 import {UserAuth} from "../context/AuthContextProvider.tsx";
 import {ProfileCard} from "../components/ProfileCard.tsx";
 import {PreferencesCard} from "../components/PreferencesCard.tsx";
-import {useUpdateUser} from "../hooks/useUser.ts";
+import {useUpdateUser} from "../hooks/UseUser.ts";
 import {type SubmitEvent, useState} from "react";
 import type {UpdateUserDto} from "../model/User.ts";
 import {SwitchSetting} from "../components/SwitchSetting.tsx";

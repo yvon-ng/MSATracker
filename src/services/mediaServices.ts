@@ -1,9 +1,34 @@
-import axios from "axios";
-import type {OMDBMedia} from "../model/OMDBMedia.ts";
+import type {Media, MediaType, NewMediaDto} from "../model/Media.ts";
+import {supabase} from "../lib/supabaseClient.ts";
 
-export const omdbApiKey = import.meta.env.VITE_OMDB_API_KEY;
+export async function getMediaByTmdbId(tmdbId: number, mediaType: MediaType): Promise<Pick<Media, "mediaId"> | null> {
+    const { data, error } = await supabase
+        .from("media")
+        .select("media_id")
+        .eq("tmdb_id", tmdbId)
+        .eq("media_type", mediaType)
+        .maybeSingle();
 
-export async function getMediaByTitle(title: string) {
-    const {data: media} = await axios.get<OMDBMedia>(`https://www.omdbapi.com/?apikey=${omdbApiKey}&t=${title}`);
-    return media;
+    if (error) throw error;
+    return data ? { mediaId: data.media_id } : null;
 }
+
+export async function addMedia(media: NewMediaDto): Promise<Media> {
+    const { data, error } = await supabase
+        .from("media")
+        .insert({
+            tmdb_id: media.tmdbId,
+            media_type: media.mediaType,
+        })
+        .select("media_id, tmdb_id, media_type")
+        .single();
+
+    if (error) throw error;
+
+    return {
+        mediaId: data.media_id,
+        tmdbId: data.tmdb_id,
+        mediaType: data.media_type,
+    };
+}
+

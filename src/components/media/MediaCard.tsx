@@ -3,12 +3,18 @@ import {
     CardHeader,
     CardMedia,
     Chip,
-    IconButton,
+    IconButton, ListItemIcon, ListItemText, Menu, MenuItem,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import type {TMDBMedia} from "../../model/TMDBMedia.ts";
 import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
 import {useNavigate} from "react-router";
+import {useAddMediaToWatchlist} from "../../hooks/UseMedia.ts";
+import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
+import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
+import PlaylistAddOutlinedIcon from "@mui/icons-material/PlaylistAddOutlined";
+import {useState} from "react";
+import {UserAuth} from "../../context/AuthContextProvider.tsx";
 
 interface MediaCardProps {
     media: TMDBMedia
@@ -21,10 +27,58 @@ export function MediaCard({media}: MediaCardProps) {
     const releaseDate = isMovie ? media.release_date : media.first_air_date;
     const poster = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : `https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original`; //TODO better no poster picture
     const year = releaseDate?.slice(0, 4);
+    const {addMediaToWatchlist} = useAddMediaToWatchlist();
+    const {user} = UserAuth();
 
-    const handleAdd = () => {
-        // TODO: add logic
+    const handleAddToWatchlist = (media: TMDBMedia) => {
+        if (!user) return;
+
+        // TODO: double check everything
+
+        addMediaToWatchlist({
+            userId: user.userId,
+            tmdbId: media.id,
+            mediaType: media.media_type === "movie" ? "movie" : "series",
+            status: "watchlist",
+        });
     };
+
+    const handleAddToCurrentlyWatching = (media: TMDBMedia) => {
+        if (!user) return;
+
+        // TODO: doesnt work
+
+        addMediaToWatchlist({
+            userId: user.userId,
+            tmdbId: media.id,
+            mediaType: media.media_type === "movie" ? "movie" : "series",
+            status: "currently watching",
+        });
+    };
+
+    const handleMarkCompleted = (media: TMDBMedia) => {
+        if (!user) return;
+
+        // TODO: double check everything
+
+        addMediaToWatchlist({
+            userId: user.userId,
+            tmdbId: media.id,
+            mediaType: media.media_type === "movie" ? "movie" : "series",
+            status: "completed",
+        });
+    };
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const isMenuOpen = Boolean(anchorEl);
+
+    const handleClose = () => setAnchorEl(null);
+
+    const handleAction = (action: (media: TMDBMedia) => void) => {
+        handleClose();
+        action(media);
+    };
+
 
     return (
         <Card
@@ -77,8 +131,10 @@ export function MediaCard({media}: MediaCardProps) {
 
             <IconButton
                 size="small"
-                onClick={handleAdd}
-                aria-label={`Add ${title ?? "title"}`}
+                aria-label={`Options for ${title}`}
+                aria-haspopup="true"
+                aria-expanded={isMenuOpen ? "true" : undefined}
+                onClick={(event) => setAnchorEl(event.currentTarget)}
                 sx={{
                     position: "absolute",
                     bottom: "calc(100% - 27rem)",
@@ -87,7 +143,7 @@ export function MediaCard({media}: MediaCardProps) {
                     border: "1px solid",
                     borderColor: "text.secondary",
                     color: "text.secondary",
-                    transition: "background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease",
+                    transition: "background-color 0.3s, color 0.3s",
                     "&:hover": {
                         bgcolor: "secondary.main",
                         color: "primary.main",
@@ -97,6 +153,45 @@ export function MediaCard({media}: MediaCardProps) {
             >
                 <AddIcon/>
             </IconButton>
+
+            <Menu
+                anchorEl={anchorEl}
+                open={isMenuOpen}
+                onClose={handleClose}
+                slotProps={{
+                    paper: {
+                        elevation: 3,
+                        sx: {
+                            border: 1,
+                            borderColor: "divider",
+                            borderRadius: 2,
+                            // minWidth: 200,
+                        },
+                    },
+                    list: {sx: {p: 0.5}},
+                }}
+            >
+                <MenuItem onClick={() => handleAction(handleAddToWatchlist)}>
+                    <ListItemIcon>
+                        <BookmarkBorderOutlinedIcon fontSize="small"/>
+                    </ListItemIcon>
+                    <ListItemText primary="Add to Watchlist"/>
+                </MenuItem>
+
+                <MenuItem onClick={() => handleAction(handleMarkCompleted)}>
+                    <ListItemIcon>
+                        <CheckOutlinedIcon fontSize="small"/>
+                    </ListItemIcon>
+                    <ListItemText primary="Mark as Completed"/>
+                </MenuItem>
+
+                <MenuItem onClick={() => handleAction(handleAddToCurrentlyWatching)}>
+                    <ListItemIcon>
+                        <PlaylistAddOutlinedIcon fontSize="small"/>
+                    </ListItemIcon>
+                    <ListItemText primary="Add to List"/>
+                </MenuItem>
+            </Menu>
         </Card>
     );
 }

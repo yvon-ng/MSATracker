@@ -21,7 +21,7 @@ export function HomePage() {
     const titleSuffix = displayName ? `${displayName}.` : ""; //dont show the dot when no first name
 
     return (
-        <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 0}}>
+        <Box my={{xs: 10}} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 0}}>
             <PageHeader overline={formattedDate} title={greeting}
                         titleSuffix={titleSuffix}
                         subtitle={"Pick up where you left off or discover something new."}/>

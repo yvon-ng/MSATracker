@@ -33,7 +33,6 @@ function AvatarWithPicture({path, username, size, sx}: AvatarWithPictureProps) {
 
 export function ProfileAvatar({size, sx}: ProfileAvatarProps) {
     const {user} = UserAuth();
-    // const path = `${user?.userId}/${user?.profilePicture}`
 
     if (user?.profilePicture) {
         return (
