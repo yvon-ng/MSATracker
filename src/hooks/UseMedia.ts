@@ -1,12 +1,12 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {addMediaToWatchlist} from "../services/userMediaServices.ts";
-import type {AddMediaToWatchlistDto} from "../model/UserMedia.ts";
+import {addMediaToList} from "../services/userMediaServices.ts";
+import type {AddMediaToListDto} from "../model/UserMedia.ts";
 
-export function useAddMediaToWatchlist() {
+export function useAddMediaToList() {
     const queryClient = useQueryClient()
     const {mutate, isPending, isError,} = useMutation({
-        mutationFn: (addMediaToWatchlistDto: AddMediaToWatchlistDto) => {
-            return addMediaToWatchlist(addMediaToWatchlistDto)
+        mutationFn: (addMediaToWatchlistDto: AddMediaToListDto) => {
+            return addMediaToList(addMediaToWatchlistDto)
         },
         onSuccess: () => queryClient.invalidateQueries({queryKey: ['medias']}),
     })
@@ -14,6 +14,6 @@ export function useAddMediaToWatchlist() {
     return {
         isPending,
         isError,
-        addMediaToWatchlist: mutate,
+        addMediaToList: mutate,
     }
 }

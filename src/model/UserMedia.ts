@@ -1,6 +1,6 @@
 import type {MediaType} from "./Media.ts";
 
-export type UserMediaStatus = 'watchlist' | 'currently watching' | 'completed';
+export type UserMediaStatus = 'watchlist' | 'currently_watching' | 'completed';
 
 export type UserMedia = {
     userId: string
@@ -8,11 +8,12 @@ export type UserMedia = {
     status: UserMediaStatus
     addedAt?: Date
     completedAt?: Date
+    startedAt?: Date
 }
 
 export type NewUserMediaDto = Omit<UserMedia, "addedAt, completedAt">
 
-export type AddMediaToWatchlistDto = {
+export type AddMediaToListDto = {
     userId: string;
     tmdbId: number;
     mediaType: MediaType;

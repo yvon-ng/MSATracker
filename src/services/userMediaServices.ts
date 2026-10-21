@@ -1,6 +1,6 @@
-import type {AddMediaToWatchlistDto, NewUserMediaDto, UserMedia} from "../model/UserMedia.ts";
+import type {AddMediaToListDto, NewUserMediaDto, UserMedia} from "../model/UserMedia.ts";
 import {supabase} from "../lib/supabaseClient.ts";
-import {addMedia, getMediaByTmdbId} from "./mediaServices.ts";
+import {addMedia, getMediaByTmdbIdAndMediaType} from "./mediaServices.ts";
 
 export async function addUserMedia(userMedia: NewUserMediaDto): Promise<UserMedia> {
     const {data, error} = await supabase
@@ -10,7 +10,7 @@ export async function addUserMedia(userMedia: NewUserMediaDto): Promise<UserMedi
             media_id: userMedia.mediaId,
             status: userMedia.status,
         })
-        .select("user_id, media_id, status, added_at")
+        .select("user_id, media_id, status, added_at, started_at")
         .single();
 
     if (error) throw error;
@@ -20,12 +20,17 @@ export async function addUserMedia(userMedia: NewUserMediaDto): Promise<UserMedi
         mediaId: data.media_id,
         status: data.status,
         addedAt: data.added_at,
+        startedAt: data.started_at,
     };
 }
 
-export async function addMediaToWatchlist(addMediaToWatchlistDto: AddMediaToWatchlistDto): Promise<UserMedia> {
-    let mediaRecord = await getMediaByTmdbId(addMediaToWatchlistDto.tmdbId, addMediaToWatchlistDto.mediaType);
-    if (!mediaRecord) mediaRecord = await addMedia({tmdbId: addMediaToWatchlistDto.tmdbId, mediaType: addMediaToWatchlistDto.mediaType});
+export async function addMediaToList(addMediaToListDto: AddMediaToListDto): Promise<UserMedia> {
+    // check if Media exist in the database
+    let mediaRecord = await getMediaByTmdbIdAndMediaType(addMediaToListDto.tmdbId, addMediaToListDto.mediaType);
 
-    return addUserMedia({userId: addMediaToWatchlistDto.userId, mediaId: mediaRecord.mediaId, status: addMediaToWatchlistDto.status});
+    // if Media doesn't exist yet create a new one
+    if (!mediaRecord) mediaRecord = await addMedia({tmdbId: addMediaToListDto.tmdbId, mediaType: addMediaToListDto.mediaType});
+
+    // add a new UserMedia using that Media TODO also check if usermedia doesnt exist yet, only then create else update record
+    return addUserMedia({userId: addMediaToListDto.userId, mediaId: mediaRecord.mediaId, status: addMediaToListDto.status});
 }

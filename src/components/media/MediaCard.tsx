@@ -9,12 +9,12 @@ import AddIcon from "@mui/icons-material/Add";
 import type {TMDBMedia} from "../../model/TMDBMedia.ts";
 import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
 import {useNavigate} from "react-router";
-import {useAddMediaToWatchlist} from "../../hooks/UseMedia.ts";
+import {useAddMediaToList} from "../../hooks/UseMedia.ts";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
-import PlaylistAddOutlinedIcon from "@mui/icons-material/PlaylistAddOutlined";
 import {useState} from "react";
 import {UserAuth} from "../../context/AuthContextProvider.tsx";
+import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 
 interface MediaCardProps {
     media: TMDBMedia
@@ -27,58 +27,54 @@ export function MediaCard({media}: MediaCardProps) {
     const releaseDate = isMovie ? media.release_date : media.first_air_date;
     const poster = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : `https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original`; //TODO better no poster picture
     const year = releaseDate?.slice(0, 4);
-    const {addMediaToWatchlist} = useAddMediaToWatchlist();
+    const {addMediaToList} = useAddMediaToList();
     const {user} = UserAuth();
 
-    const handleAddToWatchlist = (media: TMDBMedia) => {
+    const handleAddToWatchlist = () => {
         if (!user) return;
 
-        // TODO: double check everything
-
-        addMediaToWatchlist({
+        addMediaToList({
             userId: user.userId,
             tmdbId: media.id,
             mediaType: media.media_type === "movie" ? "movie" : "series",
             status: "watchlist",
         });
+
+        setAnchorEl(null)
     };
 
-    const handleAddToCurrentlyWatching = (media: TMDBMedia) => {
+    const handleAddToCurrentlyWatching = () => {
         if (!user) return;
 
-        // TODO: doesnt work
+        // TODO: check if media is already in watchlist if yes, update that record, else create new UserMedia (and media if doesnt exist yet) with started_at and added_at now()
 
-        addMediaToWatchlist({
+        addMediaToList({
             userId: user.userId,
             tmdbId: media.id,
             mediaType: media.media_type === "movie" ? "movie" : "series",
-            status: "currently watching",
+            status: "currently_watching",
         });
+
+        setAnchorEl(null)
+
     };
 
-    const handleMarkCompleted = (media: TMDBMedia) => {
+    const handleMarkCompleted = () => {
         if (!user) return;
 
-        // TODO: double check everything
+        // TODO: works but when already in watchlist should update existing record not create new one, same with currently watching, if media not yet in those 2 create new UserMedia (and media if doesnt exist yet) with started_at, added_at and completed_at now()
 
-        addMediaToWatchlist({
+        addMediaToList({
             userId: user.userId,
             tmdbId: media.id,
             mediaType: media.media_type === "movie" ? "movie" : "series",
             status: "completed",
         });
+        setAnchorEl(null)
     };
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorEl);
-
-    const handleClose = () => setAnchorEl(null);
-
-    const handleAction = (action: (media: TMDBMedia) => void) => {
-        handleClose();
-        action(media);
-    };
-
 
     return (
         <Card
@@ -137,7 +133,7 @@ export function MediaCard({media}: MediaCardProps) {
                 onClick={(event) => setAnchorEl(event.currentTarget)}
                 sx={{
                     position: "absolute",
-                    bottom: "calc(100% - 27rem)",
+                    bottom: "5.5rem",
                     right: "1rem",
                     bgcolor: "background.paper",
                     border: "1px solid",
@@ -157,7 +153,7 @@ export function MediaCard({media}: MediaCardProps) {
             <Menu
                 anchorEl={anchorEl}
                 open={isMenuOpen}
-                onClose={handleClose}
+                onClose={() => setAnchorEl(null)}
                 slotProps={{
                     paper: {
                         elevation: 3,
@@ -171,26 +167,27 @@ export function MediaCard({media}: MediaCardProps) {
                     list: {sx: {p: 0.5}},
                 }}
             >
-                <MenuItem onClick={() => handleAction(handleAddToWatchlist)}>
+                <MenuItem onClick={handleAddToWatchlist}>
                     <ListItemIcon>
                         <BookmarkBorderOutlinedIcon fontSize="small"/>
                     </ListItemIcon>
                     <ListItemText primary="Add to Watchlist"/>
                 </MenuItem>
 
-                <MenuItem onClick={() => handleAction(handleMarkCompleted)}>
+                <MenuItem onClick={handleAddToCurrentlyWatching}>
+                    <ListItemIcon>
+                        <OndemandVideoOutlinedIcon fontSize="small"/>
+                    </ListItemIcon>
+                    <ListItemText primary="Set as Currently Watching"/>
+                </MenuItem>
+
+                <MenuItem onClick={handleMarkCompleted}>
                     <ListItemIcon>
                         <CheckOutlinedIcon fontSize="small"/>
                     </ListItemIcon>
                     <ListItemText primary="Mark as Completed"/>
                 </MenuItem>
 
-                <MenuItem onClick={() => handleAction(handleAddToCurrentlyWatching)}>
-                    <ListItemIcon>
-                        <PlaylistAddOutlinedIcon fontSize="small"/>
-                    </ListItemIcon>
-                    <ListItemText primary="Add to List"/>
-                </MenuItem>
             </Menu>
         </Card>
     );

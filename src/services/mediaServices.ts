@@ -1,7 +1,7 @@
 import type {Media, MediaType, NewMediaDto} from "../model/Media.ts";
 import {supabase} from "../lib/supabaseClient.ts";
 
-export async function getMediaByTmdbId(tmdbId: number, mediaType: MediaType): Promise<Pick<Media, "mediaId"> | null> {
+export async function getMediaByTmdbIdAndMediaType(tmdbId: number, mediaType: MediaType): Promise<Pick<Media, "mediaId"> | null> {
     const { data, error } = await supabase
         .from("media")
         .select("media_id")
