@@ -9,7 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import type {TMDBMedia} from "../../model/TMDBMedia.ts";
 import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
 import {useNavigate} from "react-router";
-import {useAddMediaToList} from "../../hooks/UseMedia.ts";
+import {useAddMediaToList} from "../../hooks/UseUserMedia.ts";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import {useState} from "react";

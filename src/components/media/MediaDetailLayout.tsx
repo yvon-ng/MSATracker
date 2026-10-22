@@ -6,15 +6,13 @@ import {type MovieDetails, type TVSeriesDetails} from "@lorenzopant/tmdb";
 import {MediaStats} from "./MediaStats.tsx";
 import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
 import {usePersonalPreferences} from "../../hooks/UsePersonalPreferences.ts";
-import {UserAuth} from "../../context/AuthContextProvider.tsx";
 
 type MediaDetailLayoutProps =
     | { media: MovieDetails; isMovie: true }
     | { media: TVSeriesDetails; isMovie: false }; //doesn't allow media: movie + isMovie = false and media: series = true
 
 export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
-    const {user} = UserAuth();
-    const {personalPreferences} = usePersonalPreferences(user?.userId);
+    const {personalPreferences} = usePersonalPreferences();
     const backdrop = media.backdrop_path ? `${IMAGE_BASE_URL}${media.backdrop_path}` : undefined;
 
     return (

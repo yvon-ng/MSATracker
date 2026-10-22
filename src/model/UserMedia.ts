@@ -6,9 +6,9 @@ export type UserMedia = {
     userId: string
     mediaId: string
     status: UserMediaStatus
-    addedAt?: Date
-    completedAt?: Date
-    startedAt?: Date
+    addedAt?: string | null
+    completedAt?: string | null
+    startedAt?: string | null
 }
 
 export type NewUserMediaDto = Omit<UserMedia, "addedAt, completedAt">

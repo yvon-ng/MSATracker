@@ -7,15 +7,14 @@ import {
 import type { PersonalPreferences } from "../model/PersonalPreferences.ts";
 
 type SwitchSettingProps = {
-    userId: string | undefined;
     title: string;
     description: string;
     preferenceKey: keyof PersonalPreferences;
 };
 
-export function SwitchSetting({userId, title, description, preferenceKey,}: SwitchSettingProps) {
-    const { personalPreferences } = usePersonalPreferences(userId);
-    const { updatePersonalPreferences } = useUpdatePersonalPreferences(userId);
+export function SwitchSetting({title, description, preferenceKey,}: SwitchSettingProps) {
+    const { personalPreferences } = usePersonalPreferences();
+    const { updatePersonalPreferences } = useUpdatePersonalPreferences();
 
     const handleChange = (checked: boolean) => {
         updatePersonalPreferences({ [preferenceKey]: checked });

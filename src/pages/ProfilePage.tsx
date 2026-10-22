@@ -15,7 +15,7 @@ import {PersonalInformationForm} from "../components/PersonalInformationForm.tsx
 
 export function ProfilePage() {
     const {user} = UserAuth()
-    const {updateUser, isPending, error} = useUpdateUser(user?.userId);
+    const {updateUser, isPending, error} = useUpdateUser();
     const [isEditing, setIsEditing] = useState(false);
 
     const [formValues, setFormValues] = useState<UpdateUserDto>({
@@ -88,14 +88,12 @@ export function ProfilePage() {
                         <CardContent>
                             <Stack spacing={4} p={3}>
                                 <SwitchSetting
-                                    userId={user?.userId}
                                     title="Show media backdrop"
                                     description="Show the media backdrop as a background on the detail page."
                                     preferenceKey="showMediaBackdrop"
                                 />
 
                                 <SwitchSetting
-                                    userId={user?.userId}
                                     title="Username as display name"
                                     description="Use your username instead of your first name across the app."
                                     preferenceKey="usernameAsDisplayName"

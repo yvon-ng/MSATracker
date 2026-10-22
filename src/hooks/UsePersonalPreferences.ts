@@ -1,12 +1,14 @@
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQueryClient, useSuspenseQuery} from "@tanstack/react-query";
 import {getPersonalPreferences, updatePersonalPreferences} from "../services/personalPreferencesServices.ts";
 import type {UpdatePersonalPreferencesDto} from "../model/PersonalPreferences.ts";
+import {UserAuth} from "../context/AuthContextProvider.tsx";
 
-export function usePersonalPreferences(userId: string | undefined) {
-    const {data: personalPreferences} = useQuery({
-        queryKey: ["personal-preferences", userId],
-        queryFn: () => getPersonalPreferences(userId!),
-        enabled: !!userId,
+export function usePersonalPreferences() {
+    const { user } = UserAuth();
+
+    const {data: personalPreferences} = useSuspenseQuery({
+        queryKey: ["personal-preferences", user!.userId],
+        queryFn: () => getPersonalPreferences(user!.userId),
     });
 
     return {
@@ -14,18 +16,18 @@ export function usePersonalPreferences(userId: string | undefined) {
     };
 }
 
-export function useUpdatePersonalPreferences(userId: string | undefined) {
+export function useUpdatePersonalPreferences() {
     const queryClient = useQueryClient();
+    const { user } = UserAuth();
 
     const {mutate, isPending, error} = useMutation({
         mutationFn: (preferences: UpdatePersonalPreferencesDto) => {
-            if (!userId) throw new Error("You must be logged in to update your personal preferences.");
-            return updatePersonalPreferences(userId, preferences);
+            return updatePersonalPreferences(user!.userId, preferences);
         },
 
         onSuccess: (updatedPreferences) => {
             queryClient.setQueryData(
-                ["personal-preferences", userId],
+                ["personal-preferences", user!.userId],
                 updatedPreferences,
             );
         },

@@ -29,7 +29,7 @@ export function SideMenuContent({open, items, handleDrawerClick, onNavigate}: Si
     const navigate = useNavigate();
     const location = useLocation();
     const {user} = UserAuth();
-    const {personalPreferences} = usePersonalPreferences(user?.userId);
+    const {personalPreferences} = usePersonalPreferences();
 
     const handleClick = (url: string) => {
         navigate(url);

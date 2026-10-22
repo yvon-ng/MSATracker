@@ -2,7 +2,7 @@ import type {Media, MediaType, NewMediaDto} from "../model/Media.ts";
 import {supabase} from "../lib/supabaseClient.ts";
 
 export async function getMediaByTmdbIdAndMediaType(tmdbId: number, mediaType: MediaType): Promise<Pick<Media, "mediaId"> | null> {
-    const { data, error } = await supabase
+    const {data, error} = await supabase
         .from("media")
         .select("media_id")
         .eq("tmdb_id", tmdbId)
@@ -10,11 +10,11 @@ export async function getMediaByTmdbIdAndMediaType(tmdbId: number, mediaType: Me
         .maybeSingle();
 
     if (error) throw error;
-    return data ? { mediaId: data.media_id } : null;
+    return data ? {mediaId: data.media_id} : null;
 }
 
 export async function addMedia(media: NewMediaDto): Promise<Media> {
-    const { data, error } = await supabase
+    const {data, error} = await supabase
         .from("media")
         .insert({
             tmdb_id: media.tmdbId,
@@ -31,4 +31,3 @@ export async function addMedia(media: NewMediaDto): Promise<Media> {
         mediaType: data.media_type,
     };
 }
-

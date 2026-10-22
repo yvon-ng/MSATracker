@@ -15,7 +15,7 @@ export function HomePage() {
     const formattedDate = getFormattedDate();
     const greeting = getGreeting();
     const {user} = UserAuth()
-    const {personalPreferences} = usePersonalPreferences(user?.userId);
+    const {personalPreferences} = usePersonalPreferences();
 
     const displayName = personalPreferences?.usernameAsDisplayName ? user?.username : user?.firstName;
     const titleSuffix = displayName ? `${displayName}.` : ""; //dont show the dot when no first name
