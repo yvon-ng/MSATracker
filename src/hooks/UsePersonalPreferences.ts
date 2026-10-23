@@ -2,6 +2,7 @@ import {useMutation, useQueryClient, useSuspenseQuery} from "@tanstack/react-que
 import {getPersonalPreferences, updatePersonalPreferences} from "../services/personalPreferencesServices.ts";
 import type {UpdatePersonalPreferencesDto} from "../model/PersonalPreferences.ts";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
+import {staleTimes} from "../utils/utils.ts";
 
 export function usePersonalPreferences() {
     const { user } = UserAuth();
@@ -9,6 +10,7 @@ export function usePersonalPreferences() {
     const {data: personalPreferences} = useSuspenseQuery({
         queryKey: ["personal-preferences", user!.userId],
         queryFn: () => getPersonalPreferences(user!.userId),
+        staleTime: staleTimes.oneQuarter,
     });
 
     return {

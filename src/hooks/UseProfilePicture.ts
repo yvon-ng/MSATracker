@@ -2,12 +2,13 @@ import {useMutation, useQueryClient, useSuspenseQuery} from "@tanstack/react-que
 import {addProfilePicture, getProfilePictureUrl} from "../services/storageServices.ts";
 import {updateProfilePicture as updateProfilePictureService} from "../services/userServices.ts";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
+import {staleTimes} from "../utils/utils.ts";
 
 export function useProfilePicture(path: string) {
     const {data: profilePictureUrl} = useSuspenseQuery({
         queryKey: ["profile-picture", path],
         queryFn: () => getProfilePictureUrl(path),
-        staleTime: 50 * 60 * 1000, //10 mins breathing room against the signed url refetch
+        staleTime: staleTimes.oneHour - 10, //10 mins breathing room against the signed url refetch
     });
 
     return {

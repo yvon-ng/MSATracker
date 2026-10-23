@@ -24,3 +24,8 @@ export type UserMediaItem  = {
     userMedia: UserMedia;
     media: Media;
 };
+
+export type AddMediaToListResult = {
+    userMedia: UserMedia;
+    previousStatus: UserMediaStatus | null;
+};

@@ -5,15 +5,25 @@ import {UserAuth} from "../context/AuthContextProvider.tsx";
 import type {UserMediaItem} from "../model/UserMedia.ts";
 import {getMovie, getSeries} from "../services/tmdbServices.ts";
 import type {TMDBMedia} from "../model/TMDBMedia.ts";
+import {staleTimes} from "../utils/utils.ts";
 
 export function useAddMediaToList() {
     const queryClient = useQueryClient()
     const {mutate, isPending, isError,} = useMutation({
         mutationFn: (addMediaToListDto: AddMediaToListDto) => addMediaToList(addMediaToListDto),
-        onSuccess: (_data, variables) => {
+        onSuccess: (result, variables) => {
             queryClient.invalidateQueries({
                 queryKey: [variables.status, variables.userId],
             });
+
+            if (result.previousStatus !== null && result.previousStatus !== variables.status) {
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        result.previousStatus,
+                        variables.userId,
+                    ],
+                });
+            }
         },
     })
 
@@ -49,7 +59,7 @@ export function useUserMediaDetails(items: UserMediaItem[] | undefined) {
                     media_type: media.mediaType === "movie" ? "movie" : "tv",
                 } as TMDBMedia;
             },
-            staleTime: 1000 * 60 * 60,
+            staleTime: staleTimes.oneHour,
         })),
     });
 

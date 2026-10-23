@@ -1,10 +1,11 @@
 import {supabase} from "../lib/supabaseClient.ts";
 import {MIME_EXTENSIONS} from "../utils/pictureUitls.ts";
+import {staleTimes} from "../utils/utils.ts";
 
 export async function getProfilePictureUrl(path: string) {
     const {data, error} = await supabase.storage
         .from("profile-pictures")
-        .createSignedUrl(path, 3600);
+        .createSignedUrl(path, staleTimes.oneHour / 1000);
 
     if (error) throw error;
 

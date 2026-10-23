@@ -7,6 +7,7 @@ import {
     getTrendingMedia,
     searchMulti
 } from "../services/tmdbServices.ts";
+import {staleTimes} from "../utils/utils.ts";
 
 export function useMultiSearch(query: string) {
     const {data: media} = useSuspenseQuery({
@@ -33,7 +34,8 @@ export function useGetTrendingMedia() {
 export function useGetMovie(movieId: number) {
     const {data: movie} = useSuspenseQuery({
         queryKey: ["movie", movieId],
-        queryFn: () => getMovie(movieId)
+        queryFn: () => getMovie(movieId),
+        staleTime: staleTimes.oneHour,
     })
 
     return {
@@ -44,7 +46,8 @@ export function useGetMovie(movieId: number) {
 export function useGetSeries(seriesId: number) {
     const {data: series} = useSuspenseQuery({
         queryKey: ["series", seriesId],
-        queryFn: () => getSeries(seriesId)
+        queryFn: () => getSeries(seriesId),
+        staleTime: staleTimes.oneHour,
     })
 
     return {
@@ -55,7 +58,8 @@ export function useGetSeries(seriesId: number) {
 export function useGetMovieTrailer(movieId: number) {
     const {data: trailer} = useSuspenseQuery({
         queryKey: ["movie", "trailer", movieId],
-        queryFn: () => getMovieTrailer(movieId)
+        queryFn: () => getMovieTrailer(movieId),
+        staleTime: staleTimes.oneHour,
     })
 
     return {
@@ -66,7 +70,8 @@ export function useGetMovieTrailer(movieId: number) {
 export function useGetSeriesTrailer(seriesId: number) {
     const {data: trailer} = useSuspenseQuery({
         queryKey: ["series", "trailer", seriesId],
-        queryFn: () => getSeriesTrailer(seriesId)
+        queryFn: () => getSeriesTrailer(seriesId),
+        staleTime: staleTimes.oneHour,
     })
 
     return {
