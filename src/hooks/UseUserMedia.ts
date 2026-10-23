@@ -1,19 +1,19 @@
 import {useMutation, useQueryClient, useSuspenseQueries, useSuspenseQuery} from "@tanstack/react-query";
-import {addMediaToList, getWatchlistMedia} from "../services/userMediaServices.ts";
-import type {AddMediaToListDto} from "../model/UserMedia.ts";
+import {addMediaToList, getUserMediaList} from "../services/userMediaServices.ts";
+import type {AddMediaToListDto, UserMediaStatus} from "../model/UserMedia.ts";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
-import type {UserMediaItem} from "../model/WatchlistItem.ts";
+import type {UserMediaItem} from "../model/UserMedia.ts";
 import {getMovie, getSeries} from "../services/tmdbServices.ts";
 import type {TMDBMedia} from "../model/TMDBMedia.ts";
 
 export function useAddMediaToList() {
-    const {user} = UserAuth();
-
     const queryClient = useQueryClient()
     const {mutate, isPending, isError,} = useMutation({
-        mutationFn: (addMediaToWatchlistDto: AddMediaToListDto) => addMediaToList(addMediaToWatchlistDto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["watchlist", user!.userId]});
+        mutationFn: (addMediaToListDto: AddMediaToListDto) => addMediaToList(addMediaToListDto),
+        onSuccess: (_data, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: [variables.status, variables.userId],
+            });
         },
     })
 
@@ -24,20 +24,20 @@ export function useAddMediaToList() {
     }
 }
 
-export function useWatchlist() {
+export function useUserMediaList(status: UserMediaStatus) {
     const {user} = UserAuth();
 
-    const {data: watchlist} = useSuspenseQuery<UserMediaItem[]>({
-        queryKey: ["watchlist", user!.userId],
-        queryFn: () => getWatchlistMedia(user!.userId)
+    const {data: userMedia} = useSuspenseQuery<UserMediaItem[]>({
+        queryKey: [status, user!.userId],
+        queryFn: () => getUserMediaList(user!.userId, status),
     })
 
     return {
-        watchlist
+        userMedia
     };
 }
 
-export function useWatchlistTMDBDetails(items: UserMediaItem[] | undefined) {
+export function useUserMediaDetails(items: UserMediaItem[] | undefined) {
     const results = useSuspenseQueries({
         queries: (items ?? []).map(({ media }) => ({
             queryKey: [media.mediaType === "movie" ? "movie" : "series", media.tmdbId,],

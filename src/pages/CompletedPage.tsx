@@ -1,6 +1,22 @@
-export function CompletedPage () {
+import {useUserMediaList, useUserMediaDetails} from "../hooks/UseUserMedia.ts";
+import {Box, Stack} from "@mui/material";
+import {PageHeader} from "../components/PageHeader.tsx";
+import {MediaCard} from "../components/media/MediaCard.tsx";
+
+export function CompletedPage() {
+    const {userMedia} = useUserMediaList("completed");
+    const {mediaDetails} = useUserMediaDetails(userMedia);
+
     return (
-        <>
-        </>
+        <Box my={{xs: 10}} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 8}}>
+            <PageHeader overline={"Already Watched"} title={"Your"} titleSuffix={"Collection."}
+                        subtitle={"Look how far you've come."}/>
+
+            <Stack direction="row" flexWrap={"wrap"} gap={3} my={{xs: 10}}>
+                {mediaDetails.map(item => (
+                    <MediaCard media={item} key={`${item.media_type}-${item.id}`}/>
+                ))}
+            </Stack>
+        </Box>
     )
 }

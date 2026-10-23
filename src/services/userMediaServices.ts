@@ -1,7 +1,28 @@
-import type {AddMediaToListDto, NewUserMediaDto, UserMedia} from "../model/UserMedia.ts";
+import type {AddMediaToListDto, NewUserMediaDto, UserMedia, UserMediaStatus} from "../model/UserMedia.ts";
 import {supabase} from "../lib/supabaseClient.ts";
-import {addMedia, getMediaByTmdbIdAndMediaType} from "./mediaServices.ts";
-import type {UserMediaItem} from "../model/WatchlistItem.ts";
+import {getOrAddMedia} from "./mediaServices.ts";
+import type {UserMediaItem} from "../model/UserMedia.ts";
+
+export async function getUserMedia(userId: string, media_id: string ): Promise<UserMedia | null> {
+    const {data, error} = await supabase
+        .from("user_media")
+        .select("user_id, media_id, status, added_at, started_at, completed_at")
+        .eq("user_id", userId)
+        .eq("media_id", media_id)
+        .maybeSingle();
+
+    if (error) throw error;
+    if (!data) return null;
+
+    return {
+        userId: data.user_id,
+        mediaId: data.media_id,
+        status: data.status,
+        addedAt: data.added_at,
+        startedAt: data.started_at,
+        completedAt: data.completed_at
+    };
+}
 
 export async function addUserMedia(userMedia: NewUserMediaDto): Promise<UserMedia> {
     const {data, error} = await supabase
@@ -26,16 +47,13 @@ export async function addUserMedia(userMedia: NewUserMediaDto): Promise<UserMedi
 }
 
 export async function addMediaToList(addMediaToListDto: AddMediaToListDto): Promise<UserMedia> {
-    // check if Media exist in the database
-    let mediaRecord = await getMediaByTmdbIdAndMediaType(addMediaToListDto.tmdbId, addMediaToListDto.mediaType);
+    const mediaRecord = await getOrAddMedia(addMediaToListDto.tmdbId, addMediaToListDto.mediaType);
 
-    // if Media doesn't exist yet create a new one
-    if (!mediaRecord) mediaRecord = await addMedia({
-        tmdbId: addMediaToListDto.tmdbId,
-        mediaType: addMediaToListDto.mediaType
-    });
+    // check if user-media doesn't exist yet, TODO update this record when user wants to update...
+    const userMediaRecord = await getUserMedia(addMediaToListDto.userId, mediaRecord.mediaId)
+    if (userMediaRecord) return userMediaRecord;
 
-    // add a new UserMedia using that Media TODO also check if usermedia doesnt exist yet, only then create else update record
+    // if user-media doesn't exist then add a new UserMedia using that Media
     return addUserMedia({
         userId: addMediaToListDto.userId,
         mediaId: mediaRecord.mediaId,
@@ -43,7 +61,7 @@ export async function addMediaToList(addMediaToListDto: AddMediaToListDto): Prom
     });
 }
 
-export async function getWatchlistMedia(userId: string): Promise<UserMediaItem[]> {
+export async function getUserMediaList(userId: string, status: UserMediaStatus): Promise<UserMediaItem[]> {
     const {data, error} = await supabase
         .from("user_media")
         .select(`
@@ -60,7 +78,7 @@ export async function getWatchlistMedia(userId: string): Promise<UserMediaItem[]
             )
         `)
         .eq("user_id", userId)
-        .eq("status", "watchlist");
+        .eq("status", status);
 
     if (error) throw error;
 

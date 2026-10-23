@@ -1,4 +1,4 @@
-import type {MediaType} from "./Media.ts";
+import type {Media, MediaType} from "./Media.ts";
 
 export type UserMediaStatus = 'watchlist' | 'currently_watching' | 'completed';
 
@@ -18,4 +18,9 @@ export type AddMediaToListDto = {
     tmdbId: number;
     mediaType: MediaType;
     status: UserMediaStatus;
+};
+
+export type UserMediaItem  = {
+    userMedia: UserMedia;
+    media: Media;
 };

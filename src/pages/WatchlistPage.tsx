@@ -1,11 +1,11 @@
 import {PageHeader} from "../components/PageHeader.tsx";
 import {Box, Stack} from "@mui/material";
-import {useWatchlist, useWatchlistTMDBDetails} from "../hooks/UseUserMedia.ts";
+import {useUserMediaList, useUserMediaDetails} from "../hooks/UseUserMedia.ts";
 import {MediaCard} from "../components/media/MediaCard.tsx";
 
 export function WatchlistPage () {
-    const {watchlist} = useWatchlist();
-    const {mediaDetails} = useWatchlistTMDBDetails(watchlist);
+    const {userMedia} = useUserMediaList("watchlist");
+    const {mediaDetails} = useUserMediaDetails(userMedia);
 
     return (
         <Box my={{xs: 10}} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 8}}>
