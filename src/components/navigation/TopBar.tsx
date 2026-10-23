@@ -5,7 +5,7 @@ import {
     Typography,
     styled, Stack, IconButton, Box,
 } from "@mui/material";
-import {collapsedDrawerWidth, drawerWidth, topBarHeight} from "./layoutConstants.ts";
+import {collapsedDrawerWidth, drawerWidth, topBarHeight} from "../layoutConstants.ts";
 import {SearchBar} from "./SearchBar.tsx";
 import MenuIcon from "@mui/icons-material/Menu";
 import {useNavigate} from "react-router";

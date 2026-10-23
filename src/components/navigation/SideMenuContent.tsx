@@ -43,20 +43,9 @@ export function SideMenuContent({open, items, handleDrawerClick, onNavigate}: Si
 
 
     return (
-        <Box
-            height={"100%"}
-            display={"flex"}
-            flexDirection={"column"}
-            sx={{overflowX: "hidden"}}
-        >
-            <Box
-                display="flex"
-                justifyContent={open ? "end" : "center"}
-                alignItems="center"
-                height={topBarHeight}
-                mr={open ? 2 : 0}
-                mb={3}
-            >
+        <Box height={"100%"} display={"flex"} flexDirection={"column"} sx={{overflowX: "hidden"}}>
+            <Box display="flex" mb={3} alignItems="center" height={topBarHeight} mr={open ? 2 : 0}
+                 justifyContent={open ? "end" : "center"}>
                 <IconButton onClick={handleDrawerClick}>
                     {open ? <ChevronLeftIcon sx={{color: "text.disabled"}}/> :
                         <MenuIcon sx={{color: "text.disabled"}}/>}

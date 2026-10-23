@@ -87,6 +87,7 @@ export function ProfilePage() {
                                      showEditButton={false}>
                         <CardContent>
                             <Stack spacing={4} p={3}>
+                                {/*TODO add a show extra text for beginners option*/}
                                 <SwitchSetting
                                     title="Show media backdrop"
                                     description="Show the media backdrop as a background on the detail page."

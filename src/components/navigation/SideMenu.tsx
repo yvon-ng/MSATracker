@@ -6,6 +6,7 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import {collapsedDrawerWidth, drawerWidth} from "../layoutConstants.ts";
 import {SideMenuContent} from "./SideMenuContent.tsx";
+import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 
 interface SideMenuProps {
     open: boolean;
@@ -19,6 +20,7 @@ export default function SideMenu({open, setOpen}: SideMenuProps) {
 
     const items = [
         {text: 'Home', icon: <HomeOutlinedIcon/>, url: 'home'},
+        {text: 'Watching', icon: <OndemandVideoOutlinedIcon/>, url: 'watching'},
         {text: 'Watchlist', icon: <BookmarkBorderOutlinedIcon/>, url: 'watchlist'},
         {text: 'Completed', icon: <CheckOutlinedIcon/>, url: 'completed'},
     ];

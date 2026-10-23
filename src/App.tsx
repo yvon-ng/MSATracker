@@ -17,6 +17,7 @@ import AppLayout from "./layouts/AppLayout.tsx";
 import {ProfilePage} from "./pages/ProfilePage.tsx";
 import {CompletedPage} from "./pages/CompletedPage.tsx";
 import {WatchlistPage} from "./pages/WatchlistPage.tsx";
+import {WatchingPage} from "./pages/WatchingPage.tsx";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
@@ -54,6 +55,7 @@ function AppContent() {
                 <Route element={<ProtectedRoute/>}>
                     <Route element={<AppLayout/>}>
                         <Route path="/completed" element={<CompletedPage/>}/>
+                        <Route path="/watching" element={<WatchingPage/>}/>
                         <Route path="/watchlist" element={<WatchlistPage/>}/>
                         <Route path="/profile" element={<ProfilePage/>}/>
                         <Route path="/home" element={<HomePage/>}/>

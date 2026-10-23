@@ -13,8 +13,8 @@ export function WatchlistPage () {
                         subtitle={"Pick what to watch next."}/>
 
             <Stack direction="row" flexWrap={"wrap"} gap={3} my={{xs: 10}}>
-                {mediaDetails.map(item => (
-                    <MediaCard media={item} key={`${item.media_type}-${item.id}`}/>
+                {mediaDetails.map((item, index) => (
+                    <MediaCard   media={item} key={`${item.media_type}-${item.id}`} userMediaStatus={userMedia[index].userMedia.status}/>
                 ))}
             </Stack>
         </Box>

@@ -1,8 +1,8 @@
 import {Outlet} from "react-router";
 import {Box} from "@mui/material";
 import {useState} from "react";
-import TopBar from "../components/TopBar";
-import SideMenu from "../components/sideMenu/SideMenu";
+import TopBar from "../components/navigation/TopBar.tsx";
+import SideMenu from "../components/navigation/SideMenu";
 
 import {
     collapsedDrawerWidth,

@@ -15,12 +15,14 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import {useState} from "react";
 import {UserAuth} from "../../context/AuthContextProvider.tsx";
 import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
+import type {UserMediaStatus} from "../../model/UserMedia.ts";
 
 interface MediaCardProps {
     media: TMDBMedia
+    userMediaStatus?: UserMediaStatus
 }
 
-export function MediaCard({media}: MediaCardProps) {
+export function MediaCard({media, userMediaStatus}: MediaCardProps) {
     const navigate = useNavigate();
     const isMovie = media.media_type === "movie";
     const title = isMovie ? media.title : media.name;
@@ -156,7 +158,15 @@ export function MediaCard({media}: MediaCardProps) {
                     },
                 }}
             >
-                <AddIcon/>
+                {userMediaStatus === "watchlist" ? (
+                    <BookmarkBorderOutlinedIcon />
+                ) : userMediaStatus === "currently_watching" ? (
+                    <OndemandVideoOutlinedIcon />
+                ) : userMediaStatus === "completed" ? (
+                    <CheckOutlinedIcon />
+                ) : (
+                    <AddIcon />
+                )}
             </IconButton>
 
             <Menu
