@@ -1,5 +1,5 @@
 import {useMutation, useQueryClient, useSuspenseQueries, useSuspenseQuery} from "@tanstack/react-query";
-import {addMediaToList, getUserMediaList} from "../services/userMediaServices.ts";
+import {addMediaToList, getUserMediaList, getUserMediaStatuses} from "../services/userMediaServices.ts";
 import type {AddMediaToListDto, UserMediaStatus} from "../model/UserMedia.ts";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
 import type {UserMediaItem} from "../model/UserMedia.ts";
@@ -49,7 +49,7 @@ export function useUserMediaList(status: UserMediaStatus) {
 
 export function useUserMediaDetails(items: UserMediaItem[] | undefined) {
     const results = useSuspenseQueries({
-        queries: (items ?? []).map(({ media }) => ({
+        queries: (items ?? []).map(({media}) => ({
             queryKey: [media.mediaType === "movie" ? "movie" : "series", media.tmdbId,],
             queryFn: async (): Promise<TMDBMedia> => {
                 const details = media.mediaType === "movie" ? await getMovie(media.tmdbId) : await getSeries(media.tmdbId);
@@ -66,4 +66,19 @@ export function useUserMediaDetails(items: UserMediaItem[] | undefined) {
     return {
         mediaDetails: results.map((result) => result.data),
     };
+}
+
+export function useUserMediaStatuses(media: { id: number; media_type: "movie" | "tv" }[]) {
+    const {user} = UserAuth();
+
+    const {data} = useSuspenseQuery({
+        queryKey: [
+            "user-media-statuses",
+            user?.userId,
+            media.map((item) => `${item.media_type}-${item.id}`),
+        ],
+        queryFn: () => getUserMediaStatuses(user!.userId, media),
+    });
+
+    return {data}
 }

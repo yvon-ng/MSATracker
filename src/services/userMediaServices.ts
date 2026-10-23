@@ -9,7 +9,7 @@ import {supabase} from "../lib/supabaseClient.ts";
 import {getOrAddMedia} from "./mediaServices.ts";
 import type {UserMediaItem} from "../model/UserMedia.ts";
 
-async function getUserMedia(userId: string, media_id: string ): Promise<UserMedia | null> {
+async function getUserMedia(userId: string, media_id: string): Promise<UserMedia | null> {
     const {data, error} = await supabase
         .from("user_media")
         .select("user_id, media_id, status, added_at, started_at, completed_at")
@@ -31,14 +31,22 @@ async function getUserMedia(userId: string, media_id: string ): Promise<UserMedi
 }
 
 async function addUserMedia(userMedia: NewUserMediaDto): Promise<UserMedia> {
+    const now = new Date().toISOString();
+
+    // when media is directly added to "currently_watching" or "completed" use date.now for those values
+    const startedAt = userMedia.status === "currently_watching" || userMedia.status === "completed" ? now : null;
+    const completedAt = userMedia.status === "completed" ? now : null;
+
     const {data, error} = await supabase
         .from("user_media")
         .insert({
             user_id: userMedia.userId,
             media_id: userMedia.mediaId,
             status: userMedia.status,
+            started_at: startedAt,
+            completed_at: completedAt,
         })
-        .select("user_id, media_id, status, added_at, started_at")
+        .select("user_id, media_id, status, added_at, started_at, completed_at")
         .single();
 
     if (error) throw error;
@@ -49,20 +57,23 @@ async function addUserMedia(userMedia: NewUserMediaDto): Promise<UserMedia> {
         status: data.status,
         addedAt: data.added_at,
         startedAt: data.started_at,
+        completedAt: data.completed_at,
     };
 }
 
-async function updateUserMedia(userId: string, mediaId: string, status: UserMediaStatus): Promise<UserMedia> {
-    const { data, error } = await supabase
+async function updateUserMedia(userId: string, mediaId: string, status: UserMediaStatus, previous: UserMedia): Promise<UserMedia> {
+    const now = new Date().toISOString();
+
+    // only keep the first time a media is started and completed
+    const startedAt = previous.startedAt ?? (status === "currently_watching" || status === "completed" ? now : null);
+    const completedAt = previous.completedAt ?? (status === "completed" ? now : null);
+
+    const {data, error} = await supabase
         .from("user_media")
         .update({
             status,
-            ...(status === "currently_watching" && {
-                started_at: new Date().toISOString(),
-            }),
-            ...(status === "completed" && {
-                completed_at: new Date().toISOString(),
-            }),
+            started_at: startedAt,
+            completed_at: completedAt,
         })
         .eq("user_id", userId)
         .eq("media_id", mediaId)
@@ -90,14 +101,15 @@ export async function addMediaToList(addMediaToListDto: AddMediaToListDto): Prom
     // if user-media exists
     if (userMediaRecord) {
         if (userMediaRecord.status === addMediaToListDto.status) {
-            return {userMedia: userMediaRecord, previousStatus : userMediaRecord.status};
+            return {userMedia: userMediaRecord, previousStatus: userMediaRecord.status};
         }
 
         // update that existing record
         const updatedUserMedia = await updateUserMedia(
             addMediaToListDto.userId,
             mediaRecord.mediaId,
-            addMediaToListDto.status
+            addMediaToListDto.status,
+            userMediaRecord
         );
 
         return {
@@ -155,4 +167,26 @@ export async function getUserMediaList(userId: string, status: UserMediaStatus):
             mediaType: item.media.media_type,
         },
     }));
+}
+
+export async function getUserMediaStatuses(userId: string, media: { id: number; media_type: "movie" | "tv" }[]) {
+    if (media.length === 0) return [];
+
+    const tmdbIds = media.map((item) => item.id);
+
+    const { data, error } = await supabase
+        .from("user_media")
+        .select(`
+            status,
+            media!inner (
+                tmdb_id,
+                media_type
+            )
+        `)
+        .eq("user_id", userId)
+        .in("media.tmdb_id", tmdbIds);
+
+    if (error) throw error;
+
+    return data;
 }

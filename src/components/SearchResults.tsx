@@ -1,7 +1,7 @@
 import {Stack} from "@mui/material";
 import {MediaCard} from "./media/MediaCard.tsx";
 import {useMultiSearch} from "../hooks/UseTMDBs.ts";
-import {useUserMediaList} from "../hooks/UseUserMedia.ts";
+import {useUserMediaStatuses} from "../hooks/UseUserMedia.ts";
 
 interface SearchResultsProps {
     query: string;
@@ -14,22 +14,14 @@ export function SearchResults({query}: SearchResultsProps) {
         item => item.media_type === "movie" || item.media_type === "tv"
     );
 
-    //TODO same as homepage (1 qµuery)
-    const { userMedia: watchlist } = useUserMediaList("watchlist");
-    const { userMedia: watching } = useUserMediaList("currently_watching");
-    const { userMedia: completed } = useUserMediaList("completed");
+    const { data: statuses = [] } = useUserMediaStatuses(titles);
 
-    const savedMedia = [...watchlist, ...watching, ...completed];
-
-    const getStatus = (tmdbId: number, mediaType: "movie" | "tv") => {
-        const match = savedMedia.find(
-            item =>
-                Number(item.media.tmdbId) === tmdbId &&
-                (item.media.mediaType === "movie" ? "movie" : "tv") === mediaType
-        );
-
-        return match?.userMedia.status;
-    };
+    const statusMap = new Map(
+        statuses.map((item) => [
+            `${item.media.media_type === "series" ? "tv" : item.media.media_type}-${item.media.tmdb_id}`,
+            item.status,
+        ])
+    );
 
     return (
         <Stack direction="row" flexWrap="wrap" gap={3}>
@@ -37,7 +29,9 @@ export function SearchResults({query}: SearchResultsProps) {
                 <MediaCard
                     media={item}
                     key={`${item.media_type}-${item.id}`}
-                    userMediaStatus={getStatus(item.id, item.media_type)}
+                    userMediaStatus={statusMap.get(
+                        `${item.media_type}-${item.id}`
+                    )}
                 />
             ))}
         </Stack>

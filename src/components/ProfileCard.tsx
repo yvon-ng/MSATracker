@@ -134,7 +134,7 @@ export function ProfileCard() {
 
             <Divider sx={{mx: 3}}/>
 
-            {/* Tracked / Completed / Watchlist statistics */}
+            {/*TODO Tracked / Completed / Watchlist statistics */}
             <CardContent>
                 <Stack direction="row" justifyContent="space-around" alignItems="center">
                     <StatDisplay value={124} label="Total"/>

@@ -14,6 +14,7 @@ export function SearchPage() {
         );
     }
 
+
     return (
         <Box my={10} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 0}}>
             <Typography fontSize={{xs: "2rem",sm: "3rem"}} mb={{xs: 5}} sx={{textWrap: "nowrap"}}>
