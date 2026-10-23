@@ -118,10 +118,19 @@ export function MediaCard({media}: MediaCardProps) {
                     title={title}
                     subheader={year}
                     slotProps={{
-                        title: {variant: "subtitle1"},
+                        title: {
+                            variant: "subtitle1",
+                            noWrap: true,
+                        },
                         subheader: {variant: "caption"},
                     }}
-                    sx={{p: 1.5, bgcolor: "background.default"}}
+                    sx={{
+                        p: 1.5,
+                        bgcolor: "background.default",
+                        "& .MuiCardHeader-content": {
+                            minWidth: 0,
+                        },
+                    }}
                 />
             </CardActionArea>
 
