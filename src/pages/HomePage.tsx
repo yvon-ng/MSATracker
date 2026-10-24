@@ -1,4 +1,4 @@
-import {Box, Stack} from "@mui/material";
+import {Box, Stack, Typography} from "@mui/material";
 import {PageHeader} from "../components/PageHeader.tsx";
 import {useGetTrendingMedia} from "../hooks/UseTMDBs.ts";
 import {MediaCard} from "../components/media/MediaCard.tsx";
@@ -20,7 +20,7 @@ export function HomePage() {
 
     const displayName = personalPreferences?.usernameAsDisplayName ? user?.username : user?.firstName;
     const titleSuffix = displayName ? `${displayName}.` : ""; //dont show the dot when no first name
-    const { data: statuses = [] } = useUserMediaStatuses(titles);
+    const {data: statuses = []} = useUserMediaStatuses(titles);
 
     const statusMap = new Map(
         statuses.map((item) => [
@@ -34,9 +34,16 @@ export function HomePage() {
             <PageHeader overline={formattedDate} title={greeting}
                         titleSuffix={titleSuffix}
                         subtitle={"Pick up where you left off or discover something new."}/>
-            <Stack direction="row" flexWrap={"wrap"} gap={3} my={{xs: 10}}>
+
+            <Box mt={{xs: 10}}>
+                <Typography fontSize={{xs: "2rem", sm: "1.6rem"}} mb={{xs: 3}} sx={{fontWeight: 500, letterSpacing: "-0.01rem", textWrap: "nowrap"}}>
+                    Trending now
+                </Typography>
+            </Box>
+            <Stack direction="row" flexWrap={"wrap"} gap={3}>
                 {titles.map(item => (
-                    <MediaCard media={item} key={`${item.media_type}-${item.id}`} userMediaStatus={statusMap.get(`${item.media_type}-${item.id}`)}/>
+                    <MediaCard media={item} key={`${item.media_type}-${item.id}`}
+                               userMediaStatus={statusMap.get(`${item.media_type}-${item.id}`)}/>
                 ))}
             </Stack>
         </Box>

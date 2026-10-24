@@ -1,9 +1,21 @@
-import {Alert, Box, CardContent, IconButton, InputAdornment, Stack, Tooltip} from "@mui/material";
+import {
+    Alert,
+    alpha,
+    Box,
+    CardContent,
+    IconButton,
+    InputAdornment,
+    Stack,
+    Tooltip,
+    Typography,
+    useTheme
+} from "@mui/material";
 import {LabeledTextField} from "./LabeledTextField.tsx";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import type {UpdateUserDto} from "../model/User.ts";
 import {type SubmitEvent} from "react"
 import {UserAuth} from "../context/AuthContextProvider.tsx";
+import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 
 interface PersonalInformationFormProps {
     formValues: UpdateUserDto;
@@ -23,6 +35,7 @@ export function PersonalInformationForm({
                                             onSubmit
                                         }: PersonalInformationFormProps) {
     const {user} = UserAuth();
+    const theme = useTheme();
 
     return (
         <Box component="form" onSubmit={onSubmit}>
@@ -73,10 +86,26 @@ export function PersonalInformationForm({
                     </Stack>
                 </Stack>
 
-                {/*TODO check how this is displayed*/}
                 {error && (
-                    <Alert severity="error" sx={{mx: 3, mb: 2}}>
-                        {error.message}
+                    <Alert
+                        icon={<WarningAmberOutlinedIcon fontSize={"large"}/>}
+                        severity="error"
+                        variant="outlined"
+                        sx={{
+                            mx: 3,
+                            mb: 2,
+                            borderRadius: 2,
+                            border: "2px solid",
+                            backgroundColor: alpha(theme.palette.secondary.main, 0.1),
+                            borderColor: alpha(theme.palette.secondary.main, 0.8),
+                            color: alpha(theme.palette.secondary.main, 0.8),
+                        }}
+                    >
+                        <Typography variant={"subtitle1"} lineHeight={{xs: 1.1, sm: "auto"}} mb={{xs: 1, sm: 0.5}}
+                                    fontWeight={600}>Failed to update your profile.</Typography>
+                        <Typography variant="body2" color="text.secondary" lineHeight={{xs: "auto", sm: 1.1}}>
+                            {error.message}
+                        </Typography>
                     </Alert>
                 )}
 

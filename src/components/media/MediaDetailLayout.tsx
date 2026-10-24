@@ -57,7 +57,6 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
                         {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.genres}</Typography>*!/*/}
                         {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.belongs_to_collection}</Typography>*!/*/}
                         {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.production_companies}</Typography>*!/*/}
-                        {/*<Box component={"img"} src={backdrop} alt={movie.title + "backdrop"} sx={{width: 400, borderRadius: 3}}/>*/}
                     </Stack>
 
                     <Stack width={{xs: "100%", lg: "40%"}} mt={{xs: 5, lg: 0}} mx={{lg: 10}} spacing={1}
