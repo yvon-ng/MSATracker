@@ -36,7 +36,8 @@ export function HomePage() {
                         subtitle={"Pick up where you left off or discover something new."}/>
 
             <Box mt={{xs: 10}}>
-                <Typography fontSize={{xs: "2rem", sm: "1.6rem"}} mb={{xs: 3}} sx={{fontWeight: 500, letterSpacing: "-0.01rem", textWrap: "nowrap"}}>
+                <Typography fontSize={{xs: "2rem", sm: "1.6rem"}} mb={{xs: 3}}
+                            sx={{fontWeight: 500, letterSpacing: "-0.01rem", textWrap: "nowrap"}}>
                     Trending now
                 </Typography>
             </Box>
@@ -46,6 +47,7 @@ export function HomePage() {
                                userMediaStatus={statusMap.get(`${item.media_type}-${item.id}`)}/>
                 ))}
             </Stack>
+
         </Box>
     )
 }
