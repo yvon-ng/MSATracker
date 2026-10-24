@@ -72,6 +72,7 @@ export function PersonalInformationForm({
                         />
                     </Stack>
                 </Stack>
+
                 {/*TODO check how this is displayed*/}
                 {error && (
                     <Alert severity="error" sx={{mx: 3, mb: 2}}>

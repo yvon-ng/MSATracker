@@ -16,6 +16,10 @@ export function useAddMediaToList() {
                 queryKey: [variables.status, variables.userId],
             });
 
+            queryClient.invalidateQueries({
+                queryKey: ["user-media-statuses", variables.userId],
+            });
+
             if (result.previousStatus !== null && result.previousStatus !== variables.status) {
                 queryClient.invalidateQueries({
                     queryKey: [
@@ -72,11 +76,7 @@ export function useUserMediaStatuses(media: { id: number; media_type: "movie" | 
     const {user} = UserAuth();
 
     const {data} = useSuspenseQuery({
-        queryKey: [
-            "user-media-statuses",
-            user?.userId,
-            media.map((item) => `${item.media_type}-${item.id}`),
-        ],
+        queryKey: ["user-media-statuses", user?.userId, media.map((item) => `${item.media_type}-${item.id}`),],
         queryFn: () => getUserMediaStatuses(user!.userId, media),
     });
 

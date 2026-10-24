@@ -31,52 +31,22 @@ export function MediaCard({media, userMediaStatus}: MediaCardProps) {
     const year = releaseDate?.slice(0, 4);
     const {addMediaToList} = useAddMediaToList();
     const {user} = UserAuth();
-
-    const handleAddToWatchlist = () => {
-        if (!user) return;
-
-        addMediaToList({
-            userId: user.userId,
-            tmdbId: media.id,
-            mediaType: media.media_type === "movie" ? "movie" : "series",
-            status: "watchlist",
-        });
-
-        setAnchorEl(null)
-    };
-
-    const handleAddToCurrentlyWatching = () => {
-        if (!user) return;
-
-        // TODO: check if media is already in watchlist if yes, update that record, else create new UserMedia (and media if doesnt exist yet) with started_at and added_at now()
-
-        addMediaToList({
-            userId: user.userId,
-            tmdbId: media.id,
-            mediaType: media.media_type === "movie" ? "movie" : "series",
-            status: "currently_watching",
-        });
-
-        setAnchorEl(null)
-
-    };
-
-    const handleMarkCompleted = () => {
-        if (!user) return;
-
-        // TODO: works but when already in watchlist should update existing record not create new one, same with currently watching, if media not yet in those 2 create new UserMedia (and media if doesnt exist yet) with started_at, added_at and completed_at now()
-
-        addMediaToList({
-            userId: user.userId,
-            tmdbId: media.id,
-            mediaType: media.media_type === "movie" ? "movie" : "series",
-            status: "completed",
-        });
-        setAnchorEl(null)
-    };
-
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorEl);
+
+    const handleStatusChange = (status: UserMediaStatus) => {
+        if (!user) return;
+
+        addMediaToList({
+            userId: user.userId,
+            tmdbId: media.id,
+            mediaType: media.media_type === "movie" ? "movie" : "series",
+            status,
+        });
+
+        setAnchorEl(null);
+    };
+
 
     return (
         <Card
@@ -186,21 +156,21 @@ export function MediaCard({media, userMediaStatus}: MediaCardProps) {
                     list: {sx: {p: 0.5}},
                 }}
             >
-                <MenuItem onClick={handleAddToWatchlist}>
+                <MenuItem onClick={() => handleStatusChange("watchlist")}>
                     <ListItemIcon>
                         <BookmarkBorderOutlinedIcon fontSize="small"/>
                     </ListItemIcon>
                     <ListItemText primary="Add to Watchlist"/>
                 </MenuItem>
 
-                <MenuItem onClick={handleAddToCurrentlyWatching}>
+                <MenuItem onClick={() => handleStatusChange("currently_watching")}>
                     <ListItemIcon>
                         <OndemandVideoOutlinedIcon fontSize="small"/>
                     </ListItemIcon>
                     <ListItemText primary="Set as Currently Watching"/>
                 </MenuItem>
 
-                <MenuItem onClick={handleMarkCompleted}>
+                <MenuItem onClick={() => handleStatusChange("completed")}>
                     <ListItemIcon>
                         <CheckOutlinedIcon fontSize="small"/>
                     </ListItemIcon>
