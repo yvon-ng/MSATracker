@@ -1,5 +1,5 @@
 import {Box, Fade, Stack, ToggleButton, ToggleButtonGroup} from "@mui/material";
-import {type MouseEvent, useState} from "react";
+import {type MouseEvent} from "react";
 import type {TMDBMedia} from "../../model/TMDBMedia.ts";
 import type {UserMediaItem} from "../../model/UserMedia.ts";
 import {MediaCard} from "./MediaCard.tsx";
@@ -7,28 +7,19 @@ import {MediaCard} from "./MediaCard.tsx";
 interface MediaCollectionProps {
     media: TMDBMedia[];
     userMedia: UserMediaItem[];
+    mediaTypeFilter: string;
+    filteredMedia: TMDBMedia[]
+    onFilterChange: (event: MouseEvent<HTMLElement>, value: string | null) => void;
 }
 
-export function MediaCollection({media, userMedia}: MediaCollectionProps) {
-    const [mediaTypeFilter, setMediaTypeFilter] = useState("all");
-    const filteredMedia = mediaTypeFilter === "all" ? media
-        : media.filter((item) => mediaTypeFilter === "movie" ? item.media_type === "movie" : item.media_type === "tv");
-
-    const handleChange = (
-        _event: MouseEvent<HTMLElement>,
-        newFilter: string | null
-    ) => {
-        if (newFilter !== null) {
-            setMediaTypeFilter(newFilter);
-        }
-    };
+export function MediaCollection({media, userMedia, mediaTypeFilter, onFilterChange, filteredMedia}: MediaCollectionProps) {
 
     return (
         <Stack my={10} gap={3}>
             <ToggleButtonGroup
                 value={mediaTypeFilter}
                 exclusive
-                onChange={handleChange}
+                onChange={onFilterChange}
                 aria-label="Media type filter"
                 sx={{
                     width: {xs: "100%", sm: 300},
