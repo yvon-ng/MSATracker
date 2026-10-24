@@ -1,4 +1,4 @@
-import {Box, Stack, Typography} from "@mui/material";
+import {Box, Divider, Stack, Typography} from "@mui/material";
 import {PageHeader} from "../components/PageHeader.tsx";
 import {useGetTrendingMedia} from "../hooks/UseTMDBs.ts";
 import {MediaCard} from "../components/media/MediaCard.tsx";
@@ -30,16 +30,18 @@ export function HomePage() {
     );
 
     return (
-        <Box my={{xs: 10}} ml={{xs: 0, md: 8}} mr={{xs: 5, sm: 0}}>
+        <Box my={{xs: 10}} ml={{xs: 0, md: 8}} mr={{xs: 5, md: 8}}>
             <PageHeader overline={formattedDate} title={greeting}
                         titleSuffix={titleSuffix}
                         subtitle={"Pick up where you left off or discover something new."}/>
 
             <Box mt={{xs: 10}}>
-                <Typography fontSize={{xs: "2rem", sm: "1.6rem"}} mb={{xs: 3}}
-                            sx={{fontWeight: 500, letterSpacing: "-0.01rem", textWrap: "nowrap"}}>
+
+                <Typography fontSize={{xs: "2rem", sm: "1.6rem"}}
+                            sx={{fontWeight: 500, letterSpacing: "-0.01rem", textWrap: "nowrap", color: "secondary.main"}}>
                     Trending now
                 </Typography>
+                <Divider sx={{mb: 3, borderColor: "secondary.dark", borderWidth: 1, borderRadius: 4, width: 180}}/>
             </Box>
             <Stack direction="row" flexWrap={"wrap"} gap={3}>
                 {titles.map(item => (
