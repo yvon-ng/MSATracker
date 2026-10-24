@@ -18,6 +18,7 @@ import {ProfileOptionsMenu} from "./ProfileOptionsMenu.tsx";
 import {useChangeProfilePicture} from "../hooks/UseProfilePicture.ts";
 import {type ChangeEvent, useRef} from "react";
 import {MIME_EXTENSIONS} from "../utils/pictureUitls.ts";
+import {useUserMediaList} from "../hooks/UseUserMedia.ts";
 
 
 export function ProfileCard() {
@@ -34,6 +35,11 @@ export function ProfileCard() {
         }
         event.target.value = "";
     };
+    const { userMedia: watchlist } = useUserMediaList("watchlist");
+    const { userMedia: currentlyWatching } = useUserMediaList("currently_watching");
+    const { userMedia: completed } = useUserMediaList("completed");
+
+    const totalCount = watchlist.length + currentlyWatching.length + completed.length;
 
     return (
         <Card variant="outlined" sx={{borderRadius: 4, mt: {xs: 10}, mb: {xs: 0}}}>
@@ -134,14 +140,15 @@ export function ProfileCard() {
 
             <Divider sx={{mx: 3}}/>
 
-            {/*TODO Tracked / Completed / Watchlist statistics */}
             <CardContent>
                 <Stack direction="row" justifyContent="space-around" alignItems="center">
-                    <StatDisplay value={124} label="Total"/>
+                    <StatDisplay value={completed.length} label="Completed"/>
                     <Divider orientation="vertical" flexItem/>
-                    <StatDisplay value={12} label="Completed"/>
+                    <StatDisplay value={currentlyWatching.length} label="Watching"/>
                     <Divider orientation="vertical" flexItem/>
-                    <StatDisplay value={72} label="Watchlist"/>
+                    <StatDisplay value={watchlist.length} label="Watchlist"/>
+                    <Divider orientation="vertical" flexItem/>
+                    <StatDisplay value={totalCount} label="Total"/>
                 </Stack>
             </CardContent>
         </Card>
