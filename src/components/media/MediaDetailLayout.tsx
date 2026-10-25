@@ -6,6 +6,8 @@ import {type MovieDetails, type TVSeriesDetails} from "@lorenzopant/tmdb";
 import {MediaStats} from "./MediaStats.tsx";
 import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
 import {usePersonalPreferences} from "../../hooks/UsePersonalPreferences.ts";
+import {MediaCard} from "./MediaCard.tsx";
+import {useUserMediaStatuses} from "../../hooks/UseUserMedia.ts";
 
 type MediaDetailLayoutProps =
     | { media: MovieDetails; isMovie: true }
@@ -14,6 +16,15 @@ type MediaDetailLayoutProps =
 export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
     const {personalPreferences} = usePersonalPreferences();
     const backdrop = media.backdrop_path ? `${IMAGE_BASE_URL}${media.backdrop_path}` : undefined;
+
+    const tmdbMedia = [{
+        id: media.id,
+        media_type: isMovie ? "movie" as const : "tv" as const,
+    }];
+
+    const {data} = useUserMediaStatuses(tmdbMedia);
+
+    const userMediaStatus = data.find(item => Number(item.media.tmdb_id) === media.id && item.media.media_type === (isMovie ? "movie" : "series"))?.status;
 
     return (
         <Box
@@ -46,8 +57,14 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
             <Box my={10} ml={{xs: 5, md: 8}} mr={{xs: 5, md: 8, lg: 0}}>
                 <Stack direction={{xs: "column", lg: "row"}}>
                     <Stack direction={{xs: "column", md: "row"}} gap={4} width={{lg: "60%"}}>
+                        {/*TODO also enable to add to list in detail page*/}
                         <MediaPoster media={media} isMovie={isMovie}/>
-
+                        {/*<Box width={{xs: "100%", sm: "35%", md: 300}} sx={{borderRadius: 3}}>*/}
+                        {/*    <MediaCard*/}
+                        {/*        media={isMovie ? {...media, media_type: "movie"} : {...media, media_type: "tv"}}*/}
+                        {/*        userMediaStatus={userMediaStatus}*/}
+                        {/*    />*/}
+                        {/*</Box>*/}
                         {/*MOVIE: title, tagline, release year, duration, overview; SERIE: title, tagline, air years, seasons, ep duration, overview*/}
                         <MediaInfo media={media} isMovie={isMovie}/>
 
