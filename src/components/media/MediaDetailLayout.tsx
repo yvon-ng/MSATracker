@@ -6,8 +6,6 @@ import {type MovieDetails, type TVSeriesDetails} from "@lorenzopant/tmdb";
 import {MediaStats} from "./MediaStats.tsx";
 import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
 import {usePersonalPreferences} from "../../hooks/UsePersonalPreferences.ts";
-import {MediaCard} from "./MediaCard.tsx";
-import {useUserMediaStatuses} from "../../hooks/UseUserMedia.ts";
 
 type MediaDetailLayoutProps =
     | { media: MovieDetails; isMovie: true }
@@ -16,15 +14,6 @@ type MediaDetailLayoutProps =
 export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
     const {personalPreferences} = usePersonalPreferences();
     const backdrop = media.backdrop_path ? `${IMAGE_BASE_URL}${media.backdrop_path}` : undefined;
-
-    const tmdbMedia = [{
-        id: media.id,
-        media_type: isMovie ? "movie" as const : "tv" as const,
-    }];
-
-    const {data} = useUserMediaStatuses(tmdbMedia);
-
-    const userMediaStatus = data.find(item => Number(item.media.tmdb_id) === media.id && item.media.media_type === (isMovie ? "movie" : "series"))?.status;
 
     return (
         <Box

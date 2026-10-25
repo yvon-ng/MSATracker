@@ -3,20 +3,13 @@ import {
     CardHeader,
     CardMedia,
     Chip,
-    IconButton, ListItemIcon, ListItemText, Menu, MenuItem,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import type {TMDBMedia} from "../../model/TMDBMedia.ts";
 import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
 import {useNavigate} from "react-router";
-import {useAddMediaToList} from "../../hooks/UseUserMedia.ts";
-import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
-import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
-import {useState} from "react";
-import {UserAuth} from "../../context/AuthContextProvider.tsx";
-import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 import type {UserMediaStatus} from "../../model/UserMedia.ts";
-import {usePersonalPreferences} from "../../hooks/UsePersonalPreferences.ts";
+import {MediaStatusMenu} from "./MediaStatusMenu.tsx";
+import {NO_POSTER_URL} from "../../utils/utils.ts";
 
 interface MediaCardProps {
     media: TMDBMedia
@@ -28,27 +21,8 @@ export function MediaCard({media, userMediaStatus}: MediaCardProps) {
     const isMovie = media.media_type === "movie";
     const title = isMovie ? media.title : media.name;
     const releaseDate = isMovie ? media.release_date : media.first_air_date;
-    const poster = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : `https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original`; //TODO better no poster picture
+    const poster = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : NO_POSTER_URL;
     const year = releaseDate?.slice(0, 4);
-    const {addMediaToList} = useAddMediaToList();
-    const {user} = UserAuth();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const isMenuOpen = Boolean(anchorEl);
-    const {personalPreferences} = usePersonalPreferences();
-
-    const handleStatusChange = (status: UserMediaStatus) => {
-        if (!user) return;
-
-        addMediaToList({
-            userId: user.userId,
-            tmdbId: media.id,
-            mediaType: media.media_type === "movie" ? "movie" : "series",
-            status,
-        });
-
-        setAnchorEl(null);
-    };
-
 
     return (
         <Card
@@ -108,157 +82,16 @@ export function MediaCard({media, userMediaStatus}: MediaCardProps) {
                 />
             </CardActionArea>
 
-            <IconButton
-                size="small"
-                aria-label={`Options for ${title}`}
-                aria-haspopup="true"
-                aria-expanded={isMenuOpen ? "true" : undefined}
-                onClick={(event) => setAnchorEl(event.currentTarget)}
+            <MediaStatusMenu
+                tmdbId={media.id}
+                mediaType={media.media_type}
+                status={userMediaStatus}
                 sx={{
                     position: "absolute",
                     bottom: "5.5rem",
                     right: "1rem",
-                    bgcolor: "background.paper",
-                    border: "1px solid",
-                    borderColor: "text.secondary",
-                    color: "text.secondary",
-                    transition: "background-color 0.3s, color 0.3s",
-                    "&:hover": {
-                        bgcolor: "secondary.main",
-                        color: "primary.main",
-                        borderColor: "secondary.main",
-                    },
                 }}
-            >
-                {userMediaStatus === "watchlist" ? (
-                    <BookmarkBorderOutlinedIcon/>
-                ) : userMediaStatus === "currently_watching" ? (
-                    <OndemandVideoOutlinedIcon/>
-                ) : userMediaStatus === "completed" ? (
-                    <CheckOutlinedIcon/>
-                ) : (
-                    <AddIcon/>
-                )}
-            </IconButton>
-
-            <Menu
-                anchorEl={anchorEl}
-                open={isMenuOpen}
-                onClose={() => setAnchorEl(null)}
-                slotProps={{
-                    paper: {
-                        elevation: 3,
-                        sx: {
-                            border: 1,
-                            borderColor: "divider",
-                            borderRadius: 2,
-                            // minWidth: 200,
-                        },
-                    },
-                    list: {
-                        sx: {
-                            p: 0.5,
-                            display: "flex",
-                            flexDirection: personalPreferences.showExtraLabels ? "column" : "row",
-                        },
-                    },
-                }}
-            >
-                <MenuItem
-                    onClick={() => handleStatusChange("watchlist")}
-                    sx={{
-                        px: personalPreferences.showExtraLabels ? 2 : 1,
-                        border: "1px solid transparent",
-                        transition: "background-color 250ms ease, color 250ms ease",
-
-                        "&:hover": {
-                            bgcolor: "#211819",
-                            color: "secondary.main",
-                            border: "1px solid",
-                            borderColor: "secondary.dark",
-                            borderRadius: 2,
-                        },
-
-                        "&:hover .MuiListItemIcon-root": {
-                            color: "secondary.main",
-                        },
-                    }}
-                >
-                    <ListItemIcon
-                        sx={{
-                            justifyContent: personalPreferences.showExtraLabels ? "start" : "center",
-                        }}
-                    >
-                        <BookmarkBorderOutlinedIcon fontSize="small"/>
-                    </ListItemIcon>
-                    {personalPreferences.showExtraLabels && (
-                        <ListItemText primary="Add to Watchlist"/>
-                    )}
-                </MenuItem>
-
-                <MenuItem
-                    onClick={() => handleStatusChange("currently_watching")}
-                    sx={{
-                        px: personalPreferences.showExtraLabels ? 2 : 1,
-                        border: "1px solid transparent",
-                        transition: "background-color 250ms ease, color 250ms ease",
-
-                        "&:hover": {
-                            bgcolor: "#211819",
-                            color: "secondary.main",
-                            border: "1px solid",
-                            borderColor: "secondary.dark",
-                            borderRadius: 2,
-                        },
-
-                        "&:hover .MuiListItemIcon-root": {
-                            color: "secondary.main",
-                        },
-                    }}
-                >
-                    <ListItemIcon
-                        sx={{
-                            justifyContent: personalPreferences.showExtraLabels ? "start" : "center",
-                        }}
-                    >
-                        <OndemandVideoOutlinedIcon fontSize="small"/>
-                    </ListItemIcon>
-                    {personalPreferences.showExtraLabels && (
-                        <ListItemText primary="Set as Currently Watching"/>
-                    )}
-                </MenuItem>
-
-                <MenuItem
-                    onClick={() => handleStatusChange("completed")}
-                    sx={{
-                        px: personalPreferences.showExtraLabels ? 2 : 1,
-                        border: "1px solid transparent",
-                        transition: "background-color 250ms ease, color 250ms ease",
-
-                        "&:hover": {
-                            bgcolor: "#211819",
-                            color: "secondary.main",
-                            border: "1px solid",
-                            borderColor: "secondary.dark",
-                            borderRadius: 2,
-                        },
-
-                        "&:hover .MuiListItemIcon-root": {
-                            color: "secondary.main",
-                        },
-                    }}
-                >
-                    <ListItemIcon
-                        sx={{
-                            justifyContent: personalPreferences.showExtraLabels ? "start" : "center",
-                        }}>
-                        <CheckOutlinedIcon fontSize="small"/>
-                    </ListItemIcon>
-                    {personalPreferences.showExtraLabels && (
-                        <ListItemText primary="Mark as Completed"/>
-                    )}
-                </MenuItem>
-            </Menu>
+            />
         </Card>
     );
 }
