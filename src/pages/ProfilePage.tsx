@@ -99,6 +99,12 @@ export function ProfilePage() {
                                     description="Use your username instead of your first name across the app."
                                     preferenceKey="usernameAsDisplayName"
                                 />
+
+                                <SwitchSetting
+                                    title="Show extra information"
+                                    description="Display labels next to icons to explain what they do. Recommended for new users."
+                                    preferenceKey="showExtraLabels"
+                                />
                             </Stack>
                         </CardContent>
                     </PreferencesCard>

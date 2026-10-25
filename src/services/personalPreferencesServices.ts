@@ -12,7 +12,8 @@ export async function getPersonalPreferences(userId: string): Promise<PersonalPr
 
     return {
         showMediaBackdrop: data.show_media_backdrop,
-        usernameAsDisplayName: data.username_as_display_name
+        usernameAsDisplayName: data.username_as_display_name,
+        showExtraLabels: data.show_extra_labels
     };
 }
 
@@ -23,6 +24,9 @@ export async function updatePersonalPreferences(userId: string, preferences: Upd
         }),
         ...(preferences.usernameAsDisplayName !== undefined && {
             username_as_display_name: preferences.usernameAsDisplayName,
+        }),
+        ...(preferences.showExtraLabels !== undefined && {
+            show_extra_labels: preferences.showExtraLabels,
         }),
     };
 
@@ -38,5 +42,6 @@ export async function updatePersonalPreferences(userId: string, preferences: Upd
     return {
         showMediaBackdrop: data.show_media_backdrop,
         usernameAsDisplayName: data.username_as_display_name,
+        showExtraLabels: data.show_extra_labels
     };
 }

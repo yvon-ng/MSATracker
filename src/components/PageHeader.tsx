@@ -9,7 +9,6 @@ interface MessageOfTheDayProps {
 }
 
 export function PageHeader({overline, title, titleSuffix, subtitle, trailingText}: MessageOfTheDayProps) {
-
     return (
         <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
             <Stack>
@@ -31,7 +30,7 @@ export function PageHeader({overline, title, titleSuffix, subtitle, trailingText
                     {subtitle}
                 </Typography>
             </Stack>
-            <Typography fontSize={{xs: "2.5rem", sm: "3rem", md: "4rem"}} fontWeight={500} color={"secondary.main"}>
+            <Typography fontSize={{xs: "2.5rem", sm: "3rem", md: "4rem"}} fontWeight={500} color={"secondary.main"} mr={8}>
                 {trailingText}
             </Typography>
         </Stack>

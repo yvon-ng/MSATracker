@@ -9,9 +9,11 @@ import {
     drawerWidth,
     topBarHeight,
 } from "../components/layoutConstants";
+import {usePersonalPreferences} from "../hooks/UsePersonalPreferences.ts";
 
 export default function AppLayout() {
-    const [open, setOpen] = useState(false);
+    const {personalPreferences} = usePersonalPreferences();
+    const [open, setOpen] = useState(personalPreferences.showExtraLabels);
 
     return (
         <>

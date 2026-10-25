@@ -16,6 +16,7 @@ import {useState} from "react";
 import {UserAuth} from "../../context/AuthContextProvider.tsx";
 import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 import type {UserMediaStatus} from "../../model/UserMedia.ts";
+import {usePersonalPreferences} from "../../hooks/UsePersonalPreferences.ts";
 
 interface MediaCardProps {
     media: TMDBMedia
@@ -33,6 +34,7 @@ export function MediaCard({media, userMediaStatus}: MediaCardProps) {
     const {user} = UserAuth();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorEl);
+    const {personalPreferences} = usePersonalPreferences();
 
     const handleStatusChange = (status: UserMediaStatus) => {
         if (!user) return;
@@ -129,13 +131,13 @@ export function MediaCard({media, userMediaStatus}: MediaCardProps) {
                 }}
             >
                 {userMediaStatus === "watchlist" ? (
-                    <BookmarkBorderOutlinedIcon />
+                    <BookmarkBorderOutlinedIcon/>
                 ) : userMediaStatus === "currently_watching" ? (
-                    <OndemandVideoOutlinedIcon />
+                    <OndemandVideoOutlinedIcon/>
                 ) : userMediaStatus === "completed" ? (
-                    <CheckOutlinedIcon />
+                    <CheckOutlinedIcon/>
                 ) : (
-                    <AddIcon />
+                    <AddIcon/>
                 )}
             </IconButton>
 
@@ -153,30 +155,109 @@ export function MediaCard({media, userMediaStatus}: MediaCardProps) {
                             // minWidth: 200,
                         },
                     },
-                    list: {sx: {p: 0.5}},
+                    list: {
+                        sx: {
+                            p: 0.5,
+                            display: "flex",
+                            flexDirection: personalPreferences.showExtraLabels ? "column" : "row",
+                        },
+                    },
                 }}
             >
-                <MenuItem onClick={() => handleStatusChange("watchlist")}>
-                    <ListItemIcon>
+                <MenuItem
+                    onClick={() => handleStatusChange("watchlist")}
+                    sx={{
+                        px: personalPreferences.showExtraLabels ? 2 : 1,
+                        border: "1px solid transparent",
+                        transition: "background-color 250ms ease, color 250ms ease",
+
+                        "&:hover": {
+                            bgcolor: "#211819",
+                            color: "secondary.main",
+                            border: "1px solid",
+                            borderColor: "secondary.dark",
+                            borderRadius: 2,
+                        },
+
+                        "&:hover .MuiListItemIcon-root": {
+                            color: "secondary.main",
+                        },
+                    }}
+                >
+                    <ListItemIcon
+                        sx={{
+                            justifyContent: personalPreferences.showExtraLabels ? "start" : "center",
+                        }}
+                    >
                         <BookmarkBorderOutlinedIcon fontSize="small"/>
                     </ListItemIcon>
-                    <ListItemText primary="Add to Watchlist"/>
+                    {personalPreferences.showExtraLabels && (
+                        <ListItemText primary="Add to Watchlist"/>
+                    )}
                 </MenuItem>
 
-                <MenuItem onClick={() => handleStatusChange("currently_watching")}>
-                    <ListItemIcon>
+                <MenuItem
+                    onClick={() => handleStatusChange("currently_watching")}
+                    sx={{
+                        px: personalPreferences.showExtraLabels ? 2 : 1,
+                        border: "1px solid transparent",
+                        transition: "background-color 250ms ease, color 250ms ease",
+
+                        "&:hover": {
+                            bgcolor: "#211819",
+                            color: "secondary.main",
+                            border: "1px solid",
+                            borderColor: "secondary.dark",
+                            borderRadius: 2,
+                        },
+
+                        "&:hover .MuiListItemIcon-root": {
+                            color: "secondary.main",
+                        },
+                    }}
+                >
+                    <ListItemIcon
+                        sx={{
+                            justifyContent: personalPreferences.showExtraLabels ? "start" : "center",
+                        }}
+                    >
                         <OndemandVideoOutlinedIcon fontSize="small"/>
                     </ListItemIcon>
-                    <ListItemText primary="Set as Currently Watching"/>
+                    {personalPreferences.showExtraLabels && (
+                        <ListItemText primary="Set as Currently Watching"/>
+                    )}
                 </MenuItem>
 
-                <MenuItem onClick={() => handleStatusChange("completed")}>
-                    <ListItemIcon>
+                <MenuItem
+                    onClick={() => handleStatusChange("completed")}
+                    sx={{
+                        px: personalPreferences.showExtraLabels ? 2 : 1,
+                        border: "1px solid transparent",
+                        transition: "background-color 250ms ease, color 250ms ease",
+
+                        "&:hover": {
+                            bgcolor: "#211819",
+                            color: "secondary.main",
+                            border: "1px solid",
+                            borderColor: "secondary.dark",
+                            borderRadius: 2,
+                        },
+
+                        "&:hover .MuiListItemIcon-root": {
+                            color: "secondary.main",
+                        },
+                    }}
+                >
+                    <ListItemIcon
+                        sx={{
+                            justifyContent: personalPreferences.showExtraLabels ? "start" : "center",
+                        }}>
                         <CheckOutlinedIcon fontSize="small"/>
                     </ListItemIcon>
-                    <ListItemText primary="Mark as Completed"/>
+                    {personalPreferences.showExtraLabels && (
+                        <ListItemText primary="Mark as Completed"/>
+                    )}
                 </MenuItem>
-
             </Menu>
         </Card>
     );
