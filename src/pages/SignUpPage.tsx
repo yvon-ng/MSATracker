@@ -14,6 +14,10 @@ export function SignUpPage() {
     const {signUp, isSigningUp, error} = useSignUp();
     const navigate = useNavigate();
 
+    const usernameError = error?.message === "USERNAME_TAKEN" ? "This username is already taken." : undefined;
+
+    const formError = error && !usernameError ? error.message : undefined;
+
     async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault();
 
@@ -21,20 +25,24 @@ export function SignUpPage() {
             return;
         }
 
-        await signUp({
-            email: email.trim(),
-            password: password,
-            firstName: firstName.trim(),
-            lastName: lastName.trim(),
-            userName: userName.trim(),
-        });
-        navigate("/login", {
-            state: { signupSuccess: true }, //is used for the snackbar
-        });
+        try {
+            await signUp({
+                email: email.trim(),
+                password,
+                firstName: firstName.trim(),
+                lastName: lastName.trim(),
+                userName: userName.trim(),
+            });
+
+            navigate("/login", {
+                state: { signupSuccess: true }, //is used for the snackbar
+            });
+        } catch {
+            // The error is handled by React Query and displayed in the form.
+        }
     }
 
     return (
-        //TODO ON SIGN UP HANDLE ERROR MESSAGE FOR UNIQUE USERNAME
         <AuthLayout>
             <AuthForm
                 title="Create your"
@@ -47,7 +55,8 @@ export function SignUpPage() {
                 onPasswordChange={setPassword}
                 onSubmit={handleSubmit}
                 isLoading={isSigningUp}
-                error={error?.message}
+                error={formError}
+                usernameError={usernameError}
                 footerText="Already have an account?"
                 footerLinkText="Login"
                 footerLinkTo="/login"

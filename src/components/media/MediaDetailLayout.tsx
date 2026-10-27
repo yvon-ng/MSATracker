@@ -1,4 +1,4 @@
-import {Box, Stack} from "@mui/material";
+import {Box, Divider, Stack, Typography} from "@mui/material";
 import {MediaPoster} from "./MediaPoster.tsx";
 import {MediaInfo} from "./MediaInfo.tsx";
 import {MediaTrailer} from "./MediaTrailer.tsx";
@@ -16,63 +16,67 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
     const backdrop = media.backdrop_path ? `${IMAGE_BASE_URL}${media.backdrop_path}` : undefined;
 
     return (
-        <Box
-            sx={{
-                ml: {xs: -5, md: 0},
-                position: "relative",
-                isolation: "isolate",
-                overflow: "hidden",
-                ...(personalPreferences?.showMediaBackdrop && backdrop && {
-                    "&::before": {
-                        content: '""',
-                        position: "absolute",
-                        inset: -10,
-                        backgroundImage: `url("${backdrop}")`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        filter: "blur(100px)",
-                        zIndex: -1,
-                    },
-                    "&::after": {
-                        content: '""',
-                        position: "absolute",
-                        inset: 0,
-                        backgroundColor: "rgba(18, 18, 18, 0.65)",
-                        zIndex: -1,
-                    },
-                })
-            }}
-        >
+        <Box>
+            <Box
+                sx={{
+                    ml: {xs: -5, md: 0},
+                    position: "relative",
+                    isolation: "isolate",
+                    overflow: "hidden",
+                    ...(personalPreferences?.showMediaBackdrop && backdrop && {
+                        "&::before": {
+                            content: '""',
+                            position: "absolute",
+                            inset: -10,
+                            backgroundImage: `url("${backdrop}")`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            filter: "blur(100px)",
+                            zIndex: -1,
+                        },
+                        "&::after": {
+                            content: '""',
+                            position: "absolute",
+                            inset: 0,
+                            backgroundColor: "rgba(18, 18, 18, 0.65)",
+                            zIndex: -1,
+                        },
+                    })
+                }}
+            >
+                <Box my={10} ml={{xs: 5, md: 8}} mr={{xs: 5, md: 8, lg: 0}}>
+                    <Stack direction={{xs: "column", lg: "row"}}>
+                        <Stack direction={{xs: "column", md: "row"}} gap={4} width={{lg: "60%"}}>
+                            <MediaPoster media={media} isMovie={isMovie}/>
+
+                            {/*MOVIE: title, tagline, release year, duration, overview; SERIE: title, tagline, air years, seasons, ep duration, overview*/}
+                            <MediaInfo media={media} isMovie={isMovie}/>
+
+                            {/*TODO*/}
+                            {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.genres}</Typography>*!/*/}
+                            {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.belongs_to_collection}</Typography>*!/*/}
+                            {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.production_companies}</Typography>*!/*/}
+                        </Stack>
+
+                        <Stack width={{xs: "100%", lg: "40%"}} mt={{xs: 5, lg: 0}} mx={{lg: 10}} spacing={1}
+                               alignItems="stretch">
+                            <MediaTrailer media={media} isMovie={isMovie}/>
+                            {/*MOVIE: budget, revenue, vote amount, vote avg; SERIE: series status, vote amount, vote avg*/}
+                            <MediaStats media={media} isMovie={isMovie}/>
+                        </Stack>
+                    </Stack>
+                </Box>
+            </Box>
+
+            {personalPreferences?.showMediaBackdrop && backdrop && (
+                <Divider/>
+            )}
+
             <Box my={10} ml={{xs: 5, md: 8}} mr={{xs: 5, md: 8, lg: 0}}>
-                <Stack direction={{xs: "column", lg: "row"}}>
-                    <Stack direction={{xs: "column", md: "row"}} gap={4} width={{lg: "60%"}}>
-                        {/*TODO also enable to add to list in detail page*/}
-                        <MediaPoster media={media} isMovie={isMovie}/>
-                        {/*<Box width={{xs: "100%", sm: "35%", md: 300}} sx={{borderRadius: 3}}>*/}
-                        {/*    <MediaCard*/}
-                        {/*        media={isMovie ? {...media, media_type: "movie"} : {...media, media_type: "tv"}}*/}
-                        {/*        userMediaStatus={userMediaStatus}*/}
-                        {/*    />*/}
-                        {/*</Box>*/}
-                        {/*MOVIE: title, tagline, release year, duration, overview; SERIE: title, tagline, air years, seasons, ep duration, overview*/}
-                        <MediaInfo media={media} isMovie={isMovie}/>
-
-                        {/*TODO*/}
-                        {/*<Typography variant={"subtitle1"} fontWeight={"400"}*/}
-                        {/*            color={"textSecondary"}>{movie.original_language}</Typography>*/}
-                        {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.genres}</Typography>*!/*/}
-                        {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.belongs_to_collection}</Typography>*!/*/}
-                        {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.production_companies}</Typography>*!/*/}
-                    </Stack>
-
-                    <Stack width={{xs: "100%", lg: "40%"}} mt={{xs: 5, lg: 0}} mx={{lg: 10}} spacing={1}
-                           alignItems="stretch">
-                        <MediaTrailer media={media} isMovie={isMovie}/>
-                        {/*MOVIE: budget, revenue, vote amount, vote avg; SERIE: series status, vote amount, vote avg*/}
-                        <MediaStats media={media} isMovie={isMovie}/>
-                    </Stack>
-                </Stack>
+                <Typography variant={"subtitle1"} fontWeight={"400"}
+                            color={"textSecondary"}>{media.original_language}</Typography>
             </Box>
         </Box>
+
     )
 }

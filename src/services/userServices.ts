@@ -49,3 +49,15 @@ export async function updateProfilePicture(userId: string, fileName: string) {
         profilePicture: data.profile_picture,
     };
 }
+
+
+export async function isUsernameTaken(username: string): Promise<boolean> {
+    const { data, error } = await supabase.rpc(
+        "is_username_taken",
+        { check_username: username }
+    );
+
+    if (error) throw error;
+
+    return data;
+}

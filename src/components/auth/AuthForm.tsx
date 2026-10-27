@@ -24,6 +24,7 @@ interface AuthFormProps {
     onSubmit: (e: SubmitEvent<HTMLFormElement>) => void;
     isLoading: boolean;
     error?: string;
+    usernameError?: string;
     footerText: string;
     footerLinkText: string;
     footerLinkTo: string;
@@ -50,6 +51,7 @@ export function AuthForm({
                              onSubmit,
                              isLoading,
                              error,
+                             usernameError,
                              footerText,
                              footerLinkText,
                              footerLinkTo,
@@ -84,10 +86,10 @@ export function AuthForm({
                         <TextField
                             label="Username"
                             value={userName}
-                            onChange={(event) =>
-                                onUserNameChange?.(event.target.value)
-                            }
+                            onChange={(event) => onUserNameChange?.(event.target.value)}
                             autoComplete="username"
+                            error={Boolean(usernameError)}
+                            helperText={usernameError}
                             required
                             fullWidth
                         />
@@ -166,8 +168,6 @@ export function AuthForm({
                 <MuiLink
                     component={RouterLink}
                     to={footerLinkTo}
-                    onClick={() => console.log("Footer link clicked:", footerLinkTo)}
-
                     underline="none"
                     sx={{
                         color: "secondary.main",
