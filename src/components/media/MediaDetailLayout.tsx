@@ -6,6 +6,9 @@ import {type MovieDetails, type TVSeriesDetails} from "@lorenzopant/tmdb";
 import {MediaStats} from "./MediaStats.tsx";
 import {IMAGE_BASE_URL} from "../../services/tmdbServices.ts";
 import {usePersonalPreferences} from "../../hooks/UsePersonalPreferences.ts";
+import {DetailRow} from "../DetailRow.tsx";
+import {getLanguageName} from "../../utils/languageUtils.ts";
+import {getCountryName} from "../../utils/countryUtils.ts";
 
 type MediaDetailLayoutProps =
     | { media: MovieDetails; isMovie: true }
@@ -52,10 +55,6 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
                             {/*MOVIE: title, tagline, release year, duration, overview; SERIE: title, tagline, air years, seasons, ep duration, overview*/}
                             <MediaInfo media={media} isMovie={isMovie}/>
 
-                            {/*TODO*/}
-                            {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.genres}</Typography>*!/*/}
-                            {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.belongs_to_collection}</Typography>*!/*/}
-                            {/*/!*<Typography variant={"subtitle1"} fontWeight={"400"} color={"textSecondary"}>{movie.production_companies}</Typography>*!/*/}
                         </Stack>
 
                         <Stack width={{xs: "100%", lg: "40%"}} mt={{xs: 5, lg: 0}} mx={{lg: 10}} spacing={1}
@@ -68,14 +67,55 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
                 </Box>
             </Box>
 
-            {personalPreferences?.showMediaBackdrop && backdrop && (
-                <Divider/>
-            )}
+            <Divider/>
 
-            <Box my={10} ml={{xs: 5, md: 8}} mr={{xs: 5, md: 8, lg: 0}}>
-                <Typography variant={"subtitle1"} fontWeight={"400"}
-                            color={"textSecondary"}>{media.original_language}</Typography>
-            </Box>
+            <Stack justifyContent={"space-between"} direction={"row"} my={10} pl={{xs: 5, md: 8}}
+                   pr={{xs: 5, md: 8, lg: 10}}>
+                <Box>
+                    <Typography variant={"h4"} fontWeight={300}
+                                mt={4}>{isMovie ? "Movie" : "Series"} details</Typography>
+
+                    {/*TODO*/}
+                    {/*<Typography>*/}
+                    {/*    Website*/}
+                    {/*</Typography>*/}
+                </Box>
+                <Box>
+                    <Divider/>
+                    <Stack direction={"row"} spacing={5}>
+                        <Stack>
+                            <DetailRow label={"Genres"} value={media.genres.map(genre => genre.name).join(" · ")}/>
+
+                            {isMovie && (
+                                <DetailRow
+                                    label="Status"
+                                    value={media.status}
+                                />
+                            )}
+
+                            {!isMovie && media.networks && (
+                                <DetailRow
+                                    label="Networks"
+                                    value={media.networks.map(network => network.name).join(" · ")}
+                                />
+                            )}
+                        </Stack>
+                        <Stack>
+                            <DetailRow label={"Original language"} value={getLanguageName(media.original_language)}/>
+                            <DetailRow label={"Country of origin"}
+                                       value={media.origin_country.map(getCountryName).join(" · ")}/>
+                        </Stack>
+
+
+                        {/*TODO show like a navidation  (this movie is part of [title >]) */}
+                        {/*{isMovie && media.belongs_to_collection && (*/}
+                        {/*    <Typography>*/}
+                        {/*        {media.belongs_to_collection.name}*/}
+                        {/*    </Typography>*/}
+                        {/*)}*/}
+                    </Stack>
+                </Box>
+            </Stack>
         </Box>
 
     )
