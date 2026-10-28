@@ -25,21 +25,21 @@ export function SignUpPage() {
             return;
         }
 
-        try {
-            await signUp({
+        signUp({
                 email: email.trim(),
                 password,
                 firstName: firstName.trim(),
                 lastName: lastName.trim(),
                 userName: userName.trim(),
-            });
-
-            navigate("/login", {
-                state: { signupSuccess: true }, //is used for the snackbar
-            });
-        } catch {
-            // The error is handled by React Query and displayed in the form.
-        }
+            },
+            {
+                onSuccess: () => {
+                    navigate("/login", {
+                        state: {signupSuccess: true},
+                    });
+                },
+            }
+        );
     }
 
     return (

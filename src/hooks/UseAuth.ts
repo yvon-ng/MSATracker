@@ -18,7 +18,7 @@ export function useLogIn() {
 }
 
 export function useSignUp() {
-    const {mutateAsync: signUp, isPending: isSigningUp, error} = useMutation({
+    const {mutate: signUp, isPending: isSigningUp, error} = useMutation({
         mutationFn: async ({email, password, firstName, lastName, userName}: {
             email: string;
             password: string;
@@ -26,12 +26,13 @@ export function useSignUp() {
             lastName: string;
             userName: string
         }) => {
+
             if (await isUsernameTaken(userName)) {
                 throw new Error("USERNAME_TAKEN");
             }
 
             return signUpNewUser(email, password, firstName, lastName, userName);
-        }
+        },
     });
 
     return {
