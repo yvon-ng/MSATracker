@@ -21,10 +21,10 @@ export async function getSeries(seriesId: number) {
 
 export async function getMovieTrailer(movieId: number) {
     const videos = await tmdb.movies.videos({ movie_id: movieId })
-    return videos.results.find((v) => v.type === "Trailer") ?? null; //TODO might need vimeo too
+    return videos.results.find((v) => v.type === "Trailer") ?? null; //might need vimeo support too
 }
 
 export async function getSeriesTrailer(seriesId: number) {
     const videos = await tmdb.tv_series.videos({ series_id: seriesId })
-    return videos.results.find((v) => v.type === "Trailer") ?? null; //TODO might need vimeo too
+    return videos.results.find((v) => v.type === "Trailer") ?? null; //might need vimeo support too
 }

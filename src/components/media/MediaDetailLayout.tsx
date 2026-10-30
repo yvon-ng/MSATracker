@@ -1,4 +1,4 @@
-import {Box, Divider, Stack, Typography} from "@mui/material";
+import {Box, Divider, Link, Stack, Typography} from "@mui/material";
 import {MediaPoster} from "./MediaPoster.tsx";
 import {MediaInfo} from "./MediaInfo.tsx";
 import {MediaTrailer} from "./MediaTrailer.tsx";
@@ -75,34 +75,35 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
                     <Typography variant={"h4"} fontWeight={300}
                                 mt={4}>{isMovie ? "Movie" : "Series"} details</Typography>
 
-                    {/*TODO*/}
-                    {/*<Typography>*/}
-                    {/*    Website*/}
-                    {/*</Typography>*/}
+                    {media.homepage && (
+                        <Typography>
+                            <Link href={media.homepage} target="_blank" rel="noopener noreferrer" color={"secondary"}>
+                                Official website
+                            </Link>
+                        </Typography>
+                    )}
+
                 </Box>
                 <Box>
                     <Divider/>
                     <Stack direction={"row"} spacing={5}>
                         <Stack>
-                            <DetailRow label={"Genres"} value={media.genres.map(genre => genre.name).join(" · ")}/>
+                            <DetailRow prefix={"01"} label={"Genres"}
+                                       value={media.genres.map(genre => genre.name).join(" · ")}/>
 
                             {isMovie && (
-                                <DetailRow
-                                    label="Status"
-                                    value={media.status}
-                                />
+                                <DetailRow prefix={"02"} label="Status" value={media.status}/>
                             )}
 
                             {!isMovie && media.networks && (
-                                <DetailRow
-                                    label="Networks"
-                                    value={media.networks.map(network => network.name).join(" · ")}
-                                />
+                                <DetailRow prefix={"02"} label="Networks"
+                                           value={media.networks.map(network => network.name).join(" · ")}/>
                             )}
                         </Stack>
                         <Stack>
-                            <DetailRow label={"Original language"} value={getLanguageName(media.original_language)}/>
-                            <DetailRow label={"Country of origin"}
+                            <DetailRow prefix={"03"} label={"Original language"}
+                                       value={getLanguageName(media.original_language)}/>
+                            <DetailRow prefix={"04"} label={"Country of origin"}
                                        value={media.origin_country.map(getCountryName).join(" · ")}/>
                         </Stack>
 
