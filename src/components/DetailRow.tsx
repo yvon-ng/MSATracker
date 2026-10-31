@@ -11,17 +11,13 @@ export function DetailRow({prefix, label, value}: DetailRowProps) {
         <Stack pt={3}>
             <Stack direction={"row"} spacing={3} alignItems="baseline">
                 {prefix && (
-                    <Typography
-                        variant="caption"
-                        color="textSecondary"
-                        textTransform="uppercase"
-                        letterSpacing="0.15rem"
-                    >
+                    <Typography variant="caption" color="textSecondary" textTransform="uppercase"
+                                letterSpacing="0.15rem">
                         {prefix}
                     </Typography>
                 )}
 
-                <Box width={500}>
+                <Box width={{lg: 400, xl: 500}}>
                     <Typography variant={"caption"} color={"textSecondary"} textTransform={"uppercase"}
                                 letterSpacing={"0.15rem"}>
                         {label}

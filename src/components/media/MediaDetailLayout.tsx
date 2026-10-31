@@ -67,9 +67,9 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
                 </Box>
             </Box>
 
-            <Divider/>
+            <Divider sx={{ml: {xs: -5, md: 0}}}/>
 
-            <Stack justifyContent={"space-between"} direction={"row"} my={10} pl={{xs: 5, md: 8}}
+            <Stack justifyContent={"space-between"} direction={{sx: "column", lg: "row"}} my={10} pl={{xs: 0, md: 8}}
                    pr={{xs: 5, md: 8, lg: 10}}>
                 <Box>
                     <Typography variant={"h4"} fontWeight={300}
@@ -85,9 +85,9 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
 
                 </Box>
                 <Box>
-                    <Divider/>
-                    <Stack direction={"row"} spacing={5}>
-                        <Stack>
+                    <Divider sx={{py: {xs: 5}}}/>
+                    <Stack direction={{sx: "column", md: "row"}} width={"100%"} spacing={5}>
+                        <Stack width={"100%"}>
                             <DetailRow prefix={"01"} label={"Genres"}
                                        value={media.genres.map(genre => genre.name).join(" · ")}/>
 
@@ -100,7 +100,7 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
                                            value={media.networks.map(network => network.name).join(" · ")}/>
                             )}
                         </Stack>
-                        <Stack>
+                        <Stack width={"100%"}>
                             <DetailRow prefix={"03"} label={"Original language"}
                                        value={getLanguageName(media.original_language)}/>
                             <DetailRow prefix={"04"} label={"Country of origin"}
