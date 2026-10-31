@@ -11,7 +11,7 @@ export function AuthLayout({children}: AuthLayoutProps) {
             <Box
                 sx={{
                     display: {xs: "none", md: "flex"},
-                    position: "fixed",
+                    position: "absolute",
                     top: 0,
                     left: 0,
                     width: {md: "60%"},

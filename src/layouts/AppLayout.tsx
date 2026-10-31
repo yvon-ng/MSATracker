@@ -10,6 +10,7 @@ import {
     topBarHeight,
 } from "../components/layoutConstants";
 import {usePersonalPreferences} from "../hooks/UsePersonalPreferences.ts";
+import {Footer} from "../components/Footer.tsx";
 
 export default function AppLayout() {
     const {personalPreferences} = usePersonalPreferences();
@@ -30,11 +31,14 @@ export default function AppLayout() {
                             : `${collapsedDrawerWidth}px`,
                     },
                     pt: `${topBarHeight}px`,
+                    pb: 10,
                     transition: "margin-left 0.2s",
                 }}
             >
                 <Outlet/>
             </Box>
+
+            <Footer brandName={"msatracker"}/>
         </>
     );
 }

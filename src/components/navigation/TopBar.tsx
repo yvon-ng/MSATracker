@@ -78,6 +78,7 @@ export default function TopBar({open, onMenuClick, onSearchOpen}: TopBarProps) {
                     <MenuIcon/>
                 </IconButton>
                 <Stack direction={"row"} flex={1} justifyContent={"space-between"} alignItems={"center"}>
+                    {/*LOGO*/}
                     <Typography variant="h5" noWrap fontWeight={600} onClick={handleLogoClick} sx={{cursor: "pointer"}}>
                         msa
                         <Box component={"span"} color={"secondary.main"}>
