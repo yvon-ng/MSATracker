@@ -24,12 +24,12 @@ export const AuthContextProvider = ({
     useEffect(() => {
         let isMounted = true;
 
-        const {
-            data: {subscription},
-        } = supabase.auth.onAuthStateChange((_event, session) => {
+        const {data: {subscription}} = supabase.auth.onAuthStateChange((_event, session) => {
             if (!isMounted) return;
 
-            setSupabaseUser(session?.user);
+            setSupabaseUser((prev) =>
+                prev?.id === session?.user?.id ? prev : session?.user
+            );
         });
 
         supabase.auth.getSession().then(({data, error}) => {
