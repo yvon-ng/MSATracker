@@ -31,6 +31,7 @@ export function MediaCard({media, userMediaStatus}: MediaCardProps) {
                 width: {xs: "100%", sm: "35%", md: 300},
                 bgcolor: "background.default",
                 backgroundImage: "none",
+                borderRadius: 3,
             }}
         >
             <CardActionArea
