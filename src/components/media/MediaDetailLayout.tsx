@@ -69,9 +69,17 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
 
             <Divider sx={{ml: {xs: -5, md: 0}}}/>
 
-            <Stack justifyContent={"space-between"} direction={{xs: "column", lg: "row"}} my={10} pl={{xs: 0, md: 8}}
+            <Stack justifyContent={"space-between"} direction={{xs: "column", lg: "row"}} py={10} pl={{xs: 0, md: 8}}
                    spacing={{xs: 4, lg: 8}}
-                   pr={{xs: 5, md: 8, lg: 10}}>
+                   pr={{xs: 5, md: 8, lg: 10}}
+                   sx={{
+                       ...(!personalPreferences?.showMediaBackdrop && {
+                           bgcolor: "background.paper",
+                           pt: 5,
+                           pb: 15,
+                       }),
+                   }}
+            >
                 <Box sx={{width: {xs: "100%", lg: "25%"}, flexShrink: 0}}>
                     <Typography variant={"h4"} fontWeight={300}
                                 mt={4} noWrap>{isMovie ? "Movie" : "Series"} details</Typography>
