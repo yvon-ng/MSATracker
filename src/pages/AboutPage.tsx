@@ -28,6 +28,11 @@ export function AboutPage() {
                     or streamed through this application. Users are responsible for accessing content through their own
                     legitimate sources.
                 </Typography>
+
+                <Typography variant="body1" maxWidth={800} textAlign="justify">
+                    MSATracker is an independently developed and maintained project,
+                    created and managed by a single developer.
+                </Typography>
             </Stack>
 
             <Stack direction="row" justifyContent={"space-evenly"} px={40} alignItems={"center"} bgcolor={"#0d253f"}>
@@ -58,6 +63,69 @@ export function AboutPage() {
                     Media information and images are provided by TMDB and remain the property of their respective
                     owners.
                 </Typography>
+            </Stack>
+
+            {/* About the Developer */}
+            <Stack alignItems="center" spacing={2} py={6}>
+                <Typography variant="h5" fontWeight={600}>
+                    About the Developer
+                </Typography>
+
+                <Typography variant="body1" textAlign="center">
+                    MSATracker is an independently developed and maintained project,
+                    created and managed by a single developer.
+                    Want to connect with me? Find me on:
+                </Typography>
+
+                <Stack direction="row" spacing={3}>
+                    <MuiLink
+                        href="https://www.linkedin.com/in/your-profile"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="secondary"
+                    >
+                        LinkedIn
+                    </MuiLink>
+
+                    <MuiLink
+                        href="https://www.instagram.com/your-profile"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="secondary"
+                    >
+                        Instagram
+                    </MuiLink>
+
+                    <MuiLink
+                        href="https://github.com/your-profile"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="secondary"
+                    >
+                        GitHub
+                    </MuiLink>
+                </Stack>
+            </Stack>
+
+            <Divider />
+
+            {/* Support the Project */}
+            <Stack alignItems="center" spacing={2} py={6} px={3}>
+                <Typography variant="h5" fontWeight={600}>
+                    Support the Project
+                </Typography>
+
+                <Typography
+                    variant="body1"
+                    maxWidth={800}
+                    textAlign="center"
+                >
+                    Enjoy using MSATracker? If you'd like to support its
+                    continued development, you can make a voluntary donation.
+                    Every contribution is greatly appreciated!
+                </Typography>
+
+                {/* Add a PayPal donation button here in the future TODO*/}
             </Stack>
 
             <Stack direction="row" justifyContent={"space-between"} mx={20} alignItems={"center"}>
