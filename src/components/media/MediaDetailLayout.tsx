@@ -69,11 +69,12 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
 
             <Divider sx={{ml: {xs: -5, md: 0}}}/>
 
-            <Stack justifyContent={"space-between"} direction={{sx: "column", lg: "row"}} my={10} pl={{xs: 0, md: 8}}
+            <Stack justifyContent={"space-between"} direction={{xs: "column", lg: "row"}} my={10} pl={{xs: 0, md: 8}}
+                   spacing={{xs: 4, lg: 8}}
                    pr={{xs: 5, md: 8, lg: 10}}>
-                <Box>
+                <Box sx={{width: {xs: "100%", lg: "25%"}, flexShrink: 0}}>
                     <Typography variant={"h4"} fontWeight={300}
-                                mt={4}>{isMovie ? "Movie" : "Series"} details</Typography>
+                                mt={4} noWrap>{isMovie ? "Movie" : "Series"} details</Typography>
 
                     {media.homepage && (
                         <Typography>
@@ -86,8 +87,8 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
                 </Box>
                 <Box>
                     <Divider sx={{py: {xs: 5}}}/>
-                    <Stack direction={{sx: "column", md: "row"}} width={"100%"} spacing={5}>
-                        <Stack width={"100%"}>
+                    <Stack direction={{xs: "column", md: "row"}} spacing={{xs: 0, md: 5}}>
+                        <Stack flex={1} minWidth={0}>
                             <DetailRow prefix={"01"} label={"Genres"}
                                        value={media.genres.map(genre => genre.name).join(" · ")}/>
 
@@ -100,7 +101,7 @@ export function MediaDetailLayout({media, isMovie}: MediaDetailLayoutProps) {
                                            value={media.networks.map(network => network.name).join(" · ")}/>
                             )}
                         </Stack>
-                        <Stack width={"100%"}>
+                        <Stack flex={1} minWidth={0}>
                             <DetailRow prefix={"03"} label={"Original language"}
                                        value={getLanguageName(media.original_language)}/>
                             <DetailRow prefix={"04"} label={"Country of origin"}

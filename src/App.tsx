@@ -19,6 +19,7 @@ import {CompletedPage} from "./pages/CompletedPage.tsx";
 import {WatchlistPage} from "./pages/WatchlistPage.tsx";
 import {WatchingPage} from "./pages/WatchingPage.tsx";
 import {AboutPage} from "./pages/AboutPage.tsx";
+import {ContactPage} from "./pages/ContactPage.tsx";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
@@ -51,6 +52,7 @@ function AppContent() {
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/about" element={<AboutPage/>}/>
+                    <Route path="/contact" element={<ContactPage/>}/>
                 </Route>
 
                 {/* Authenticated pages */}

@@ -17,7 +17,7 @@ export function DetailRow({prefix, label, value}: DetailRowProps) {
                     </Typography>
                 )}
 
-                <Box width={{lg: 400, xl: 500}}>
+                <Box width={{xs: 400}}>
                     <Typography variant={"caption"} color={"textSecondary"} textTransform={"uppercase"}
                                 letterSpacing={"0.15rem"}>
                         {label}
