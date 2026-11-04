@@ -10,8 +10,8 @@ export default function PublicLayout() {
 
     return (
         <Box position={"relative"}>
-            <Box position="fixed" top={30} left={50} zIndex={10}>
-                <Typography variant="h5" noWrap fontWeight={600} onClick={handleLogoClick} sx={{cursor: "pointer"}}>
+            <Box position="fixed" top={30} left={{xs: 20, sm: 50}} zIndex={10}>
+                <Typography fontSize={{xs: "1.2rem", sm: "1.5rem"}} noWrap fontWeight={600} onClick={handleLogoClick} sx={{cursor: "pointer"}}>
                     msa
                     <Box component={"span"} color={"secondary.main"}>
                         tracker

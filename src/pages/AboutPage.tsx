@@ -9,12 +9,12 @@ export function AboutPage() {
             <ImageBanner/>
             <Divider/>
             <Stack alignItems={"center"} my={8} spacing={3}>
-                <Typography variant="body1" maxWidth={800} textAlign={"justify"}>
+                <Typography variant="body1" maxWidth={{xs: 280, sm: 600, md: 800}} textAlign={"justify"}>
                     MSATracker is a personal media tracking platform designed to make keeping track of your favourite
                     movies and TV series simple and enjoyable.
                 </Typography>
 
-                <Typography variant="body1" maxWidth={800} textAlign={"justify"}>
+                <Typography variant="body1" maxWidth={{xs: 280, sm: 600, md: 800}} textAlign={"justify"}>
                     Whether you're building a watchlist of titles you want to see, keeping track of what you're
                     currently
                     watching, or looking back at everything you've completed, MSATracker brings your media
@@ -22,7 +22,7 @@ export function AboutPage() {
                     together in one place.
                 </Typography>
 
-                <Typography variant="body1" maxWidth={800} textAlign={"justify"}>
+                <Typography variant="body1" maxWidth={{xs: 280, sm: 600, md: 800}} textAlign={"justify"}>
                     Please Note that MSATracker is a media tracking platform, not a streaming service. It helps you
                     organize your watchlist and keep track of movies, TV series, and anime. No media content is hosted
                     or streamed through this application. Users are responsible for accessing content through their own
@@ -30,11 +30,11 @@ export function AboutPage() {
                 </Typography>
 
                 <Stack alignItems="center" spacing={4} py={6}>
-                    <Typography variant="h5" fontWeight={600}>
+                    <Typography variant="h5" maxWidth={{xs: 280, sm: 600, md: 800}} fontWeight={600}>
                         The Story Behind MSATracker
                     </Typography>
 
-                    <Typography variant="body1" maxWidth={800} textAlign={"justify"}>
+                    <Typography variant="body1" maxWidth={{xs: 280, sm: 600, md: 800}} textAlign={"justify"}>
                         MSATracker originated as a personal project inspired by a challenge I encountered in managing my
                         own
                         watchlist. I previously kept track of series I wanted to watch by saving screenshots, making
@@ -48,7 +48,7 @@ export function AboutPage() {
                         eventually developed into MSATracker, an independently developed and maintained project.
                     </Typography>
 
-                    <Typography variant="body1" maxWidth={800} textAlign="justify">
+                    <Typography variant="body1" maxWidth={{xs: 280, sm: 600, md: 800}} textAlign="justify">
                         Developers interested in connecting or discussing the project are
                         welcome to reach out through my{" "}
                         <MuiLink
@@ -77,8 +77,14 @@ export function AboutPage() {
 
             <Divider/>
 
-            <Stack direction="row" justifyContent={"center"} spacing={10} py={4} alignItems={"center"}
-                   bgcolor={"#0d253f"}>
+            <Stack
+                direction={{xs: "column", md: "row"}}
+                justifyContent={"center"}
+                spacing={10}
+                py={{xs: 10, md: 4}}
+                px={{md: 10}}
+                alignItems={"center"}
+                bgcolor={"#0d253f"}>
 
                 <MuiLink
                     href="https://www.themoviedb.org/"
@@ -86,15 +92,15 @@ export function AboutPage() {
                     rel="noopener noreferrer"
                     sx={{display: "inline-flex"}}
                 >
-
                     <Box
                         component="img"
                         src="https://www.themoviedb.org/assets/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg"
-                        alt="The Movie Database (TMDB) logo" width={300}
+                        alt="The Movie Database (TMDB) logo"
+                        width={{xs: 250, sm: 300}}
                     />
                 </MuiLink>
 
-                <Typography variant="body1" maxWidth={600} textAlign={"justify"}>
+                <Typography variant="body1" maxWidth={{xs: 280, sm: 600, md: 800}} textAlign={"justify"}>
                     MSATracker uses{" "}
                     <MuiLink href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer"
                              color="secondary"
@@ -116,7 +122,7 @@ export function AboutPage() {
                 </Typography>
 
 
-                <Typography variant="body1" maxWidth={800} textAlign="justify">
+                <Typography variant="body1" maxWidth={{xs: 280, sm: 600, md: 800}} textAlign="justify">
                     If you find MSATracker useful and wish to support its
                     continued development, you can make a voluntary donation.
                     Contributions help fund future improvements and ongoing
@@ -148,7 +154,7 @@ export function AboutPage() {
 
             <Divider/>
 
-            <Stack direction="row" justifyContent={"space-between"} px={20} alignItems={"center"}
+            <Stack direction={{xs: "column", md: "row"}} justifyContent={"space-between"} px={20} alignItems={"center"}
                    bgcolor={"background.paper"}>
                 <Box py={10}>
                     <Typography variant="h3" fontWeight={600} maxWidth={600}>
@@ -169,9 +175,9 @@ export function AboutPage() {
                         .
                     </Typography>
                 </Box>
-                <Stack alignItems={"center"} spacing={2}>
+                <Stack alignItems={"center"} spacing={2} pb={{xs: 10, md: 0}}>
                     <Button component={RouterLink} to="/signup" variant={"contained"} color="secondary"
-                            endIcon={<ArrowForwardIcon/>} sx={{borderRadius: 2}}>
+                            endIcon={<ArrowForwardIcon/>} sx={{borderRadius: 2, whiteSpace: "nowrap",}}>
                         Create your account
                     </Button>
                     <Typography variant={"body2"} color={"textSecondary"}>
