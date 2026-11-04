@@ -121,7 +121,6 @@ export function AboutPage() {
                     Support the Project
                 </Typography>
 
-
                 <Typography variant="body1" maxWidth={{xs: 280, sm: 600, md: 800}} textAlign="justify">
                     If you find MSATracker useful and wish to support its
                     continued development, you can make a voluntary donation.
