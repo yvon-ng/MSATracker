@@ -8,7 +8,7 @@ export function AboutPage() {
         <>
             <ImageBanner/>
             <Divider/>
-            <Stack alignItems={"center"} px={3} my={8} spacing={3}>
+            <Stack alignItems={"center"} my={8} spacing={3}>
                 <Typography variant="body1" maxWidth={800} textAlign={"justify"}>
                     MSATracker is a personal media tracking platform designed to make keeping track of your favourite
                     movies and TV series simple and enjoyable.
@@ -29,29 +29,72 @@ export function AboutPage() {
                     legitimate sources.
                 </Typography>
 
-                <Typography variant="body1" maxWidth={800} textAlign="justify">
-                    MSATracker is an independently developed and maintained project,
-                    created and managed by a single developer.
-                </Typography>
+                <Stack alignItems="center" spacing={4} py={6}>
+                    <Typography variant="h5" fontWeight={600}>
+                        The Story Behind MSATracker
+                    </Typography>
+
+                    <Typography variant="body1" maxWidth={800} textAlign={"justify"}>
+                        MSATracker originated as a personal project inspired by a challenge I encountered in managing my
+                        own
+                        watchlist. I previously kept track of series I wanted to watch by saving screenshots, making
+                        written
+                        notes, and using various other methods. However, I wanted a more organized and efficient way to
+                        manage my media.
+
+                        The aim was to create a single platform for tracking movies, series, and anime. The name MSA is
+                        derived from these three categories: Movies, Series, and Anime. What began as a personal
+                        solution
+                        eventually developed into MSATracker, an independently developed and maintained project.
+                    </Typography>
+
+                    <Typography variant="body1" maxWidth={800} textAlign="justify">
+                        Developers interested in connecting or discussing the project are
+                        welcome to reach out through my{" "}
+                        <MuiLink
+                            href="https://www.linkedin.com/in/mark-ng-03980b1b1"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            color="secondary"
+                            underline="hover"
+                        >
+                            LinkedIn
+                        </MuiLink>
+                        {" "}and{" "}
+                        <MuiLink
+                            href="https://github.com/yvon-ng"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            color="secondary"
+                            underline="hover"
+                        >
+                            GitHub
+                        </MuiLink>
+                        {" "}profiles.
+                    </Typography>
+                </Stack>
             </Stack>
 
-            <Stack direction="row" justifyContent={"space-evenly"} px={40} alignItems={"center"} bgcolor={"#0d253f"}>
-                {/*<MuiLink href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer"*/}
-                {/*         sx={{display: "inline-flex"}}>*/}
-                {/*    <Box component="img"*/}
-                {/*         src="https://www.themoviedb.org/assets/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg"*/}
-                {/*         alt="The Movie Database (TMDB) logo" width={300}*/}
-                {/*    />*/}
-                {/*</MuiLink>*/}
+            <Divider/>
 
-                <MuiLink href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer"
-                         sx={{display: "inline-flex"}}>
-                    <Box component="img"
-                         src="https://www.themoviedb.org/assets/v4/logos/v2/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg"
-                         alt="The Movie Database (TMDB) logo" width={300}/>
+            <Stack direction="row" justifyContent={"center"} spacing={10} py={4} alignItems={"center"}
+                   bgcolor={"#0d253f"}>
+
+                <MuiLink
+                    href="https://www.themoviedb.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{display: "inline-flex"}}
+                >
+
+                    <Box
+                        component="img"
+                        src="https://www.themoviedb.org/assets/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg"
+                        alt="The Movie Database (TMDB) logo" width={300}
+                    />
                 </MuiLink>
 
-                <Typography variant="body1" maxWidth={600} textAlign={"justify"} p={10}>
+                <Typography variant="body1" maxWidth={600} textAlign={"justify"}>
                     MSATracker uses{" "}
                     <MuiLink href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer"
                              color="secondary"
@@ -65,73 +108,64 @@ export function AboutPage() {
                 </Typography>
             </Stack>
 
-            {/* About the Developer */}
-            <Stack alignItems="center" spacing={2} py={6}>
-                <Typography variant="h5" fontWeight={600}>
-                    About the Developer
-                </Typography>
+            <Divider/>
 
-                <Typography variant="body1" textAlign="center">
-                    MSATracker is an independently developed and maintained project,
-                    created and managed by a single developer.
-                    Want to connect with me? Find me on:
-                </Typography>
-
-                <Stack direction="row" spacing={3}>
-                    <MuiLink
-                        href="https://www.linkedin.com/in/your-profile"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        color="secondary"
-                    >
-                        LinkedIn
-                    </MuiLink>
-
-                    <MuiLink
-                        href="https://www.instagram.com/your-profile"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        color="secondary"
-                    >
-                        Instagram
-                    </MuiLink>
-
-                    <MuiLink
-                        href="https://github.com/your-profile"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        color="secondary"
-                    >
-                        GitHub
-                    </MuiLink>
-                </Stack>
-            </Stack>
-
-            <Divider />
-
-            {/* Support the Project */}
-            <Stack alignItems="center" spacing={2} py={6} px={3}>
+            <Stack alignItems="center" spacing={5} py={6}>
                 <Typography variant="h5" fontWeight={600}>
                     Support the Project
                 </Typography>
 
-                <Typography
-                    variant="body1"
-                    maxWidth={800}
-                    textAlign="center"
-                >
-                    Enjoy using MSATracker? If you'd like to support its
+
+                <Typography variant="body1" maxWidth={800} textAlign="justify">
+                    If you find MSATracker useful and wish to support its
                     continued development, you can make a voluntary donation.
-                    Every contribution is greatly appreciated!
+                    Contributions help fund future improvements and ongoing
+                    maintenance of the application. Any support is greatly
+                    appreciated.
                 </Typography>
 
-                {/* Add a PayPal donation button here in the future TODO*/}
+                <Button
+                    component="a"
+                    href="https://www.paypal.com/donate/?hosted_button_id=AGGXQQ7QU9HPY"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="outlined"
+                    startIcon={<Box component="img" src="https://www.paypalobjects.com/webstatic/icon/pp258.png"
+                                    alt="paypal logo" sx={{width: 20, height: 20}}/>}
+                    sx={{
+                        px: 3,
+                        py: 1,
+                        borderRadius: 3,
+                        borderColor: "divider",
+                        "&:hover": {
+                            bgcolor: "action.selected",
+                        },
+                    }}
+                >
+                    Donate with PayPal
+                </Button>
             </Stack>
 
-            <Stack direction="row" justifyContent={"space-between"} mx={20} alignItems={"center"}>
-                <Typography variant="h3" fontWeight={600} maxWidth={600} py={10}>
-                    Build your watchlist now.
-                </Typography>
+            <Divider/>
+
+            <Stack direction="row" justifyContent={"space-between"} px={20} alignItems={"center"}
+                   bgcolor={"background.paper"}>
+                <Box py={10}>
+                    <Typography variant="h3" fontWeight={600} maxWidth={600}>
+                        Ready to organize your media?
+                    </Typography>
+                    <Typography color="text.secondary" mt={2} alignItems={"center"}>
+                        Start building your personal watchlist with
+                        {" "}
+                        <Box component="span" whiteSpace="nowrap">
+                            msa
+                            <Box component={"span"} color={"secondary.main"}>
+                                tracker
+                            </Box>
+                        </Box>
+                        .
+                    </Typography>
+                </Box>
                 <Stack alignItems={"center"} spacing={2}>
                     <Button component={RouterLink} to="/signup" variant={"contained"} color="secondary"
                             endIcon={<ArrowForwardIcon/>} sx={{borderRadius: 2}}>
