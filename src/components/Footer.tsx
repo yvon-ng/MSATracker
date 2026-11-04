@@ -18,7 +18,7 @@ export function Footer({brandName}: FooterProps) {
                            direction={{xs: "column", md: "row"}}>
                         <MuiLink component={RouterLink} to={"about"} underline={"none"} variant={"caption"}
                                  color={"textSecondary"}>About</MuiLink>
-                        <MuiLink component={RouterLink} to={""} underline={"none"} variant={"caption"}
+                        <MuiLink component={RouterLink} to={"privacy-policy"} underline={"none"} variant={"caption"}
                                  color={"textSecondary"}>Privacy Policy</MuiLink>
                         <MuiLink component={RouterLink} to={"cookie-policy"} underline={"none"} variant={"caption"}
                                  color={"textSecondary"}>Cookie Policy</MuiLink>

@@ -21,6 +21,7 @@ import {WatchingPage} from "./pages/WatchingPage.tsx";
 import {AboutPage} from "./pages/AboutPage.tsx";
 import {ContactPage} from "./pages/ContactPage.tsx";
 import {CookiePolicyPage} from "./pages/CookiePolicyPage.tsx";
+import {PrivacyPolicyPage} from "./pages/PrivaryPolicyPage.tsx";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
@@ -53,8 +54,9 @@ function AppContent() {
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/about" element={<AboutPage/>}/>
-                    <Route path="/contact" element={<ContactPage/>}/>
+                    <Route path="/privacy-policy" element={<PrivacyPolicyPage/>}/>
                     <Route path="/cookie-policy" element={<CookiePolicyPage/>}/>
+                    <Route path="/contact" element={<ContactPage/>}/>
                 </Route>
 
                 {/* Authenticated pages */}
