@@ -1,5 +1,10 @@
 import {useMutation, useQueryClient, useSuspenseQueries, useSuspenseQuery} from "@tanstack/react-query";
-import {addMediaToList, getUserMediaList, getUserMediaStatuses} from "../services/userMediaServices.ts";
+import {
+    addMediaToList,
+    getUserMediaList,
+    getUserMediaStatuses,
+    deleteMediaFromList
+} from "../services/userMediaServices.ts";
 import type {AddMediaToListDto, UserMediaStatus} from "../model/UserMedia.ts";
 import {UserAuth} from "../context/AuthContextProvider.tsx";
 import type {UserMediaItem} from "../model/UserMedia.ts";
@@ -81,4 +86,36 @@ export function useUserMediaStatuses(media: { id: number; media_type: "movie" | 
     });
 
     return {data}
+}
+
+export function useRemoveMediaFromList() {
+    const queryClient = useQueryClient();
+    const {user} = UserAuth();
+
+    const {mutate, isPending} = useMutation({
+        mutationFn: (mediaId: string) => deleteMediaFromList(user!.userId, mediaId),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["watchlist", user!.userId],
+            });
+
+            queryClient.invalidateQueries({
+                queryKey: ["currently_watching", user!.userId],
+            });
+
+            queryClient.invalidateQueries({
+                queryKey: ["completed", user!.userId],
+            });
+
+            queryClient.invalidateQueries({
+                queryKey: ["user-media-statuses", user!.userId],
+            });
+        },
+    });
+
+    return {
+        removeMediaFromList: mutate,
+        isPending,
+    };
 }

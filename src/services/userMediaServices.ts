@@ -174,7 +174,7 @@ export async function getUserMediaStatuses(userId: string, media: { id: number; 
 
     const tmdbIds = media.map((item) => item.id);
 
-    const { data, error } = await supabase
+    const {data, error} = await supabase
         .from("user_media")
         .select(`
             status,
@@ -189,4 +189,18 @@ export async function getUserMediaStatuses(userId: string, media: { id: number; 
     if (error) throw error;
 
     return data;
+}
+
+export async function deleteMediaFromList(userId: string, mediaId: string) {
+    const userMedia = await getUserMedia(userId, mediaId)
+
+    if (!userMedia) return;
+
+    const {error: deleteError} = await supabase
+        .from("user_media")
+        .delete()
+        .eq("user_id", userId)
+        .eq("media_id", mediaId);
+
+    if (deleteError) throw deleteError;
 }

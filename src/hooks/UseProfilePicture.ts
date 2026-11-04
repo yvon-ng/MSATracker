@@ -20,7 +20,7 @@ export function useChangeProfilePicture() {
     const queryClient = useQueryClient();
     const {setUser} = UserAuth();
 
-    const {mutate: changePicture, isPending, error} = useMutation({
+    const {mutate, isPending, error} = useMutation({
         mutationFn: async ({userId, file}: {userId: string; file: File}) => {
             const filename = await addProfilePicture(file, userId);
             return updateProfilePictureService(userId, filename);
@@ -33,5 +33,9 @@ export function useChangeProfilePicture() {
         },
     });
 
-    return {changePicture, isPending, error};
+    return {
+        changePicture: mutate,
+        isPending,
+        error
+    };
 }

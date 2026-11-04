@@ -5,7 +5,7 @@ import {UserAuth} from "../context/AuthContextProvider.tsx";
 import {staleTimes} from "../utils/utils.ts";
 
 export function usePersonalPreferences() {
-    const { user } = UserAuth();
+    const {user} = UserAuth();
 
     const {data: personalPreferences} = useSuspenseQuery({
         queryKey: ["personal-preferences", user!.userId],
@@ -20,12 +20,10 @@ export function usePersonalPreferences() {
 
 export function useUpdatePersonalPreferences() {
     const queryClient = useQueryClient();
-    const { user } = UserAuth();
+    const {user} = UserAuth();
 
     const {mutate, isPending, error} = useMutation({
-        mutationFn: (preferences: UpdatePersonalPreferencesDto) => {
-            return updatePersonalPreferences(user!.userId, preferences);
-        },
+        mutationFn: (preferences: UpdatePersonalPreferencesDto) => updatePersonalPreferences(user!.userId, preferences),
 
         onSuccess: (updatedPreferences) => {
             queryClient.setQueryData(
@@ -36,8 +34,8 @@ export function useUpdatePersonalPreferences() {
     });
 
     return {
+        updatePersonalPreferences: mutate,
         isPending,
         error,
-        updatePersonalPreferences: mutate,
     };
 }

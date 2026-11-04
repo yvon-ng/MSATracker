@@ -17,6 +17,9 @@ import type {UserMediaStatus} from "../../model/UserMedia.ts";
 import {usePersonalPreferences} from "../../hooks/UsePersonalPreferences.ts";
 import {useAddMediaToList} from "../../hooks/UseUserMedia.ts";
 import {UserAuth} from "../../context/AuthContextProvider.tsx";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import {useRemoveMediaFromList} from "../../hooks/UseUserMedia.ts";
+import {useMedia} from "../../hooks/UseMedia.ts";
 
 interface MediaStatusMenuProps {
     tmdbId: number;
@@ -39,6 +42,15 @@ export function MediaStatusMenu({
     const {personalPreferences} = usePersonalPreferences();
     const {user} = UserAuth();
     const {addMediaToList} = useAddMediaToList();
+    const {removeMediaFromList} = useRemoveMediaFromList();
+    const appMediaType = mediaType === "movie" ? "movie" : "series";
+    const {media} = useMedia(tmdbId, appMediaType);
+
+    const handleRemove = () => {
+        if (!user || !media) return;
+        removeMediaFromList(media.mediaId);
+        setAnchorEl(null);
+    };
 
     const handleStatusChange = (newStatus: UserMediaStatus) => {
         if (!user) return;
@@ -46,7 +58,7 @@ export function MediaStatusMenu({
         addMediaToList({
             userId: user.userId,
             tmdbId,
-            mediaType: mediaType === "movie" ? "movie" : "series",
+            mediaType: appMediaType,
             status: newStatus,
         });
 
@@ -168,6 +180,39 @@ export function MediaStatusMenu({
                         )}
                     </MenuItem>
                 ))}
+                {status && (
+                    <MenuItem
+                        onClick={handleRemove}
+                        sx={{
+                            px: personalPreferences.showExtraLabels ? 2 : 1,
+                            border: "1px solid transparent",
+                            color: "error.main",
+                            "&:hover": {
+                                bgcolor: "error.dark",
+                                color: "common.white",
+                                border: "1px solid",
+                                borderColor: "error.main",
+                                borderRadius: 2,
+                            },
+                        }}
+                    >
+                        <ListItemIcon
+                            sx={{
+                                minWidth: personalPreferences.showExtraLabels ? 40 : 0,
+                                justifyContent: personalPreferences.showExtraLabels
+                                    ? "flex-start"
+                                    : "center",
+                                color: "inherit",
+                            }}
+                        >
+                            <DeleteOutlineOutlinedIcon fontSize="small"/>
+                        </ListItemIcon>
+
+                        {personalPreferences.showExtraLabels && (
+                            <ListItemText primary="Remove from List"/>
+                        )}
+                    </MenuItem>
+                )}
             </Menu>
         </>
     );

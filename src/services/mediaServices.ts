@@ -39,3 +39,21 @@ export async function addMedia(media: NewMediaDto): Promise<Media> {
         mediaType: data.media_type,
     };
 }
+
+export async function getMedia(tmdbId: number, mediaType: MediaType): Promise<Media | null> {
+    const {data, error} = await supabase
+        .from("media")
+        .select("media_id")
+        .eq("tmdb_id", tmdbId)
+        .eq("media_type", mediaType)
+        .maybeSingle();
+
+    if (error) throw error;
+    if (!data) return null;
+
+    return {
+        mediaId: data.media_id,
+        tmdbId,
+        mediaType
+    }
+}

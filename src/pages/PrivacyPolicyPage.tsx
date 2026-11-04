@@ -3,12 +3,7 @@ import {Link as RouterLink} from "react-router";
 
 export function PrivacyPolicyPage() {
     return (
-        <Stack
-            mt={{xs: 12, md: 16}}
-            mb={{xs: 10}}
-            mx={{xs: 5, md: 8}}
-            spacing={5}
-        >
+        <Stack mt={{xs: 12, md: 16}} mb={{xs: 10}} mx={{xs: 5, md: 8}} spacing={5}>
             <Stack spacing={2}>
                 <Typography variant="h3">
                     Privacy{" "}

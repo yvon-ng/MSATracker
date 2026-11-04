@@ -21,7 +21,7 @@ import {WatchingPage} from "./pages/WatchingPage.tsx";
 import {AboutPage} from "./pages/AboutPage.tsx";
 import {ContactPage} from "./pages/ContactPage.tsx";
 import {CookiePolicyPage} from "./pages/CookiePolicyPage.tsx";
-import {PrivacyPolicyPage} from "./pages/PrivaryPolicyPage.tsx";
+import {PrivacyPolicyPage} from "./pages/PrivacyPolicyPage.tsx";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
