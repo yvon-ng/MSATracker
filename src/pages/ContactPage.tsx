@@ -11,7 +11,7 @@ export function ContactPage() {
 
 
     return (
-        <Stack mt={{xs: 16}} mb={{xs: 10}} ml={{xs: 0, md: 8}} mr={{xs: 5, md: 8}} spacing={8}>
+        <Stack mt={{xs: 16}} mb={{xs: 10}} ml={{xs: 5, md: 8}} mr={{xs: 5, md: 8}} spacing={8}>
             <Stack spacing={3}>
                 <Typography variant={"h3"}>
                     Contact{" "}
@@ -49,8 +49,8 @@ export function ContactPage() {
 
             <Divider/>
 
-            <Stack spacing={5} width={"50%"}>
-                <Stack direction={"row"} spacing={5} width={"100%"}>
+            <Stack spacing={5} width={{md: "70%", lg: "50%"}}>
+                <Stack direction={{xs: "column", md: "row"}} spacing={5} width={"100%"}>
                     <TextField required label="Name" variant="outlined" fullWidth value={name}
                                onChange={(e) => setName(e.target.value)} autoComplete="name"/>
                     <TextField required label="Email" variant="outlined" fullWidth value={email}
@@ -62,8 +62,10 @@ export function ContactPage() {
                 <TextField required label="Your Message" variant="outlined" value={message}
                            onChange={(e) => setMessage(e.target.value)} multiline
                            rows={10}/>
+
                 <Button size={"large"} variant="contained" color="secondary"
-                        sx={{display: "flex", width: 200, borderRadius: 2, alignSelf: "end"}}>
+                        fullWidth
+                        sx={{display: "flex", width: {sm: 200}, borderRadius: 2, alignSelf: "end"}}>
                     Send Message
                 </Button>
             </Stack>

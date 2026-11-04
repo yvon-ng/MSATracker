@@ -11,7 +11,7 @@ export function Footer({brandName}: FooterProps) {
             <Divider/>
             <Box px={{xs: 10}} py={{xs: 3}} bgcolor={"background.paper"}>
                 <Stack direction={{xs: "column", md: "row"}} justifyContent={"space-between"} alignItems="center"
-                       spacing={{xs: 2, md: 0}}>
+                       spacing={{xs: 5, sm: 3}}>
                     <Typography variant={"caption"} color={"textSecondary"}>© 2026 {brandName}. All rights reserved.</Typography>
                     <Stack spacing={{xs: 1, md: 6}}
                            alignItems={"center"}
