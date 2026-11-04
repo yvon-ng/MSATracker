@@ -152,7 +152,10 @@ export function AboutPage() {
                    bgcolor={"background.paper"}>
                 <Box py={10}>
                     <Typography variant="h3" fontWeight={600} maxWidth={600}>
-                        Ready to organize your media?
+                        Ready to organize your {" "}
+                        <Box component="span" color="secondary.main">
+                            media?
+                        </Box>
                     </Typography>
                     <Typography color="text.secondary" mt={2} alignItems={"center"}>
                         Start building your personal watchlist with
