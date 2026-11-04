@@ -1,16 +1,9 @@
-
 import {Box, Divider, Link as MuiLink, Stack, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router";
 
 export function CookiePolicyPage() {
     return (
-        <Stack
-            mt={{xs: 12, md: 16}}
-            mb={{xs: 10}}
-            ml={{xs: 0, md: 8}}
-            mr={{xs: 5, md: 8}}
-            spacing={5}
-        >
+        <Stack mt={{xs: 12, md: 16}} mb={{xs: 10}} mx={{xs: 5, md: 8}} spacing={5}>
             <Stack spacing={2}>
                 <Typography variant="h3">
                     Cookie{" "}
@@ -31,7 +24,7 @@ export function CookiePolicyPage() {
                 </Typography>
             </Stack>
 
-            <Divider />
+            <Divider/>
 
             <Stack spacing={5} maxWidth={900}>
                 <Stack spacing={2}>
