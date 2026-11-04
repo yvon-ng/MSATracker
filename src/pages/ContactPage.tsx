@@ -10,6 +10,12 @@ export function ContactPage() {
 
     return (
         <Stack mt={{xs: 20}} mb={{xs: 10}} ml={{xs: 0, md: 8}} mr={{xs: 5, md: 8}} spacing={10}>
+            <Typography variant="body1" color="text.secondary" maxWidth={800}>
+                For general enquiries, feedback, technical support, or legal matters,
+                please use the contact form below. All enquiries are welcome and will
+                be reviewed as soon as possible.
+            </Typography>
+
             <Typography variant={"h3"}>
                 Contact Us
             </Typography>
